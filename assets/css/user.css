@@ -77,15 +77,15 @@
 }
 
 .btn-colorful:hover {
-    color: {{site.main-button-text-color}};
-    background-color: {{site.main-button-color}};
-    border-color: {{site.main-button-color}};
+    color: {{site.button-hover-text-color}};
+    background-color: {{site.button-hover-color}};
+    border-color: {{site.button-hover-color}};
     border: 0;
 }
 
 .btn-colorful:active {
-    color: {{site.main-button-hover-text-color}};
-    background-color: {{site.main-button-hover-color}};
-    border-color: {{site.main-button-hover-color}};
+    color: {{site.button-active-text-color}};
+    background-color: {{site.button-active-color}};
+    border-color: {{site.button-active-color}};
     border: 0;
 }
