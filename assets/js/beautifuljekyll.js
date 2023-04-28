@@ -10,7 +10,7 @@ var BeautifulJekyllJS = {
 
     // Shorten the navbar after scrolling a little bit down
     $(window).scroll(function() {
-        if ($(".navbar").offset().top > 150) {
+        if ($(".navbar").offset().top > 200) {
             $(".navbar").addClass("top-nav-short");
         } else {
             $(".navbar").removeClass("top-nav-short");
@@ -22,7 +22,7 @@ var BeautifulJekyllJS = {
 
     $(window).scroll(function() {
       if (big_img){
-        if ($(".navbar").offset().top > 150) {
+        if ($(".navbar").offset().top > 200) {
           $(".navbar-nav").removeClass("navbar-nav-background-short");
           $(".navbar-custom").removeClass("navbar-color-custom-hide");
           $(".navbar-custom").addClass("navbar-color-custom-show");
