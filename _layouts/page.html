@@ -5,7 +5,7 @@ layout: base
  * @Author: Conghao Wong
  * @Date: 2023-04-28 19:02:49
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2023-04-28 19:16:50
+ * @LastEditTime: 2024-12-04 09:35:41
  * @Description: file content
  * @Github: https://cocoon2wong.github.io
  * Copyright 2023 Conghao Wong, All Rights Reserved.
@@ -16,7 +16,7 @@ layout: base
 <div class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %}" role="main">
 	<div class="row">
 
-		{% if page.add-md-links %}
+{% if page.add-md-links %}
 		<div class="col-xl-3 col-lg-4" style="
 			border-right-style: solid;
 			border-right-color: #e5e5e5; 
@@ -25,30 +25,52 @@ layout: base
 			<div id="TABLE_OF_CONTENTS" style="position:sticky; top: 100px; "></div>
 		</div>
 		<div class="{% if page.full-width %} col {% else %} col-xl-8 offset-xl-0 col-lg-10 offset-lg-1 {% endif %}">
+{% else %}
+		<div class="{% if page.full-width %} col {% else %} col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 {% endif %}">
+{% endif %}
 
-			{% else %}
-			<div class="{% if page.full-width %} col {% else %} col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 {% endif %}">
-				{% endif %}
+{% if page.gh-repo %}
+	{% assign gh_split =  page.gh-repo | split:'/'  %}
+	{% assign gh_user =  gh_split[0]  %}
+	{% assign gh_repo =  gh_split[1]  %}
 
-				{% if page.before-content %}
-				<div class="before-content">
-					{% for file in page.before-content %}
-					{% include {{ file }} %}
-					{% endfor %}
-				</div>
-				{% endif %}
+		<div id="header-gh-btns">
+			{% if page.gh-badge.size > 0 %}
+			{% for badge in page.gh-badge %}
+				{% case badge %}
+				{% when 'star'%}
+					<iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=star&count=true" frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
+				{% when 'watch'%}
+					<iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=watch&v=2&count=true" frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
+				{% when 'fork'%}
+					<iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=fork&count=true" frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
+				{% when 'follow'%}
+					<iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&type=follow&count=true" frameborder="0" scrolling="0" width="220px" height="20px"></iframe>
+				{% endcase %}
+			{% endfor %}
+			{% endif %}
+		</div>
+{% endif %}
 
-				{{ content }}
-
-				{% if page.after-content %}
-				<div class="after-content">
-					{% for file in page.after-content %}
-					{% include {{ file }} %}
-					{% endfor %}
-				</div>
-				{% endif %}
-
-				{% include comments.html %}
+{% if page.before-content %}
+			<div class="before-content">
+				{% for file in page.before-content %}
+				{% include {{ file }} %}
+				{% endfor %}
 			</div>
+{% endif %}
+
+			{{ content }}
+
+{% if page.after-content %}
+			<div class="after-content">
+				{% for file in page.after-content %}
+				{% include {{ file }} %}
+				{% endfor %}
+			</div>
+{% endif %}
+
+{% include comments.html %}
 		</div>
 	</div>
+</div>
