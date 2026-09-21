@@ -1,0 +1,128 @@
+---
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-21 17:34:12
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-21 18:28:04
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+import { siteConfig } from "@site.config";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  pageBg?: "white" | "gray";
+}
+
+const {
+  title = siteConfig.title,
+  description = siteConfig.description,
+  pageBg = "white",
+} = Astro.props;
+
+const fullTitle =
+  title === siteConfig.title ? title : `${title} | ${siteConfig.title}`;
+const { colors } = siteConfig;
+---
+
+<!doctype html>
+<html lang={siteConfig.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="author" content={siteConfig.author} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{fullTitle}</title>
+
+    <!-- Anti-flicker dark mode script -->
+    <script is:inline>
+      (function () {
+        const storedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
+          document.documentElement.classList.add("dark-mode");
+        } else {
+          document.documentElement.classList.remove("dark-mode");
+        }
+      })();
+    </script>
+
+    <!-- Client-side theme controller -->
+    <script>
+      import { initThemeToggles } from "../utils/theme";
+      initThemeToggles();
+      document.addEventListener("astro:page-load", initThemeToggles);
+    </script>
+
+    <!-- Directly inject all colors from root site.config.ts into CSS :root -->
+    <style
+      is:inline
+      set:html={`
+      :root:root, :root {
+        --page-bg-color: ${colors.pageBgColor};
+        --page-bg-color-gray: ${colors.pageBgColorGray};
+        --page-bg-color-dark: ${colors.pageBgColorDark};
+        --page-bg-color-dark-gray: ${colors.pageBgColorDarkGray};
+        --text-color: ${colors.textColor};
+        --text-color-dark: ${colors.textColorDark};
+        --theme-color: ${colors.themeColor};
+        --hover-color: ${colors.hoverColor};
+        --link-color: ${colors.linkColor};
+        --header-bg-color: ${colors.headerBgColor};
+        --header-bg-color-dark: ${colors.headerBgColorDark};
+        --navbar-bg-color: ${colors.navbarBgColor};
+        --navbar-bg-color-dark: ${colors.navbarBgColorDark};
+        --navbar-border-color: ${colors.navbarBorderColor};
+        --navbar-text-color: ${colors.navbarTextColor};
+        --navbar-float-active-bg-color: ${colors.navbarFloatActiveBgColor};
+        --footer-bg-color: ${colors.footerBgColor};
+        --footer-bg-color-dark: ${colors.footerBgColorDark};
+        --footer-text-color: ${colors.footerTextColor};
+        --footer-link-color: ${colors.footerLinkColor};
+        --footer-hover-color: ${colors.footerHoverColor};
+        --page-shadow-color: ${colors.pageShadowColor};
+        --btn-normal-bg: ${colors.buttonNormalBg};
+        --btn-normal-bg-dark: ${colors.buttonNormalBgDark};
+        --btn-normal-text: ${colors.buttonNormalText};
+        --btn-normal-text-dark: ${colors.buttonNormalTextDark};
+        --btn-theme-bg: ${colors.buttonThemeBg};
+        --btn-theme-text: ${colors.buttonThemeText};
+        --pill-text: ${colors.pillText};
+        --pill-text-dark: ${colors.pillTextDark};
+      }
+    `}
+    ></style>
+  </head>
+
+  <body class={`page-bg-${pageBg}`}>
+    <!-- Hidden SVG distortion filter for liquid glass effects -->
+    <svg
+      style="position: absolute; width: 0; height: 0; pointer-events: none;"
+      aria-hidden="true"
+    >
+      <filter id="glass-distortion">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.04"
+          numOctaves="1"
+          result="noise"></feTurbulence>
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="noise"
+          scale="4"
+          xChannelSelector="R"
+          yChannelSelector="G"></feDisplacementMap>
+      </filter>
+    </svg>
+
+    <main class="main-page-container">
+      <slot />
+    </main>
+  </body>
+</html>

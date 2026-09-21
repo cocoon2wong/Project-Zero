@@ -1,0 +1,44 @@
+---
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-21 17:38:12
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-21 18:14:07
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+interface Props {
+  href?: string;
+  variant?: 'normal' | 'theme';
+  size?: 'normal' | 'lg' | 'sm';
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  href,
+  variant = 'normal',
+  size = 'normal',
+  type = 'button',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const variantClass = variant === 'theme' ? 'btn-theme' : 'btn-normal';
+const sizeClass = size === 'lg' ? 'btn-lg' : size === 'sm' ? 'btn-sm' : '';
+const buttonClass = ['btn', variantClass, sizeClass, className].filter(Boolean).join(' ');
+---
+
+{
+  href ? (
+    <a href={href} class={buttonClass} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={buttonClass} {...rest}>
+      <slot />
+    </button>
+  )
+}

@@ -1,0 +1,22 @@
+---
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-21 17:38:17
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-21 18:14:25
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class={`btn-group ${className}`.trim()}>
+  <slot />
+</div>
+

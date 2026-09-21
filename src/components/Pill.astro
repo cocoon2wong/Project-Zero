@@ -1,0 +1,56 @@
+---
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-21 17:38:26
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-21 18:14:38
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+
+interface PillItem {
+  label: string;
+  href?: string;
+  active?: boolean;
+}
+
+interface Props {
+  container?: boolean;
+  items?: PillItem[];
+  class?: string;
+}
+
+const { container = false, items, class: className = '' } = Astro.props;
+---
+
+{
+  items && items.length > 0 ? (
+    <div class={`pill pill-container ${className}`.trim()}>
+      {items.map((item) => (
+        item.href ? (
+          <a
+            href={item.href}
+            class={`pill-item ${item.active ? 'is-active' : ''}`.trim()}
+          >
+            {item.label}
+          </a>
+        ) : (
+          <span
+            class={`pill-item ${item.active ? 'is-active' : ''}`.trim()}
+          >
+            {item.label}
+          </span>
+        )
+      ))}
+    </div>
+  ) : container ? (
+    <div class={`pill pill-container ${className}`.trim()}>
+      <slot />
+    </div>
+  ) : (
+    <span class={`pill pill-single ${className}`.trim()}>
+      <slot />
+    </span>
+  )
+}

@@ -1,0 +1,61 @@
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-21 17:33:53
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-21 18:30:17
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+
+:root {
+  /* Typography System */
+  --body-font: "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  --header-font: "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
+  /* Layout Containers */
+  --container-max-width: 1140px;
+  --container-narrow-max-width: 860px;
+
+  /* Baseline Fallbacks: PURE RED (#ff0000) for instant debug visibility */
+  --page-bg-color: #ff0000;
+  --page-bg-color-gray: #ff0000;
+  --page-bg-color-dark: #ff0000;
+  --page-bg-color-dark-gray: #ff0000;
+
+  --text-color: #ff0000;
+  --text-color-dark: #ff0000;
+
+  --theme-color: #ff0000;
+  --hover-color: #ff0000;
+  --link-color: #ff0000;
+
+  --header-bg-color: #ff0000;
+  --header-bg-color-dark: #ff0000;
+
+  --navbar-bg-color: #ff0000;
+  --navbar-bg-color-dark: #ff0000;
+  --navbar-border-color: #ff0000;
+  --navbar-text-color: #ff0000;
+  --navbar-float-active-bg-color: #ff0000;
+
+  --footer-bg-color: #ff0000;
+  --footer-bg-color-dark: #ff0000;
+  --footer-text-color: #ff0000;
+  --footer-link-color: #ff0000;
+  --footer-hover-color: #ff0000;
+
+  --page-shadow-color: #ff0000;
+
+  /* Capsule Buttons Fallbacks (PURE RED #ff0000) */
+  --btn-normal-bg: #ff0000;
+  --btn-normal-bg-dark: #ff0000;
+  --btn-normal-text: #ff0000;
+  --btn-normal-text-dark: #ff0000;
+  --btn-theme-bg: #ff0000;
+  --btn-theme-text: #ff0000;
+
+  /* Pills & Segmented Controls Fallbacks (PURE RED #ff0000) */
+  --pill-text: #ff0000;
+  --pill-text-dark: #ff0000;
+}
