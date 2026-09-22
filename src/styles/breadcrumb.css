@@ -2,11 +2,10 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 21:23:41
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 09:59:59
+ * @LastEditTime: 2026-09-22 12:16:00
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
-
 
 :root {
   --breadcrumb-color: #616A72;
@@ -15,74 +14,34 @@
   --breadcrumb-active-color: #616A72;
   --breadcrumb-active-color-dark: #FFFFFF;
 
-  --breadcrumb-background-color: #FaFaFc;
+  --breadcrumb-background-color: var(--second-nav-bg-color, #FaFaFc);
   --breadcrumb-hover-background-color: var(--hover-color, #0085A1);
-  --breadcrumb-background-color-dark: #3D3D3D;
+  --breadcrumb-background-color-dark: var(--second-nav-bg-color-dark, #3D3D3D);
 }
 
+/* 面包屑作为通用按钮组，微调尾部内边距 */
 .breadcrumb-container {
-  position: relative;
-  overflow: hidden;
-  padding-left: 1px;
-  padding-right: 14px;
-  margin-bottom: 10px;
-  background: linear-gradient(
-    45deg,
-    var(--breadcrumb-hover-background-color) 0%,
-    var(--breadcrumb-background-color) 100%
-  );
-}
-
-:root.dark-mode .breadcrumb-container,
-.dark-mode .breadcrumb-container {
-  background: linear-gradient(
-    45deg,
-    var(--breadcrumb-hover-background-color) 0%,
-    var(--breadcrumb-background-color-dark) 100%
-  );
-}
-
-.breadcrumb-container::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  border-radius: 0;
-  background-color: rgba(255, 255, 255, 0.97);
-}
-
-:root.dark-mode .breadcrumb-container::before,
-.dark-mode .breadcrumb-container::before {
-  background-color: rgba(48, 48, 48, 0.8);
-}
-
-.breadcrumb-container > * {
-  position: relative;
-  z-index: 1;
+  padding-right: 12px;
 }
 
 .breadcrumb {
+  height: 100%;
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   list-style: none;
   margin: 0;
-  padding-left: 1px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 0;
+}
+
+.breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
 }
 
 .breadcrumb-item + .breadcrumb-item {
   padding-left: 0.5rem;
-}
-
-.breadcrumb-item > a {
-  margin: 3px;
-  padding: 3px 6px;
-  border-radius: 999px;
-  text-decoration: none;
-  transition: all 0.1s ease-in-out;
-  color: var(--breadcrumb-color);
 }
 
 .breadcrumb-item > a svg {
@@ -90,25 +49,17 @@
   margin-right: 3px;
 }
 
-.dark-mode .breadcrumb-item > a {
-  color: var(--breadcrumb-color-dark);
-}
-
 .breadcrumb-item.active {
   color: var(--breadcrumb-active-color);
+  padding-right: 4px;
 }
 
+:root.dark-mode .breadcrumb-item.active,
 .dark-mode .breadcrumb-item.active {
   color: var(--breadcrumb-active-color-dark);
 }
 
-.breadcrumb-item > a:hover,
-.breadcrumb-navigation-container .breadcrumb-container .btn:hover {
-  color: var(--breadcrumb-hover-color);
-  background-color: var(--breadcrumb-hover-background-color);
-  text-decoration: none;
-}
-
+/* 面包屑专用分隔符 */
 .breadcrumb-item + .breadcrumb-item::before {
   float: left;
   padding-right: 0.5rem;
@@ -116,51 +67,20 @@
   content: var(--bs-breadcrumb-divider, ">");
 }
 
-.dark-mode .breadcrumb-item + .breadcrumb-item::before {
-  color: var(--breadcrumb-color-dark);
-}
-
 .breadcrumb-item.active::before {
   padding-right: 16px;
 }
 
-.breadcrumb-navigation-container {
-  position: relative;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-}
-
-.breadcrumb-navigation-container .breadcrumb-container .btn {
-  height: 37px;
-  background-color: unset;
-  border-color: unset;
-  box-shadow: unset;
-}
-
-.breadcrumb-container.btn-container {
-  padding: 0;
-}
-
-.breadcrumb-navigation-container .breadcrumb-container.btn-container:has(.btn.d-none) {
-  display: none;
-}
-
-.breadcrumb-container.btn-container .btn {
-  color: var(--breadcrumb-active-color);
-}
-
-.dark-mode .breadcrumb-container.btn-container .btn {
-  color: var(--breadcrumb-active-color-dark);
-}
-
-/* --- Footer Breadcrumb Navigation (.footer-nav) --- */
-.footer-nav.breadcrumb-container {
+/* Footer Breadcrumb 特化 */
+.footer-nav.breadcrumb-container,
+:root.dark-mode .footer-nav.breadcrumb-container,
+.dark-mode .footer-nav.breadcrumb-container {
   background: transparent;
+  box-shadow: none;
   font-size: 14px;
   padding-left: 0;
   margin-bottom: 10px;
+  height: auto;
 }
 
 body:not(.page-bg-white) .footer-nav.breadcrumb-container {
@@ -168,72 +88,21 @@ body:not(.page-bg-white) .footer-nav.breadcrumb-container {
   padding-top: 10px;
 }
 
-.footer-nav.breadcrumb-container::before {
+body:not(.page-bg-white) .main-page-container {
+  padding-bottom: 15px;
+}
+
+.footer-nav.breadcrumb-container::before,
+:root.dark-mode .footer-nav.breadcrumb-container::before,
+.dark-mode .footer-nav.breadcrumb-container::before {
   background: transparent;
-}
-
-.footer-nav .breadcrumb {
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  margin: 0;
-  padding-left: 1px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-.footer-nav .breadcrumb-item+.breadcrumb-item {
-  padding-left: 0.5rem;
-}
-
-.footer-nav .breadcrumb-item+.breadcrumb-item::before {
-  float: left;
-  padding-right: 0.5rem;
-  color: var(--breadcrumb-color);
-  content: var(--bs-breadcrumb-divider, ">");
-}
-
-.dark-mode .footer-nav .breadcrumb-item+.breadcrumb-item::before {
-  color: var(--breadcrumb-color-dark);
-}
-
-.footer-nav .breadcrumb-item.active::before {
-  padding-right: 16px;
-}
-
-.footer-nav .breadcrumb-item a {
-  margin: 3px;
-  padding: 3px 6px;
-  border-radius: 999px;
-  text-decoration: none;
-  transition: all 0.1s ease-in-out;
-  color: var(--breadcrumb-color);
 }
 
 .footer-nav .breadcrumb .breadcrumb-item:first-child a {
   margin-left: 0;
 }
 
-.dark-mode .footer-nav .breadcrumb-item a {
-  color: var(--breadcrumb-color-dark);
-}
-
-.footer-nav .breadcrumb-item a:hover {
-  color: var(--breadcrumb-hover-color);
-  background-color: var(--breadcrumb-hover-background-color);
-  text-decoration: none;
-}
-
-.footer-nav .breadcrumb-item.active {
-  color: var(--breadcrumb-active-color);
-}
-
-.dark-mode .footer-nav .breadcrumb-item.active {
-  color: var(--breadcrumb-active-color-dark);
-}
-
 .footer-nav .breadcrumb-item svg {
   margin-right: 3px;
   vertical-align: -0.125em;
 }
-

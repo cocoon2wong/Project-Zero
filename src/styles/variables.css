@@ -57,4 +57,10 @@
   /* Pills & Segmented Controls Fallbacks (PURE RED #ff0000) */
   --pill-text: #ff0000;
   --pill-text-dark: #ff0000;
+
+  /* Secondary Navbar Fallbacks */
+  --second-navbar-radius: 19px;
+  --second-navbar-margin: 3px;
+  --second-nav-bg-color: #ff0000;
+  --second-nav-bg-color-dark: #ff0000;
 }

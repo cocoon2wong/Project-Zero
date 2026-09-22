@@ -1,0 +1,72 @@
+---
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-22 11:08:23
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-22 16:04:17
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+---
+
+<nav class="table-of-contents-container liquidGlass-wrapper" aria-label="Table of Contents">
+  <div class="liquidGlass-effect"></div>
+  <div class="liquidGlass-tint"></div>
+  <div class="liquidGlass-shine"></div>
+
+  <details open id="toc-details-container">
+    <summary>
+      <a class="toc-title">
+        <svg
+          class="bi bi-card-list"
+          width="1em"
+          height="1em"
+          viewBox="0 0 18 18"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"
+          ></path>
+          <path
+            fill-rule="evenodd"
+            d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z"
+          ></path>
+          <circle cx="3.5" cy="5.5" r=".5"></circle>
+          <circle cx="3.5" cy="8" r=".5"></circle>
+          <circle cx="3.5" cy="10.5" r=".5"></circle>
+        </svg>
+        &nbsp;Contents
+      </a>
+
+      <button
+        id="toc-close-btn"
+        type="button"
+        class="toc-collapse-btn"
+        aria-label="Hide Sidebar"
+        title="Hide Sidebar"
+      >
+        <svg
+          class="bi bi-layout-sidebar-inset"
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M14 2a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2z"
+          ></path>
+          <path
+            d="M3 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"
+          ></path>
+        </svg>
+      </button>
+    </summary>
+
+    <nav id="TABLE_OF_CONTENTS" class="toc-nav-list"></nav>
+  </details>
+</nav>

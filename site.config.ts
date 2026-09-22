@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:33:48
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-21 19:25:09
+ * @LastEditTime: 2026-09-22 11:52:03
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -22,6 +22,8 @@ export interface SiteConfig {
   language: string;
   avatar?: string;
   roundAvatar?: boolean;
+  secondNavbarRadius?: string;
+  secondNavbarMargin?: string;
   navLinks: NavLink[];
   colors: {
     // Page backgrounds
@@ -74,6 +76,10 @@ export interface SiteConfig {
 
     // Shadows
     pageShadowColor: string;
+
+    // Secondary navigation (次要导航栏: Breadcrumb, Table of Contents, etc.)
+    secondNavBgColor: string;
+    secondNavBgColorDark: string;
   };
 }
 
@@ -85,6 +91,8 @@ export const siteConfig: SiteConfig = {
   language: "en",
   avatar: "/assets/img/avatar-icon.png",
   roundAvatar: true,
+  secondNavbarRadius: "19px",
+  secondNavbarMargin: "4px",
 
   navLinks: [
     {
@@ -168,5 +176,9 @@ export const siteConfig: SiteConfig = {
 
     // Shadows
     pageShadowColor: "#00000060",
+
+    // Secondary navigation (次要导航栏: Breadcrumb, Table of Contents, etc.)
+    secondNavBgColor: "#fafafc",
+    secondNavBgColorDark: "#3d3d3d",
   },
 };

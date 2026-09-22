@@ -1,0 +1,335 @@
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-22 11:08:38
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-22 16:04:55
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+
+:root {
+  --toc-bg-color: var(--second-nav-bg-color, #F7F7F9aa);
+  --toc-bg-color-dark: var(--second-nav-bg-color-dark, #3D3D3D);
+
+  --toc-title-color: #6c757da0;
+  --toc-title-hover-color: #000;
+  --toc-title-color-dark: #ffffff;
+  --toc-title-hover-color-dark: #fff;
+
+  --toc-text-color: #616a72;
+  --toc-text-color-dark: #9A9A9A;
+
+  --toc-hover-bg-color: #eaeaea;
+
+  --toc-theme-color: var(--button-hover-text-color, #ffffff);
+  --toc-theme-bg-color: var(--hover-color, #0085a1);
+
+  /* Concentric Radius & Margin Geometry */
+  --toc-radius-glass: var(--second-navbar-radius, 19px);
+  --toc-radius-outer: calc(var(--toc-radius-glass) + 1px);
+  --toc-shape-margin: var(--second-navbar-margin, 3px);
+  --toc-shape-radius: calc(var(--toc-radius-glass) - var(--toc-shape-margin));
+}
+
+/* ==========================================================================
+   1. Layout Wrapper (Maintains 100% of existing .container page width)
+   ========================================================================== */
+
+.toc-layout-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Collapsed State: TOC sidebar hidden, content takes normal full container width */
+.toc-layout-wrapper.toc-collapsed .toc-sidebar {
+  display: none;
+}
+
+.toc-layout-wrapper.toc-collapsed .toc-content {
+  width: 100%;
+}
+
+/* Expanded State: 2-column flex layout within constant container width */
+@media (min-width: 992px) {
+  .toc-layout-wrapper.toc-expanded {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .toc-layout-wrapper.toc-expanded .toc-sidebar {
+    display: flex;
+    width: 280px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 76px;
+    align-self: flex-start;
+    z-index: 100;
+  }
+
+  .toc-layout-wrapper.toc-expanded .toc-content {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+/* Mobile & Narrow Viewports (<992px): Stack vertically */
+@media (max-width: 991.98px) {
+  .toc-layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .toc-layout-wrapper.toc-expanded .toc-sidebar,
+  .toc-sidebar {
+    width: 100%;
+    position: static;
+  }
+
+  .toc-layout-wrapper.toc-collapsed .toc-content,
+  .toc-layout-wrapper.toc-expanded .toc-content,
+  .toc-content {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   2. Liquid Glass TOC Outer Container & Physical Layers
+   ========================================================================== */
+
+.table-of-contents-container {
+  position: relative;
+  width: 100%;
+  border: 0;
+  border-radius: var(--toc-radius-outer);
+  overflow: visible;
+  box-sizing: border-box;
+  background: linear-gradient(
+    45deg,
+    var(--toc-theme-bg-color) 0%,
+    var(--toc-bg-color) 100%
+  );
+}
+
+.table-of-contents-container.liquidGlass-wrapper {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.07);
+}
+
+.dark-mode .table-of-contents-container {
+  background: linear-gradient(
+    45deg,
+    var(--toc-theme-bg-color) 0%,
+    var(--toc-bg-color-dark) 100%
+  );
+}
+
+/* Layer 0: Blur filter with 1px margin creating the 1px gradient edge glow */
+.table-of-contents-container .liquidGlass-effect {
+  position: absolute;
+  inset: 0;
+  margin: 1px;
+  border-radius: var(--toc-radius-glass);
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: saturate(180%) blur(3px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dark-mode .table-of-contents-container .liquidGlass-effect {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Layer 1: Tint */
+.table-of-contents-container .liquidGlass-tint {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--toc-radius-glass);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Layer 2: Inner shine highlight */
+.table-of-contents-container .liquidGlass-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--toc-radius-glass);
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: inset 1px 1px 0.5px 0 rgba(255, 255, 255, 0.5),
+    inset -0.5px -0.5px 0.5px 0.5px rgba(255, 255, 255, 0.2);
+}
+
+/* Layer 3: Content & Embedded Scroll Container */
+.table-of-contents-container > details {
+  position: relative;
+  z-index: 3;
+  display: block;
+  overflow: auto;
+  border-radius: var(--toc-radius-glass);
+}
+
+@media (min-width: 992px) {
+  .table-of-contents-container > details {
+    max-height: calc(100vh - 76px - 15px);
+  }
+}
+
+/* ==========================================================================
+   3. Modern TOC Header & Corner Action Button
+   ========================================================================== */
+
+.table-of-contents-container details > summary {
+  position: relative;
+  display: flex;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+}
+
+.table-of-contents-container details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.toc-title {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  padding: 8px 12px 8px 18px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--toc-title-color) !important;
+  letter-spacing: 0.04em;
+  text-decoration: none !important;
+}
+
+.dark-mode .toc-title {
+  color: var(--toc-title-color-dark) !important;
+}
+
+.toc-title:hover {
+  color: var(--toc-title-hover-color) !important;
+}
+
+.dark-mode .toc-title:hover {
+  color: var(--toc-title-hover-color-dark) !important;
+}
+
+.toc-collapse-btn {
+  position: absolute;
+  width: 32px;
+  height: calc(100% - calc(var(--toc-shape-margin) * 2));
+  top: 0;
+  right: 0;
+  margin: var(--toc-shape-margin);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+  border: 0;
+  border-radius: var(--toc-shape-radius);
+  background-color: transparent;
+  color: var(--toc-text-color);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.dark-mode .toc-collapse-btn {
+  color: var(--toc-text-color-dark);
+}
+
+.toc-collapse-btn:hover {
+  background-color: var(--toc-theme-bg-color);
+  color: var(--toc-theme-color);
+  border-radius: var(--toc-shape-radius);
+}
+
+/* ==========================================================================
+   4. Tree Navigation List
+   ========================================================================== */
+
+.toc-nav-list {
+  padding: var(--toc-shape-margin);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toc-link {
+  display: block;
+  position: relative;
+  padding: 6px 12px;
+  border-radius: var(--toc-shape-radius);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--toc-text-color);
+  text-decoration: none !important;
+  transition: color 0.15s ease, background-color 0.15s ease;
+  word-break: break-word;
+}
+
+:root.dark-mode .toc-link,
+.dark-mode .toc-link {
+  color: var(--toc-text-color-dark);
+}
+
+.toc-link.toc-level-2 {
+  font-weight: 600;
+}
+
+.toc-link.toc-level-3 {
+  padding-left: 24px;
+  font-size: 0.825rem;
+  opacity: 0.9;
+}
+
+.toc-link.toc-level-4 {
+  padding-left: 36px;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.toc-link.toc-level-2:hover,
+.toc-link.toc-level-2.active {
+  color: var(--toc-theme-color);
+  background-color: var(--toc-theme-bg-color);
+  border-radius: var(--toc-shape-radius);
+}
+
+.toc-link.toc-level-3:hover,
+.toc-link.toc-level-3.active,
+.toc-link.toc-level-4:hover,
+.toc-link.toc-level-4.active {
+  color: var(--toc-theme-bg-color);
+  background-color: var(--toc-hover-bg-color);
+  border-radius: var(--toc-shape-radius);
+}
+
+.toc-link.active {
+  font-weight: 600;
+}
+
+.toc-link.active::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 16px;
+  border-radius: 2px;
+  background-color: var(--toc-theme-color);
+}
+
+@media (max-width: 991.98px) {
+  .toc-link {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
+

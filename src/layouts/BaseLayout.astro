@@ -3,15 +3,19 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:34:12
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-21 18:28:04
+ * @LastEditTime: 2026-09-22 11:04:38
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
 
 import { siteConfig } from "@site.config";
 import Navbar from "../components/Navbar.astro";
+import SecondNavbar from "../components/SecondNavbar.astro";
+import TableOfContents from "../components/TableOfContents.astro";
+import TocButton from "../components/TocButton.astro";
 import Footer from "../components/Footer.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
+import NavButtonGroup from "../components/NavButtonGroup.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -22,6 +26,8 @@ interface Props {
   pageBackground?: 'white' | 'gray';
   navMode?: 'regular' | 'short-permanent';
   showBreadcrumbs?: boolean;
+  tableOfContents?: boolean;
+  navButtonGroup?: boolean;
   frontmatter?: {
     title?: string;
     description?: string;
@@ -30,6 +36,8 @@ interface Props {
     pageBackground?: 'white' | 'gray';
     navMode?: 'regular' | 'short-permanent';
     showBreadcrumbs?: boolean;
+    tableOfContents?: boolean;
+    navButtonGroup?: boolean;
   };
 }
 
@@ -45,9 +53,15 @@ const navMode = frontmatter?.navMode || Astro.props.navMode || "regular";
 
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 const isHome = pathname === "/" || pathname === "/index";
-const showBreadcrumbs =
-  !isHome &&
-  Boolean(frontmatter?.showBreadcrumbs ?? Astro.props.showBreadcrumbs);
+const showBreadcrumbs = Boolean(
+  frontmatter?.showBreadcrumbs ?? Astro.props.showBreadcrumbs
+);
+const tableOfContents = Boolean(
+  frontmatter?.tableOfContents ?? Astro.props.tableOfContents ?? !isHome
+);
+const navButtonGroup = Boolean(
+  frontmatter?.navButtonGroup ?? Astro.props.navButtonGroup
+);
 
 const fullTitle =
   title === siteConfig.title ? title : `${title} | ${siteConfig.title}`;
@@ -84,6 +98,13 @@ const { colors } = siteConfig;
       import { initThemeToggles } from "../utils/theme";
       initThemeToggles();
       document.addEventListener("astro:page-load", initThemeToggles);
+    </script>
+
+    <!-- Client-side TOC controller -->
+    <script>
+      import { initTOC } from "../utils/toc";
+      initTOC();
+      document.addEventListener("astro:page-load", initTOC);
     </script>
 
     <!-- Directly inject all colors from root site.config.ts into CSS :root -->
@@ -123,32 +144,16 @@ const { colors } = siteConfig;
         --btn-theme-text: ${colors.buttonThemeText};
         --pill-text: ${colors.pillText};
         --pill-text-dark: ${colors.pillTextDark};
+        --second-nav-bg-color: ${colors.secondNavBgColor};
+        --second-nav-bg-color-dark: ${colors.secondNavBgColorDark};
+        --second-navbar-radius: ${siteConfig.secondNavbarRadius || "19px"};
+        --second-navbar-margin: ${siteConfig.secondNavbarMargin || "3px"};
       }
     `}
     ></style>
   </head>
 
   <body class={`page-bg-${pageBackground}`}>
-    <!-- Hidden SVG distortion filter for liquid glass effects -->
-    <svg
-      style="position: absolute; width: 0; height: 0; pointer-events: none;"
-      aria-hidden="true"
-    >
-      <filter id="glass-distortion">
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0.04"
-          numOctaves="1"
-          result="noise"></feTurbulence>
-        <feDisplacementMap
-          in="SourceGraphic"
-          in2="noise"
-          scale="4"
-          xChannelSelector="R"
-          yChannelSelector="G"></feDisplacementMap>
-      </filter>
-    </svg>
-
     <Navbar mode={navMode} pageTitle={title} />
 
     {
@@ -173,9 +178,34 @@ const { colors } = siteConfig;
     }
 
     <main class="main-page-container">
-      <div class="container markdown-body">
-        {showBreadcrumbs && <Breadcrumb pageTitle={title} />}
-        <slot />
+      <div
+        id="main-layout-container"
+        class:list={[
+          "container",
+          "toc-layout-wrapper",
+          tableOfContents ? "toc-expanded" : "toc-collapsed",
+        ]}
+      >
+        {
+          tableOfContents && (
+            <aside id="dynamic-toc-container" class="toc-sidebar">
+              <TableOfContents />
+            </aside>
+          )
+        }
+
+        <div id="dynamic-main-content" class="toc-content markdown-body">
+          {
+            (showBreadcrumbs || tableOfContents || navButtonGroup) && (
+              <SecondNavbar>
+                {tableOfContents && <TocButton />}
+                {navButtonGroup && <NavButtonGroup />}
+                {showBreadcrumbs && <Breadcrumb pageTitle={title} />}
+              </SecondNavbar>
+            )
+          }
+          <slot />
+        </div>
       </div>
     </main>
 

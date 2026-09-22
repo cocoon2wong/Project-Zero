@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 20:59:43
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 10:02:22
+ * @LastEditTime: 2026-09-22 15:49:55
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -37,7 +37,7 @@
 
 .intro-header .page-heading {
   text-align: left;
-  padding: 1.25rem 0 0.75rem;
+  padding: 1.25rem 0 1.75rem;
 }
 
 .intro-header.big-img .page-heading {
