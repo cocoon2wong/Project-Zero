@@ -1,0 +1,77 @@
+---
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-21 21:23:52
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-22 09:57:34
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+interface Props {
+  pageTitle?: string;
+}
+
+const { pageTitle } = Astro.props;
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isHome = pathname === "/" || pathname === "/index";
+
+const segments = pathname.split("/").filter(Boolean);
+const crumbs = segments.map((seg, idx) => {
+  const url = "/" + segments.slice(0, idx + 1).join("/") + "/";
+  const label = seg.replace(/[-_]/g, " ").replace(/\.html$/, "");
+  const capitalized = label.charAt(0).toUpperCase() + label.slice(1);
+  return { url, label: capitalized };
+});
+---
+
+{
+  !isHome && (
+    <div class="breadcrumb-navigation-container">
+      <nav
+        class="breadcrumb-container pill"
+        style="--bs-breadcrumb-divider: '>'; display: flex; align-items: center;"
+        aria-label="breadcrumb"
+      >
+        <ol class="breadcrumb" style="margin-bottom: 0;">
+          <li class="breadcrumb-item">
+            <a href="/">
+              <svg
+                class="bi bi-house"
+                width="1em"
+                height="1em"
+                viewBox="0 0 18 18"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
+                />
+              </svg>
+              Home
+            </a>
+          </li>
+
+          {crumbs.map((crumb, idx) => {
+            const isLast = idx === crumbs.length - 1;
+            return isLast ? (
+              <li class="breadcrumb-item active" aria-current="page">
+                {pageTitle || crumb.label}
+              </li>
+            ) : (
+              <li class="breadcrumb-item">
+                <a href={crumb.url}>{crumb.label}</a>
+              </li>
+            );
+          })}
+        </ol>
+      </nav>
+    </div>
+  )
+}

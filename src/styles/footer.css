@@ -1,0 +1,176 @@
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-21 20:45:23
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-22 10:01:20
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+
+:root {
+  --footer-text-active-color: #616A72;
+  --footer-text-active-color-dark: #FFFFFF;
+  --footer-border-color: #00000035;
+}
+
+:root.dark-mode,
+.dark-mode {
+  --footer-border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Footer Outer Container Background & Sizing --- */
+footer.site-footer {
+  width: 100%;
+  padding-top: 1.875rem;
+  padding-bottom: 2rem;
+  font-size: 0.875rem;
+  background-color: var(--footer-bg-color);
+  color: var(--footer-text-active-color);
+  border-top: none;
+}
+
+:root.dark-mode footer.site-footer,
+.dark-mode footer.site-footer {
+  background-color: var(--footer-bg-color-dark);
+  color: var(--footer-text-active-color-dark);
+}
+
+/* Gray background page support */
+.page-bg-gray footer.site-footer {
+  background-color: var(--page-bg-color-gray);
+}
+
+:root.dark-mode.page-bg-gray footer.site-footer,
+.dark-mode.page-bg-gray footer.site-footer {
+  background-color: var(--page-bg-color-dark-gray);
+}
+
+.site-footer .container {
+  width: 100%;
+  max-width: var(--page-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.25rem, 4vw, 3rem);
+  padding-right: clamp(1.25rem, 4vw, 3rem);
+}
+
+/* --- Footer Directory --- */
+.footer-directory {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  margin: 0 auto;
+  padding-bottom: 10px;
+}
+
+.footer-directory .directory-list-title {
+  font-weight: bold;
+  margin-bottom: 0.7rem;
+}
+
+.directory-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.directory-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  column-count: 2;
+  column-gap: 4rem;
+}
+
+.directory-list li {
+  margin-bottom: 0.5rem;
+}
+
+.directory-list a {
+  font-size: 12px;
+  text-decoration: none;
+  color: var(--footer-text-active-color);
+}
+
+.dark-mode .directory-list a {
+  color: var(--footer-text-active-color-dark);
+}
+
+.directory-list a:hover {
+  color: var(--hover-color);
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .footer-directory {
+    grid-template-columns: 1fr;
+  }
+
+  .directory-list {
+    column-count: 1;
+  }
+}
+
+/* --- Nav Footer Copyright --- */
+.nav-footer-copyright {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  padding-bottom: 12px;
+  border-top: 1px solid var(--footer-border-color);
+  font-size: 14px;
+  color: var(--footer-text-active-color);
+}
+
+.dark-mode .nav-footer-copyright,
+.dark-mode .copyright-links a {
+  color: var(--footer-text-active-color-dark);
+}
+
+.copyright-text {
+  margin-right: 2rem;
+  white-space: nowrap;
+}
+
+.copyright-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.copyright-links a {
+  text-decoration: none;
+  padding: 0 10px;
+  border-right: 1px solid var(--footer-border-color);
+  line-height: 1;
+  color: var(--footer-text-active-color);
+  cursor: pointer;
+}
+
+.copyright-links a:hover {
+  color: var(--hover-color);
+  text-decoration: underline;
+}
+
+.copyright-links a:first-child {
+  padding-left: 0;
+}
+
+.copyright-links a:last-child {
+  padding-right: 0;
+  border-right: none;
+}
+
+@media (max-width: 768px) {
+  .nav-footer-copyright {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .copyright-links {
+    row-gap: 8px;
+  }
+}

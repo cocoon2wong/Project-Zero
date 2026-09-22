@@ -13,9 +13,8 @@
   --body-font: "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   --header-font: "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 
-  /* Layout Containers */
-  --container-max-width: 1140px;
-  --container-narrow-max-width: 860px;
+  /* Layout Containers (Standard 1920x1080 desktop width) */
+  --page-max-width: 1280px;
 
   /* Baseline Fallbacks: PURE RED (#ff0000) for instant debug visibility */
   --page-bg-color: #ff0000;

@@ -9,19 +9,45 @@
  */
 
 import { siteConfig } from "@site.config";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
 import "../styles/global.css";
 
 interface Props {
   title?: string;
   description?: string;
-  pageBg?: "white" | "gray";
+  coverImg?: string;
+  hideTitle?: boolean;
+  pageBackground?: 'white' | 'gray';
+  navMode?: 'regular' | 'short-permanent';
+  showBreadcrumbs?: boolean;
+  frontmatter?: {
+    title?: string;
+    description?: string;
+    coverImg?: string;
+    hideTitle?: boolean;
+    pageBackground?: 'white' | 'gray';
+    navMode?: 'regular' | 'short-permanent';
+    showBreadcrumbs?: boolean;
+  };
 }
 
-const {
-  title = siteConfig.title,
-  description = siteConfig.description,
-  pageBg = "white",
-} = Astro.props;
+const { frontmatter } = Astro.props;
+const title = frontmatter?.title || Astro.props.title || siteConfig.title;
+const description =
+  frontmatter?.description || Astro.props.description || siteConfig.description;
+const coverImg = frontmatter?.coverImg || Astro.props.coverImg || "";
+const hideTitle = Boolean(frontmatter?.hideTitle ?? Astro.props.hideTitle);
+const pageBackground =
+  frontmatter?.pageBackground || Astro.props.pageBackground || "white";
+const navMode = frontmatter?.navMode || Astro.props.navMode || "regular";
+
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isHome = pathname === "/" || pathname === "/index";
+const showBreadcrumbs =
+  !isHome &&
+  Boolean(frontmatter?.showBreadcrumbs ?? Astro.props.showBreadcrumbs);
 
 const fullTitle =
   title === siteConfig.title ? title : `${title} | ${siteConfig.title}`;
@@ -81,6 +107,8 @@ const { colors } = siteConfig;
         --navbar-border-color: ${colors.navbarBorderColor};
         --navbar-text-color: ${colors.navbarTextColor};
         --navbar-float-active-bg-color: ${colors.navbarFloatActiveBgColor};
+        --navbar-indicator-gray-light: ${colors.navbarIndicatorGrayLight};
+        --navbar-indicator-gray-dark: ${colors.navbarIndicatorGrayDark};
         --footer-bg-color: ${colors.footerBgColor};
         --footer-bg-color-dark: ${colors.footerBgColorDark};
         --footer-text-color: ${colors.footerTextColor};
@@ -100,7 +128,7 @@ const { colors } = siteConfig;
     ></style>
   </head>
 
-  <body class={`page-bg-${pageBg}`}>
+  <body class={`page-bg-${pageBackground}`}>
     <!-- Hidden SVG distortion filter for liquid glass effects -->
     <svg
       style="position: absolute; width: 0; height: 0; pointer-events: none;"
@@ -121,8 +149,36 @@ const { colors } = siteConfig;
       </filter>
     </svg>
 
+    <Navbar mode={navMode} pageTitle={title} />
+
+    {
+      !hideTitle && (
+        <header
+          class:list={["header-section", { "has-img": Boolean(coverImg) }]}
+        >
+          <div
+            class:list={["intro-header", { "big-img": Boolean(coverImg) }]}
+            style={
+              coverImg ? `background-image: url('${coverImg}');` : undefined
+            }
+          >
+            <div class="container">
+              <div class="page-heading">
+                <h1>{title}</h1>
+              </div>
+            </div>
+          </div>
+        </header>
+      )
+    }
+
     <main class="main-page-container">
-      <slot />
+      <div class="container markdown-body">
+        {showBreadcrumbs && <Breadcrumb pageTitle={title} />}
+        <slot />
+      </div>
     </main>
+
+    <Footer pageTitle={title} />
   </body>
 </html>

@@ -1,0 +1,99 @@
+---
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-21 18:52:38
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-22 09:58:27
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+import { siteConfig } from "@site.config";
+
+interface Props {
+  mode?: "regular" | "short-permanent";
+  pageTitle?: string;
+}
+
+const { mode = "regular", pageTitle = "" } = Astro.props;
+const navLinks = siteConfig.navLinks || [];
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<nav
+  class={`navbar navbar-expand-xl fixed-top navbar-custom top-nav-container ${mode === "regular" ? "top-nav-regular" : "top-nav-short-permanent"}`}
+>
+  <!-- Layer 1: Distortion filter background -->
+  <div class="top-nav-background-container"></div>
+
+  <!-- Site brand: text title (left side) -->
+  <a
+    class="navbar-brand"
+    href="/"
+    data-site-title={siteConfig.title}
+    data-page-title={pageTitle || siteConfig.title}
+  >
+    {siteConfig.title}
+  </a>
+
+  <!-- Mobile toggler button -->
+  <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+
+  <!-- Desktop floating capsule & mobile drawer -->
+  <div class="collapse navbar-collapse" id="main-navbar">
+    <div class="ms-auto top-nav-float-container">
+      <div class="liquidGlass-effect"></div>
+      <div class="liquidGlass-tint"></div>
+      <div class="liquidGlass-shine"></div>
+      <ul class="navbar-nav">
+        {
+          navLinks.map((link) => {
+            const linkHref = link.url.replace(/\/$/, "") || "/";
+            const isActive =
+              linkHref === "/"
+                ? pathname === "/" || pathname === "/index"
+                : pathname === linkHref || pathname.startsWith(linkHref + "/");
+            return (
+              <li class:list={["nav-item", { "top-nav-active": isActive }]}>
+                <a class="nav-link" href={link.url}>
+                  {link.icon && (
+                    <div class="top-nav-float-icon" set:html={link.icon} />
+                  )}
+                  <span>{link.title}</span>
+                </a>
+                {isActive && (
+                  <nav class="top-nav-active-background-container nav-item-active" />
+                )}
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  import { initNavbar } from "../utils/navbar";
+
+  let cleanup = initNavbar();
+  document.addEventListener("astro:page-load", () => {
+    if (cleanup) cleanup();
+    cleanup = initNavbar();
+  });
+</script>

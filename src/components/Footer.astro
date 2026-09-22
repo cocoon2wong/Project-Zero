@@ -1,0 +1,120 @@
+---
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-21 20:45:35
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-22 09:58:02
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+import { siteConfig } from "@site.config";
+
+interface Props {
+  pageTitle?: string;
+}
+
+const { pageTitle } = Astro.props;
+const currentYear = new Date().getFullYear();
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isHome = pathname === "/" || pathname === "/index";
+
+// Parse breadcrumb segments
+const segments = pathname.split("/").filter(Boolean);
+const crumbs = segments.map((seg, idx) => {
+  const url = "/" + segments.slice(0, idx + 1).join("/") + "/";
+  const label = seg.replace(/[-_]/g, " ").replace(/\.html$/, "");
+  const capitalized = label.charAt(0).toUpperCase() + label.slice(1);
+  return { url, label: capitalized };
+});
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <!-- Breadcrumb Navigation -->
+    <nav
+      class="footer-nav breadcrumb-container"
+      style="--bs-breadcrumb-divider: '>';"
+      aria-label="breadcrumb"
+    >
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/">
+            <svg
+              class="bi bi-house"
+              width="16px"
+              height="16px"
+              viewBox="0 0 18 18"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+              ></path>
+              <path
+                fill-rule="evenodd"
+                d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
+              ></path>
+            </svg>
+            {siteConfig.title}
+          </a>
+        </li>
+
+        {
+          !isHome &&
+            crumbs.map((crumb, idx) => {
+              const isLast = idx === crumbs.length - 1;
+              return isLast ? (
+                <li class="breadcrumb-item active" aria-current="page">
+                  {pageTitle || crumb.label}
+                </li>
+              ) : (
+                <li class="breadcrumb-item">
+                  <a href={crumb.url}>{crumb.label}</a>
+                </li>
+              );
+            })
+        }
+      </ol>
+    </nav>
+
+    <!-- Site Directory -->
+    <section
+      class="footer-directory is-single-column"
+      aria-label="Site Directory"
+    >
+      <div class="directory-column">
+        <ul class="directory-list">
+          {
+            siteConfig.navLinks.map((link) => (
+              <li>
+                <a href={link.url}>{link.title}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Copyright & Action Links -->
+    <div class="nav-footer-copyright">
+      <div class="copyright-text">
+        Copyright &copy; {currentYear}
+        {siteConfig.author}. All rights reserved.
+      </div>
+
+      <div class="copyright-links">
+        <a
+          class="footer-toggle-link"
+          href="#toggle-theme"
+          data-theme-toggle
+          title="Toggle dark / light mode"
+        >
+          Toggle Dark Mode
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

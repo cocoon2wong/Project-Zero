@@ -1,0 +1,403 @@
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-21 18:52:11
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-22 10:02:35
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+
+/* ==========================================================================
+   0. Site Brand (.navbar-brand)
+   ========================================================================== */
+
+.navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 1rem;
+  padding-top: 0.3125rem;
+  padding-bottom: 0.3125rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  white-space: nowrap;
+  text-decoration: none !important;
+  color: var(--navbar-text-color);
+  transition: color 0.15s ease-in-out;
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus {
+  color: var(--hover-color);
+  text-decoration: none !important;
+}
+
+:root.dark-mode .navbar-brand,
+.dark-mode .navbar-brand {
+  color: var(--text-color-dark);
+}
+
+/* ==========================================================================
+   1. Base Navbar Shell (.navbar-custom, .top-nav-container)
+   ========================================================================== */
+
+.navbar-custom,
+.top-nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1030;
+  background-color: transparent;
+  padding-left: 1em;
+  padding-right: 1em;
+  display: flex;
+  align-items: center;
+  border-bottom: none;
+  transition: none;
+  box-sizing: border-box;
+}
+
+/* Form 1: Float state (rate < 1.0) */
+.top-nav-container.top-nav-float {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* Form 2: Compact / Short permanent state (rate = 1.0) */
+.top-nav-container.top-nav-short-permanent,
+.top-nav-container:not(.top-nav-float) {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* ==========================================================================
+   2. Layer 1: Background Full-Width Bar (.top-nav-background-container)
+   ========================================================================== */
+
+.top-nav-background-container {
+  content: "";
+  width: 100%;
+  height: calc(100% - 1px);
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: none;
+  z-index: -1;
+  box-sizing: border-box;
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  backdrop-filter: saturate(100%) blur(0px);
+}
+
+/* Permanent compact mode baseline CSS (SSR and fallback before JS) */
+.top-nav-container.top-nav-short-permanent .top-nav-background-container,
+.top-nav-container:not(.top-nav-float) .top-nav-background-container {
+  background-color: var(--navbar-bg-color);
+  border-bottom: 1px solid var(--navbar-border-color);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+
+:root.dark-mode .top-nav-container.top-nav-short-permanent .top-nav-background-container,
+.dark-mode .top-nav-container.top-nav-short-permanent .top-nav-background-container,
+:root.dark-mode .top-nav-container:not(.top-nav-float) .top-nav-background-container,
+.dark-mode .top-nav-container:not(.top-nav-float) .top-nav-background-container {
+  background-color: var(--navbar-bg-color-dark);
+}
+
+/* ==========================================================================
+   3. Layer 2: Floating Capsule Bar (.top-nav-float-container)
+   ========================================================================== */
+
+.top-nav-float-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.336);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  border-radius: 35px;
+  margin-left: auto;
+  box-sizing: border-box;
+}
+
+.top-nav-float-container,
+.top-nav-float-container>div {
+  border-radius: 35px;
+}
+
+/* In compact mode, floating capsule shadow dissolves */
+.top-nav-container.top-nav-short-permanent .top-nav-float-container,
+.top-nav-container:not(.top-nav-float) .top-nav-float-container {
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   4. Liquid Glass Triple Layers (.liquidGlass-*)
+   ========================================================================== */
+
+.liquidGlass-effect {
+  position: absolute;
+  z-index: -3;
+  inset: 0;
+  backdrop-filter: saturate(180%) blur(3px);
+  filter: url(#glass-distortion);
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 35px;
+}
+
+.liquidGlass-tint {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 35px;
+}
+
+:root.dark-mode .liquidGlass-tint,
+.dark-mode .liquidGlass-tint {
+  background: rgba(23, 23, 23, 0.35);
+}
+
+.liquidGlass-shine {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 35px;
+  box-shadow:
+    inset 1px 1px 0.5px 0 rgba(255, 255, 255, 0.5),
+    inset -0.5px -0.5px 0.5px 0.5px rgba(255, 255, 255, 0.5);
+}
+
+/* Fade out in compact mode */
+.top-nav-container.top-nav-short-permanent .top-nav-float-container>div[class^="liquidGlass"],
+.top-nav-container:not(.top-nav-float) .top-nav-float-container>div[class^="liquidGlass"] {
+  opacity: 0;
+}
+
+/* ==========================================================================
+   5. Navigation List & Items (.navbar-nav, .nav-item, .nav-link)
+   ========================================================================== */
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.top-nav-float-container .nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-size: 0.8125rem;
+  letter-spacing: 0.0625rem;
+}
+
+.top-nav-float-container .nav-item:first-child:not(.top-nav-active) {
+  padding-left: 8px;
+}
+
+.top-nav-active {
+  padding: 0 14px;
+}
+
+.navbar-nav .nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  line-height: 1.25rem;
+  color: var(--navbar-text-color);
+  text-decoration: none !important;
+  padding: 10px 14px;
+  transition: color 0.15s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  color: var(--hover-color);
+  text-decoration: none !important;
+}
+
+:root.dark-mode .navbar-nav .nav-link,
+.dark-mode .navbar-nav .nav-link {
+  color: var(--text-color-dark);
+}
+
+:root.dark-mode .navbar-nav .nav-link:hover,
+.dark-mode .navbar-nav .nav-link:hover {
+  color: var(--hover-color);
+}
+
+.top-nav-active>.nav-link {
+  color: var(--hover-color) !important;
+}
+
+/* Icon support inside nav items */
+.top-nav-float-icon {
+  text-align: center;
+  font-size: 30px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-nav-float-icon svg {
+  width: auto;
+  fill: currentColor;
+  display: block;
+}
+
+.top-nav-container:not(.top-nav-float) .top-nav-float-icon {
+  display: none;
+}
+
+.nav-link:has(.top-nav-float-icon) {
+  font-size: 8px;
+}
+
+/* ==========================================================================
+   6. Active Item Indicator & Capsule-to-Underline Morphing (.nav-item-active)
+   ========================================================================== */
+
+.top-nav-active-background-container,
+.nav-item-active {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: calc(100% - 10px);
+  width: calc(100% - 10px);
+  content: "";
+  display: block;
+  background-color: var(--navbar-float-active-bg-color);
+  border-radius: 30px;
+  z-index: 1;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+/* Compact mode indicator baseline (SSR / fallback) */
+.top-nav-container.top-nav-short-permanent .nav-item-active,
+.top-nav-container:not(.top-nav-float) .nav-item-active {
+  top: 10px;
+  border-radius: 1px;
+  background-color: transparent;
+  border-bottom: 1px solid var(--hover-color);
+}
+
+/* ==========================================================================
+   7. Desktop Layout & Mobile Collapse
+   ========================================================================== */
+
+@media (min-width: 1200px) {
+  .navbar-collapse {
+    display: flex !important;
+    flex-basis: auto;
+    flex-grow: 1;
+    align-items: center;
+    width: 100%;
+  }
+
+  .ms-auto,
+  .top-nav-float-container {
+    margin-left: auto !important;
+  }
+}
+
+.navbar-toggler {
+  display: none;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--navbar-text-color);
+}
+
+:root.dark-mode .navbar-toggler,
+.dark-mode .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-color-dark);
+}
+
+@media (max-width: 1199px) {
+  .top-nav-container {
+    justify-content: flex-end;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .navbar-toggler {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navbar-collapse {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--navbar-bg-color);
+    border-top: 1px solid var(--navbar-border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1rem;
+  }
+
+  :root.dark-mode .navbar-collapse,
+  .dark-mode .navbar-collapse {
+    background-color: var(--page-bg-color-dark);
+  }
+
+  .navbar-collapse.is-open {
+    display: block;
+  }
+
+  .top-nav-float-container {
+    border-radius: 0;
+    box-shadow: none;
+    width: 100%;
+    padding: 0 !important;
+  }
+
+  .top-nav-float-container>div[class^="liquidGlass"] {
+    display: none;
+  }
+
+  .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .top-nav-float-container .nav-item {
+    width: 100%;
+    padding: 0 !important;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 0.675rem 1rem !important;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .top-nav-active-background-container,
+  .nav-item-active {
+    display: none;
+  }
+}

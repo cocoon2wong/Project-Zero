@@ -19,3 +19,6 @@ Thumbs.db
 !.vscode/extensions.json
 .idea/
 
+# Template-only content
+src/pages/
+

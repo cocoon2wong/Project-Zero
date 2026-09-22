@@ -33,6 +33,15 @@ body {
   line-height: 1.6;
 }
 
+/* Page Background Variations */
+body.page-bg-white {
+  background-color: var(--page-bg-color);
+}
+
+body.page-bg-gray {
+  background-color: var(--page-bg-color-gray);
+}
+
 /* Typography */
 h1,
 h2,
@@ -54,7 +63,7 @@ h1 {
 
 /* Heading 2 theme accent from Conghao Wong's overwrites */
 h2 {
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
   color: var(--theme-color);
 }
 
@@ -125,27 +134,18 @@ img {
   text-shadow: none;
 }
 
-/* Responsive Containers */
+/* Responsive Single Container (Standard 1920x1080 desktop width with fluid padding) */
 .container {
   width: 100%;
-  max-width: var(--container-max-width);
+  max-width: var(--page-max-width);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-.container-narrow {
-  width: 100%;
-  max-width: var(--container-narrow-max-width);
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: clamp(1.25rem, 4vw, 3rem);
+  padding-right: clamp(1.25rem, 4vw, 3rem);
 }
 
 .main-page-container {
-  padding-top: 2rem;
+  padding-top: 0;
   padding-bottom: 3.5rem;
   position: relative;
   z-index: 2;
@@ -163,6 +163,16 @@ img {
 .dark-mode body {
   background-color: var(--page-bg-color-dark);
   color: var(--text-color-dark);
+}
+
+:root.dark-mode body.page-bg-white,
+.dark-mode body.page-bg-white {
+  background-color: var(--page-bg-color-dark);
+}
+
+:root.dark-mode body.page-bg-gray,
+.dark-mode body.page-bg-gray {
+  background-color: var(--page-bg-color-dark-gray);
 }
 
 :root.dark-mode a:not(.btn),
