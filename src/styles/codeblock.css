@@ -1,0 +1,85 @@
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-22 19:10:42
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-22 19:53:34
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+
+/* ==========================================================================
+   Codeblock - 原生渲染架构（仅保留圆角、Margin 与原生黑白主题）
+   ========================================================================== */
+
+/* 1. 外层包装容器（仅维持外边距与相对定位） */
+.codebox-wrapper {
+  position: relative;
+  margin: var(--second-navbar-radius) 0;
+}
+
+/* 2. 原生 pre 元素（圆角、同心内边距、原版浅灰底色、字体缩放与横向滚动） */
+.codebox-wrapper>pre,
+pre.astro-code {
+  box-sizing: border-box;
+  padding: calc(var(--second-navbar-radius) * 0.6) calc(var(--second-navbar-radius) + var(--second-navbar-margin));
+  border-radius: var(--second-navbar-radius);
+  overflow-x: auto;
+  background-color: rgba(0, 0, 0, 0.03) !important;
+  font-size: 0.875rem;
+}
+
+/* 3. 原生暗黑模式主题对接（Astro / Shiki Dual Themes） */
+.dark-mode .astro-code,
+.dark-mode .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+
+/* 4. 右上角悬浮复制按钮（严格同心高度与定位） */
+.codebox-wrapper>.codebox-title {
+  position: absolute;
+  top: var(--second-navbar-margin);
+  right: var(--second-navbar-margin);
+  height: calc(2 * (var(--second-navbar-radius) - var(--second-navbar-margin)));
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.codebox-wrapper:hover>.codebox-title {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.codebox-title>.codebox-copy-btn {
+  height: calc(2 * (var(--second-navbar-radius) - var(--second-navbar-margin)));
+  border-radius: calc(var(--second-navbar-radius) - var(--second-navbar-margin));
+  padding: 0 calc(var(--second-navbar-radius) - var(--second-navbar-margin) * 1.5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   5. 普通行内代码（Inline Code）
+   ========================================================================== */
+
+:not(pre)>code {
+  padding: 0.15em 0.4em;
+  font-size: 0.8em;
+  border-radius: 6px;
+  color: #c7254e;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode :not(pre)>code {
+  background-color: rgba(255, 255, 255, 0.12);
+}

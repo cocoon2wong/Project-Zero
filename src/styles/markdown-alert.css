@@ -82,8 +82,6 @@
   color: #0969da;
 }
 
-:root.dark-mode .markdown-alert-note .markdown-alert-title,
-:root.dark-mode .markdown-alert-note .markdown-alert-icon,
 .dark-mode .markdown-alert-note .markdown-alert-title,
 .dark-mode .markdown-alert-note .markdown-alert-icon {
   color: #2f81f7;
@@ -101,8 +99,6 @@
   color: #9a6700;
 }
 
-:root.dark-mode .markdown-alert-warning .markdown-alert-title,
-:root.dark-mode .markdown-alert-warning .markdown-alert-icon,
 .dark-mode .markdown-alert-warning .markdown-alert-title,
 .dark-mode .markdown-alert-warning .markdown-alert-icon {
   color: #d29922;
@@ -120,8 +116,6 @@
   color: #8250df;
 }
 
-:root.dark-mode .markdown-alert-important .markdown-alert-title,
-:root.dark-mode .markdown-alert-important .markdown-alert-icon,
 .dark-mode .markdown-alert-important .markdown-alert-title,
 .dark-mode .markdown-alert-important .markdown-alert-icon {
   color: #a371f7;

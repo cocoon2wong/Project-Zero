@@ -10,7 +10,7 @@
 
 interface Props {
   href?: string;
-  variant?: 'normal' | 'theme';
+  variant?: 'normal' | 'theme' | 'pure';
   size?: 'normal' | 'lg' | 'sm';
   type?: 'button' | 'submit' | 'reset';
   class?: string;
@@ -26,7 +26,12 @@ const {
   ...rest
 } = Astro.props;
 
-const variantClass = variant === 'theme' ? 'btn-theme' : 'btn-normal';
+const variantClass =
+  variant === 'theme'
+    ? 'btn-theme'
+    : variant === 'pure'
+      ? 'btn-pure'
+      : 'btn-normal';
 const sizeClass = size === 'lg' ? 'btn-lg' : size === 'sm' ? 'btn-sm' : '';
 const buttonClass = ['btn', variantClass, sizeClass, className].filter(Boolean).join(' ');
 ---

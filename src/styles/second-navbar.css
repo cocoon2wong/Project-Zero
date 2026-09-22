@@ -68,7 +68,6 @@
   transition: all 0.15s ease-in-out;
 }
 
-:root.dark-mode .second-nav-btn,
 .dark-mode .second-nav-btn {
   color: var(--second-nav-color-dark);
 }
@@ -103,7 +102,7 @@
   height: calc(var(--second-navbar-item-radius) * 2);
   margin: var(--second-navbar-margin) 0;
   margin-left: var(--second-navbar-margin);
-  padding: 0 5px;
+  padding: 0 8px;
   border-radius: var(--second-navbar-item-radius);
   text-decoration: none;
   transition: all 0.1s ease-in-out;
@@ -130,10 +129,6 @@
 }
 
 /* 暗色模式下文字与图标颜色 */
-:root.dark-mode .second-nav-btn-group .second-nav-btn-group-item,
-:root.dark-mode .second-nav-btn-group .btn,
-:root.dark-mode .second-nav-btn-group a,
-:root.dark-mode .second-nav-btn-group button,
 .dark-mode .second-nav-btn-group .second-nav-btn-group-item,
 .dark-mode .second-nav-btn-group .btn,
 .dark-mode .second-nav-btn-group a,
@@ -172,9 +167,6 @@
   transition: opacity 0.15s ease-in-out;
 }
 
-:root.dark-mode .second-nav-btn-group .second-nav-btn-group-item+.second-nav-btn-group-item::before,
-:root.dark-mode .second-nav-btn-group button+button::before,
-:root.dark-mode .second-nav-btn-group a+a::before,
 .dark-mode .second-nav-btn-group .second-nav-btn-group-item+.second-nav-btn-group-item::before,
 .dark-mode .second-nav-btn-group button+button::before,
 .dark-mode .second-nav-btn-group a+a::before {

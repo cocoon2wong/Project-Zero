@@ -2,11 +2,10 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:37:48
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-21 18:30:36
+ * @LastEditTime: 2026-09-22 19:53:20
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
-
 
 /* ==========================================================================
    1. Base Button (.btn, .btn-lg, .btn-sm)
@@ -47,7 +46,6 @@
 
 /* ==========================================================================
    2. Capsule Shape & Dual Inset/Drop Shadow (.btn-normal, .btn-theme)
-      100% faithful to Conghao Wong's liquid-glass capsule design language
    ========================================================================== */
 
 .btn-normal,
@@ -64,8 +62,6 @@
   border: 0;
 }
 
-:root.dark-mode .btn-normal,
-:root.dark-mode .btn-theme,
 .dark-mode .btn-normal,
 .dark-mode .btn-theme {
   box-shadow:
@@ -73,39 +69,66 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.20);
 }
 
+/* Pure Flat Capsule (zero shadow, zero glass highlight) */
+.btn-pure {
+  border: 0;
+  border-radius: 999px;
+  box-shadow: none;
+}
+
+.dark-mode .btn-pure {
+  box-shadow: none;
+}
+
 /* ==========================================================================
-   3. Capsule Button States (.btn-normal, .btn-theme)
+   3. Light Mode States (Normal / Pure / Theme)
    ========================================================================== */
 
-.btn-normal {
-  color: var(--btn-normal-text) !important;
+.btn-normal,
+.btn-pure {
+  color: var(--btn-normal-text);
   background-color: var(--btn-normal-bg);
 }
 
-:root.dark-mode .btn-normal,
-.dark-mode .btn-normal {
-  color: var(--btn-normal-text-dark) !important;
-  background-color: var(--btn-normal-bg-dark);
-}
-
-/* 
- * Normal button hover / Theme button normal and hover
- * (Matching buttons_new.css lines 67-75)
- */
+/* Light Mode Hover / Focus & Theme Active */
 .btn-normal:hover,
 .btn-normal:focus,
+.btn-pure:hover,
+.btn-pure:focus,
 .btn-theme,
 .btn-theme:hover,
 .btn-theme:focus {
-  color: var(--btn-theme-text) !important;
+  color: var(--btn-theme-text);
   background-color: var(--btn-theme-bg);
   border: 0;
-  text-decoration: none !important;
 }
 
 /* ==========================================================================
-   4. Button Layout Group (.btn-group)
-      Matching buttons.css lines 53-59
+   4. Dark Mode States (Strict Specificity, Zero !important Deadlocks)
+   ========================================================================== */
+
+/* Dark Mode Normal & Pure Idle State */
+.dark-mode .btn-normal,
+.dark-mode .btn-pure {
+  color: var(--btn-normal-text-dark);
+  background-color: var(--btn-normal-bg-dark);
+}
+
+/* Dark Mode Hover / Focus & Theme Active (100% Faithful Theme Background) */
+.dark-mode .btn-normal:hover,
+.dark-mode .btn-normal:focus,
+.dark-mode .btn-pure:hover,
+.dark-mode .btn-pure:focus,
+.dark-mode .btn-theme,
+.dark-mode .btn-theme:hover,
+.dark-mode .btn-theme:focus {
+  color: var(--btn-theme-text);
+  background-color: var(--btn-theme-bg);
+  border: 0;
+}
+
+/* ==========================================================================
+   5. Button Layout Group (.btn-group)
    ========================================================================== */
 
 .btn-group {
@@ -118,108 +141,132 @@
 
 /* ==========================================================================
    6. Segmented Pill Controls (.pill, .pill-container, .pill-item)
-      Matching glasspill.css & buttons_new.css
    ========================================================================== */
 
 .pill {
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
-  border: 0;
-  background: var(--btn-normal-bg);
-  box-shadow:
-    0 2px 10px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
 }
 
-:root.dark-mode .pill,
-.dark-mode .pill {
-  background: var(--btn-normal-bg-dark);
-  box-shadow:
-    0 2px 12px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.10);
-  color: var(--pill-text-dark);
-}
-
-/* Segmented Pill Container */
 .pill-container {
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-/* Inner Segmented Item */
-.pill-item {
-  border-radius: 0 !important;
-  margin-right: 0 !important;
-  box-shadow: none !important;
+  justify-content: center;
   position: relative;
-  padding: 5px 10px;
-  font-size: 16px;
-  background: transparent;
-  border: 0;
-  color: var(--pill-text) !important;
+  background-color: var(--btn-normal-bg);
+  color: var(--btn-normal-text);
+  border-radius: 999px;
+  box-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  padding: 0;
+  height: 38px;
+  overflow: hidden;
+  box-sizing: border-box;
+  user-select: none;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.dark-mode .pill-container,
+.dark-mode .pill {
+  background-color: var(--btn-normal-bg-dark);
+  color: var(--btn-normal-text-dark);
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20);
+}
+
+.pill-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 16px;
+  color: var(--btn-normal-text);
   text-decoration: none !important;
-  transition: background-color 0.18s ease;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+  position: relative;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
 }
 
-:root.dark-mode .pill-item,
+.pill-item:first-child {
+  padding-left: 18px;
+  padding-right: 15px;
+}
+
+.pill-item:last-child {
+  padding-left: 15px;
+  padding-right: 18px;
+}
+
 .dark-mode .pill-item {
-  color: var(--pill-text-dark) !important;
+  color: var(--btn-normal-text-dark);
 }
 
-/* Divider line between adjacent items (55% height) */
 .pill-item+.pill-item::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1px;
+  top: 22.5%;
   height: 55%;
-  background: rgba(0, 0, 0, 0.18);
+  width: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+  pointer-events: none;
 }
 
-:root.dark-mode .pill-item+.pill-item::before,
 .dark-mode .pill-item+.pill-item::before {
-  background: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.25);
 }
 
-/* Hover & Active states */
-.pill-item:hover {
-  background: rgba(0, 0, 0, 0.06);
+.pill-item:hover,
+.pill-item:focus {
+  color: var(--hover-color);
   text-decoration: none !important;
 }
 
-:root.dark-mode .pill-item:hover,
-.dark-mode .pill-item:hover {
-  background: rgba(255, 255, 255, 0.07);
+.dark-mode .pill-item:hover,
+.dark-mode .pill-item:focus {
+  color: var(--hover-color);
 }
 
-.pill-item:active {
-  background: rgba(0, 0, 0, 0.10);
+.pill-item.pill-active,
+.pill-item.pill-active:hover {
+  color: var(--theme-color);
+  font-weight: 700;
 }
 
-:root.dark-mode .pill-item:active,
-.dark-mode .pill-item:active {
-  background: rgba(255, 255, 255, 0.10);
+.dark-mode .pill-item.pill-active,
+.dark-mode .pill-item.pill-active:hover {
+  color: var(--theme-color);
 }
 
-/* Active item text color strictly matches buttons_new.css line 126 */
-.pill-item.is-active,
-.pill-item.is-active:hover {
-  color: var(--btn-theme-bg) !important;
-}
-
-/* Single Pill label */
 .pill-single {
-  padding: 5px 14px;
-  font-size: 16px;
-  color: var(--pill-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.375rem 1rem;
+  border-radius: 999px;
+  background-color: var(--btn-normal-bg);
+  color: var(--btn-normal-text);
+  box-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  font-size: 0.875rem;
 }
 
-:root.dark-mode .pill-single,
 .dark-mode .pill-single {
-  color: var(--pill-text-dark);
+  background-color: var(--btn-normal-bg-dark);
+  color: var(--btn-normal-text-dark);
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20);
 }

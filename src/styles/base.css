@@ -72,7 +72,6 @@ h2 {
   border-bottom: 1px solid #eaeaea;
 }
 
-:root.dark-mode .page-bg-white h2,
 .dark-mode .page-bg-white h2 {
   border-bottom: 1px solid #333333;
 }
@@ -153,29 +152,24 @@ img {
 }
 
 /* Dark Mode Overrides */
-:root.dark-mode,
 .dark-mode {
   background-color: var(--page-bg-color-dark);
   color: var(--text-color-dark);
 }
 
-:root.dark-mode body,
 .dark-mode body {
   background-color: var(--page-bg-color-dark);
   color: var(--text-color-dark);
 }
 
-:root.dark-mode body.page-bg-white,
 .dark-mode body.page-bg-white {
   background-color: var(--page-bg-color-dark);
 }
 
-:root.dark-mode body.page-bg-gray,
 .dark-mode body.page-bg-gray {
   background-color: var(--page-bg-color-dark-gray);
 }
 
-:root.dark-mode a:not(.btn),
 .dark-mode a:not(.btn) {
   color: var(--hover-color);
 }

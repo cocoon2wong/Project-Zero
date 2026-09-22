@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-22 11:08:38
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 16:04:55
+ * @LastEditTime: 2026-09-22 20:03:25
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -141,7 +141,6 @@
   flex-grow: 1;
   padding: 8px 12px 8px 18px;
   font-size: 0.95rem;
-  font-weight: 700;
   color: var(--toc-title-color) !important;
   letter-spacing: 0.04em;
   text-decoration: none !important;
@@ -212,13 +211,12 @@
   word-break: break-word;
 }
 
-:root.dark-mode .toc-link,
 .dark-mode .toc-link {
   color: var(--toc-text-color-dark);
 }
 
 .toc-link.toc-level-2 {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .toc-link.toc-level-3 {

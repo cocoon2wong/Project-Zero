@@ -114,6 +114,13 @@ const { colors } = siteConfig;
       document.addEventListener("astro:page-load", initMarkdownAlerts);
     </script>
 
+    <!-- Client-side Codeblock controller -->
+    <script>
+      import { initCodeblocks } from "../utils/codeblock";
+      initCodeblocks();
+      document.addEventListener("astro:page-load", initCodeblocks);
+    </script>
+
     <!-- Directly inject all colors from root site.config.ts into CSS :root -->
     <style
       is:inline

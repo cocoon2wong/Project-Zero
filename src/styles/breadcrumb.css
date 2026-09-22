@@ -57,7 +57,6 @@
   padding-right: 4px;
 }
 
-:root.dark-mode .breadcrumb-item.active,
 .dark-mode .breadcrumb-item.active {
   color: var(--breadcrumb-active-color-dark);
 }
@@ -127,7 +126,6 @@
   transition: opacity 0.15s ease-in-out;
 }
 
-:root.dark-mode .second-nav-container .breadcrumb-item+.breadcrumb-item>a::before,
 .dark-mode .second-nav-container .breadcrumb-item+.breadcrumb-item>a::before {
   background: var(--second-nav-divider-color-dark);
 }
@@ -146,9 +144,7 @@
    3. Footer Breadcrumb Specifics (100% Original & Intact)
    ========================================================================== */
 
-.footer-nav.breadcrumb-container,
-:root.dark-mode .footer-nav.breadcrumb-container,
-.dark-mode .footer-nav.breadcrumb-container {
+.footer-nav.breadcrumb-container {
   background: transparent;
   box-shadow: none;
   font-size: 14px;
@@ -166,9 +162,7 @@ body:not(.page-bg-white) .main-page-container {
   padding-bottom: 15px;
 }
 
-.footer-nav.breadcrumb-container::before,
-:root.dark-mode .footer-nav.breadcrumb-container::before,
-.dark-mode .footer-nav.breadcrumb-container::before {
+.footer-nav.breadcrumb-container::before {
   background: transparent;
 }
 
