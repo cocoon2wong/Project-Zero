@@ -15,7 +15,8 @@
   --liquid-glass-bg-color: var(--second-nav-bg-color, #fafafc);
   --liquid-glass-bg-color-dark: var(--second-nav-bg-color-dark, #3d3d3d);
   --liquid-glass-edge-opacity: 100%;
-  --liquid-glass-shadow: 0 1.5px 5px rgba(0, 0, 0, 0.05), 0 0 12px rgba(0, 0, 0, 0.035);
+  --liquid-glass-edge-angle: 45deg;
+  --liquid-glass-shadow: 0 1.5px 6px rgba(0, 0, 0, 0.08), 0 0 14px rgba(0, 0, 0, 0.06);
   --second-navbar-item-radius: calc(var(--liquid-glass-radius-inner) - var(--second-navbar-margin));
 }
 
@@ -34,7 +35,7 @@
   border: 0;
   border-radius: var(--liquid-glass-radius-outer);
   overflow: visible;
-  background: linear-gradient(45deg,
+  background: linear-gradient(var(--liquid-glass-edge-angle, 45deg),
       color-mix(in srgb,
         var(--liquid-glass-theme-bg-color) var(--liquid-glass-edge-opacity, 100%),
         transparent) 0%,
@@ -46,7 +47,7 @@
 
 :root.dark-mode .liquidGlass-wrapper,
 .dark-mode .liquidGlass-wrapper {
-  background: linear-gradient(45deg,
+  background: linear-gradient(var(--liquid-glass-edge-angle, 45deg),
       color-mix(in srgb,
         var(--liquid-glass-theme-bg-color) var(--liquid-glass-edge-opacity, 100%),
         transparent) 0%,
