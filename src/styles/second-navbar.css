@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-22 12:02:26
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 16:04:37
+ * @LastEditTime: 2026-09-22 17:23:30
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -12,8 +12,6 @@
   --second-nav-color-dark: #FFFFFF;
   --second-nav-hover-color: #FFFFFF;
   --second-nav-hover-bg-color: var(--hover-color, #0085A1);
-  --second-nav-bg-color: var(--second-nav-bg-color, #FAFAFC);
-  --second-nav-bg-color-dark: var(--second-nav-bg-color-dark, #3D3D3D);
   --second-nav-divider-color: rgba(0, 0, 0, 0.1);
   --second-nav-divider-color-dark: rgba(255, 255, 255, 0.25);
 }
@@ -29,51 +27,20 @@
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
+  box-sizing: content-box;
+  height: calc(var(--second-navbar-radius) * 2);
+  padding-bottom: var(--second-nav-padding-bottom);
   margin-bottom: 10px;
-  height: calc(var(--second-navbar-radius, 19px) * 2);
 }
 
 /* 2. 通用单按钮容器 (胶囊毛玻璃外框，尺寸严格由 2 * radius 决定) */
 .second-nav-btn-container {
-  position: relative;
-  overflow: hidden;
-  height: calc(var(--second-navbar-radius, 19px) * 2);
-  width: calc(var(--second-navbar-radius, 19px) * 2);
-  border-radius: var(--second-navbar-radius, 19px);
+  height: calc(var(--second-navbar-radius) * 2);
+  width: calc(var(--second-navbar-radius) * 2);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-sizing: border-box;
-  background: linear-gradient(
-    45deg,
-    var(--second-nav-hover-bg-color) 0%,
-    var(--second-nav-bg-color) 100%
-  );
-}
-
-:root.dark-mode .second-nav-btn-container,
-.dark-mode .second-nav-btn-container {
-  background: linear-gradient(
-    45deg,
-    var(--second-nav-hover-bg-color) 0%,
-    var(--second-nav-bg-color-dark) 100%
-  );
-}
-
-.second-nav-btn-container::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  border-radius: inherit;
-  background-color: rgba(255, 255, 255, 0.97);
-}
-
-:root.dark-mode .second-nav-btn-container::before,
-.dark-mode .second-nav-btn-container::before {
-  background-color: rgba(48, 48, 48, 0.8);
 }
 
 /* 当容器内按钮处于隐藏状态（如 .d-none）时，外层容器自动收起隐藏 */
@@ -81,10 +48,10 @@
   display: none;
 }
 
-/* 3. 通用次要导航单按钮实体 (充满容器，无内缩 margin，胶囊圆角继承容器) */
+/* 3. 通用次要导航单按钮实体 (充满容器，胶囊圆角继承容器) */
 .second-nav-btn {
   position: relative;
-  z-index: 1;
+  z-index: 3;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -92,7 +59,7 @@
   border: 0;
   background-color: transparent;
   box-shadow: none;
-  border-radius: inherit;
+  border-radius: var(--second-navbar-radius);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -109,7 +76,7 @@
 .second-nav-btn:hover {
   color: var(--second-nav-hover-color);
   background-color: var(--second-nav-hover-bg-color);
-  border-radius: inherit;
+  border-radius: var(--second-navbar-radius);
   text-decoration: none;
 }
 
@@ -119,47 +86,9 @@
 
 /* 按钮组外层胶囊容器 */
 .second-nav-btn-group {
-  position: relative;
-  overflow: hidden;
-  height: calc(var(--second-navbar-radius, 19px) * 2);
-  border-radius: var(--second-navbar-radius, 19px);
+  height: calc(var(--second-navbar-radius) * 2);
   display: inline-flex;
   align-items: center;
-  box-sizing: border-box;
-  background: linear-gradient(
-    45deg,
-    var(--second-nav-hover-bg-color) 0%,
-    var(--second-nav-bg-color) 100%
-  );
-}
-
-:root.dark-mode .second-nav-btn-group,
-.dark-mode .second-nav-btn-group {
-  background: linear-gradient(
-    45deg,
-    var(--second-nav-hover-bg-color) 0%,
-    var(--second-nav-bg-color-dark) 100%
-  );
-}
-
-.second-nav-btn-group::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  border-radius: inherit;
-  background-color: rgba(255, 255, 255, 0.97);
-}
-
-:root.dark-mode .second-nav-btn-group::before,
-.dark-mode .second-nav-btn-group::before {
-  background-color: rgba(48, 48, 48, 0.8);
-}
-
-.second-nav-btn-group > * {
-  position: relative;
-  z-index: 1;
 }
 
 /* 按钮组内所有可交互子项通用基础规范（基础样式置于 hover 之前） */
@@ -171,10 +100,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: calc((var(--second-navbar-radius, 19px) - var(--second-navbar-margin, 5px)) * 2);
-  margin: var(--second-navbar-margin, 5px);
-  padding: 0 8px;
-  border-radius: calc(var(--second-navbar-radius, 19px) - var(--second-navbar-margin, 5px));
+  height: calc(var(--second-navbar-item-radius) * 2);
+  margin: var(--second-navbar-margin) 0;
+  margin-left: var(--second-navbar-margin);
+  padding: 0 5px;
+  border-radius: var(--second-navbar-item-radius);
   text-decoration: none;
   transition: all 0.1s ease-in-out;
   color: var(--second-nav-color);
@@ -185,10 +115,17 @@
   cursor: pointer;
 }
 
+.second-nav-btn-group .second-nav-btn-group-item:last-child,
+.second-nav-btn-group .btn:last-child,
+.second-nav-btn-group a:last-child,
+.second-nav-btn-group button:last-child {
+  margin-right: var(--second-navbar-margin);
+}
+
 /* 纯图标正圆按钮几何控制（如后退/前进按钮） */
 .second-nav-btn-group button.second-nav-btn-group-item,
 .second-nav-btn-group .second-nav-btn-group-item.nav-btn {
-  width: calc((var(--second-navbar-radius, 19px) - var(--second-navbar-margin, 5px)) * 2);
+  width: calc(var(--second-navbar-item-radius) * 2);
   padding: 0;
 }
 
@@ -211,33 +148,51 @@
 .second-nav-btn-group button:hover {
   color: var(--second-nav-hover-color) !important;
   background-color: var(--second-nav-hover-bg-color) !important;
-  border-radius: calc(var(--second-navbar-radius, 19px) - var(--second-navbar-margin, 5px));
+  border-radius: var(--second-navbar-item-radius);
   text-decoration: none;
 }
 
 /* ==========================================================================
-   5. 按钮组默认 55% 垂直分割线 (Segmented Pill Controls Divider)
+   5. 按钮组默认 75% 垂直分割线 (居中于 4px 间隙中，Hover 时双侧隐藏)
    ========================================================================== */
 
-.second-nav-btn-group .second-nav-btn-group-item + .second-nav-btn-group-item::before,
-.second-nav-btn-group button + button::before,
-.second-nav-btn-group a + a::before {
+.second-nav-btn-group .second-nav-btn-group-item+.second-nav-btn-group-item::before,
+.second-nav-btn-group button+button::before,
+.second-nav-btn-group a+a::before {
   content: "";
   position: absolute;
-  left: calc(var(--second-navbar-margin, 5px) * -1);
+  left: calc(var(--second-navbar-margin) * -0.5);
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   width: 1px;
   height: 75%;
   background: var(--second-nav-divider-color);
   pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.15s ease-in-out;
 }
 
-:root.dark-mode .second-nav-btn-group .second-nav-btn-group-item + .second-nav-btn-group-item::before,
-:root.dark-mode .second-nav-btn-group button + button::before,
-:root.dark-mode .second-nav-btn-group a + a::before,
-.dark-mode .second-nav-btn-group .second-nav-btn-group-item + .second-nav-btn-group-item::before,
-.dark-mode .second-nav-btn-group button + button::before,
-.dark-mode .second-nav-btn-group a + a::before {
+:root.dark-mode .second-nav-btn-group .second-nav-btn-group-item+.second-nav-btn-group-item::before,
+:root.dark-mode .second-nav-btn-group button+button::before,
+:root.dark-mode .second-nav-btn-group a+a::before,
+.dark-mode .second-nav-btn-group .second-nav-btn-group-item+.second-nav-btn-group-item::before,
+.dark-mode .second-nav-btn-group button+button::before,
+.dark-mode .second-nav-btn-group a+a::before {
   background: var(--second-nav-divider-color-dark);
+}
+
+/* Hover 时自动隐藏当前项左侧分割线 (自身 ::before) */
+.second-nav-btn-group .second-nav-btn-group-item:hover::before,
+.second-nav-btn-group .btn:hover::before,
+.second-nav-btn-group a:hover::before,
+.second-nav-btn-group button:hover::before {
+  opacity: 0;
+}
+
+/* Hover 时自动隐藏当前项右侧分割线 (相邻后一项的 ::before) */
+.second-nav-btn-group .second-nav-btn-group-item:hover+.second-nav-btn-group-item::before,
+.second-nav-btn-group .btn:hover+.btn::before,
+.second-nav-btn-group a:hover+a::before,
+.second-nav-btn-group button:hover+button::before {
+  opacity: 0;
 }

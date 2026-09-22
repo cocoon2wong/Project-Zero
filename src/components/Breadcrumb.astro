@@ -3,16 +3,26 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 21:23:52
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 12:16:00
+ * @LastEditTime: 2026-09-22 17:21:18
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
 
+import LiquidGlass from "./LiquidGlass.astro";
+
+/**
+ * Props for the breadcrumb navigation bar component.
+ */
 interface Props {
+  /** Optional override for the current page's terminal breadcrumb label */
   pageTitle?: string;
+  /** Edge glow opacity. Defaults to 0.35. */
+  edgeOpacity?: number | string;
+  /** Optional custom CSS classes */
+  class?: string;
 }
 
-const { pageTitle } = Astro.props;
+const { pageTitle, edgeOpacity = 0.35, class: className } = Astro.props;
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 const isHome = pathname === "/" || pathname === "/index";
 
@@ -27,9 +37,11 @@ const crumbs = segments.map((seg, idx) => {
 
 {
   !isHome && (
-    <nav
-      class="second-nav-btn-group breadcrumb-container pill"
+    <LiquidGlass
+      as="nav"
+      class:list={["second-nav-btn-group breadcrumb-container", className]}
       aria-label="breadcrumb"
+      edgeOpacity={edgeOpacity}
     >
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -58,17 +70,14 @@ const crumbs = segments.map((seg, idx) => {
 
         {crumbs.map((crumb, idx) => {
           const isLast = idx === crumbs.length - 1;
-          return isLast ? (
-            <li class="breadcrumb-item active" aria-current="page">
-              {pageTitle || crumb.label}
-            </li>
-          ) : (
+          const label = isLast && pageTitle ? pageTitle : crumb.label;
+          return (
             <li class="breadcrumb-item">
-              <a href={crumb.url}>{crumb.label}</a>
+              <a href={crumb.url}>{label}</a>
             </li>
           );
         })}
       </ol>
-    </nav>
+    </LiquidGlass>
   )
 }

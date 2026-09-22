@@ -7,9 +7,26 @@
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
+
+import LiquidGlass from "./LiquidGlass.astro";
+
+/**
+ * Props for the Table of Contents restore / expand button.
+ */
+interface Props {
+  /** Edge glow opacity. Defaults to 0.35 to prevent visual dominance. */
+  edgeOpacity?: number | string;
+  /** Optional custom CSS classes */
+  class?: string;
+}
+
+const { edgeOpacity = 0.35, class: className } = Astro.props;
 ---
 
-<div class="second-nav-btn-container pill">
+<LiquidGlass
+  class:list={["second-nav-btn-container", className]}
+  edgeOpacity={edgeOpacity}
+>
   <button
     id="toc-restore-btn"
     type="button"
@@ -34,4 +51,4 @@
       ></path>
     </svg>
   </button>
-</div>
+</LiquidGlass>

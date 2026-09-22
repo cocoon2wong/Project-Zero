@@ -146,8 +146,6 @@ const { colors } = siteConfig;
         --pill-text-dark: ${colors.pillTextDark};
         --second-nav-bg-color: ${colors.secondNavBgColor};
         --second-nav-bg-color-dark: ${colors.secondNavBgColorDark};
-        --second-navbar-radius: ${siteConfig.secondNavbarRadius || "19px"};
-        --second-navbar-margin: ${siteConfig.secondNavbarMargin || "3px"};
       }
     `}
     ></style>
@@ -196,10 +194,9 @@ const { colors } = siteConfig;
 
         <div id="dynamic-main-content" class="toc-content markdown-body">
           {
-            (showBreadcrumbs || tableOfContents || navButtonGroup) && (
+            (showBreadcrumbs || tableOfContents) && (
               <SecondNavbar>
                 {tableOfContents && <TocButton />}
-                {navButtonGroup && <NavButtonGroup />}
                 {showBreadcrumbs && <Breadcrumb pageTitle={title} />}
               </SecondNavbar>
             )

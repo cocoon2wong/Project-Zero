@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 21:23:41
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 12:16:00
+ * @LastEditTime: 2026-09-22 17:22:44
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -19,7 +19,10 @@
   --breadcrumb-background-color-dark: var(--second-nav-bg-color-dark, #3D3D3D);
 }
 
-/* 面包屑作为通用按钮组，微调尾部内边距 */
+/* ==========================================================================
+   1. Base Breadcrumb Foundation (Used by Footer & General Layouts)
+   ========================================================================== */
+
 .breadcrumb-container {
   padding-right: 12px;
 }
@@ -40,11 +43,11 @@
   height: 100%;
 }
 
-.breadcrumb-item + .breadcrumb-item {
+.breadcrumb-item+.breadcrumb-item {
   padding-left: 0.5rem;
 }
 
-.breadcrumb-item > a svg {
+.breadcrumb-item>a svg {
   vertical-align: middle;
   margin-right: 3px;
 }
@@ -59,8 +62,8 @@
   color: var(--breadcrumb-active-color-dark);
 }
 
-/* 面包屑专用分隔符 */
-.breadcrumb-item + .breadcrumb-item::before {
+/* 基础分隔符 (默认 > 分隔符，完全保留给 Footer 及通用面包屑) */
+.breadcrumb-item+.breadcrumb-item::before {
   float: left;
   padding-right: 0.5rem;
   color: var(--breadcrumb-color);
@@ -71,7 +74,78 @@
   padding-right: 16px;
 }
 
-/* Footer Breadcrumb 特化 */
+/* ==========================================================================
+   2. Secondary Navbar Breadcrumb Specifics (Scoped STRICTLY to Second Navbar)
+   ========================================================================== */
+
+.second-nav-container .breadcrumb-container {
+  padding-right: 0;
+}
+
+.second-nav-container .breadcrumb {
+  flex-wrap: nowrap;
+}
+
+.second-nav-container .breadcrumb-item {
+  position: relative;
+}
+
+.second-nav-container .breadcrumb-item+.breadcrumb-item {
+  padding-left: 0;
+}
+
+/* 禁用次导航中 li 继承的基础默认 ">" 分隔符（已由 a::before 的 75% 竖线替代） */
+.second-nav-container .breadcrumb-item+.breadcrumb-item::before {
+  display: none;
+}
+
+.second-nav-container .breadcrumb-item>a svg {
+  margin-right: 4px;
+}
+
+/* 次导航按钮项间距规范（按钮之间严格等于 4px，末项具有 4px 右边距） */
+.second-nav-container .breadcrumb-item>a {
+  margin-right: 0;
+}
+
+.second-nav-container .breadcrumb-item:last-child>a {
+  margin-right: var(--second-navbar-margin);
+}
+
+/* 次导航专用：居中于 4px 间隙中的 75% 竖线（挂载于按钮 a 上，严格按按钮高度计算 75%） */
+.second-nav-container .breadcrumb-item+.breadcrumb-item>a::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--second-navbar-margin) * -0.5);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 1px;
+  height: 75%;
+  background: var(--second-nav-divider-color);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.15s ease-in-out;
+}
+
+:root.dark-mode .second-nav-container .breadcrumb-item+.breadcrumb-item>a::before,
+.dark-mode .second-nav-container .breadcrumb-item+.breadcrumb-item>a::before {
+  background: var(--second-nav-divider-color-dark);
+}
+
+/* Hover 时隐藏自身左侧的分割线 */
+.second-nav-container .breadcrumb-item>a:hover::before {
+  opacity: 0;
+}
+
+/* Hover 时隐藏相邻后一项左侧的分割线 (即当前项右侧分割线) */
+.second-nav-container .breadcrumb-item:has(> a:hover)+.breadcrumb-item>a::before {
+  opacity: 0;
+}
+
+/* ==========================================================================
+   3. Footer Breadcrumb Specifics (100% Original & Intact)
+   ========================================================================== */
+
 .footer-nav.breadcrumb-container,
 :root.dark-mode .footer-nav.breadcrumb-container,
 .dark-mode .footer-nav.breadcrumb-container {

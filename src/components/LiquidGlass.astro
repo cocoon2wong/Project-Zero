@@ -1,0 +1,62 @@
+---
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-22 16:17:03
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-22 17:21:25
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+/**
+ * Props for the universal LiquidGlass container component.
+ */
+interface Props {
+  /** Underlying HTML tag to render (e.g. 'div', 'nav', 'aside'). Defaults to 'div'. */
+  as?: any;
+  /** Optional custom CSS classes to append to the wrapper */
+  class?: string;
+  /** Optional DOM element ID */
+  id?: string;
+  /**
+   * Opacity factor for the 1px gradient edge glow.
+   * Can be passed as a float number (e.g. 0.35) or a percentage string (e.g. "35%").
+   * When omitted, defaults to 100% full opacity.
+   */
+  edgeOpacity?: number | string;
+  /** Optional inline CSS style string */
+  style?: string;
+  [key: string]: any;
+}
+
+const {
+  as: Tag = "div",
+  class: className,
+  edgeOpacity,
+  style,
+  ...rest
+} = Astro.props;
+
+const opacityVal =
+  typeof edgeOpacity === "number"
+    ? `${edgeOpacity * 100}%`
+    : edgeOpacity !== undefined
+      ? `${edgeOpacity}`
+      : undefined;
+
+const edgeStyle =
+  opacityVal !== undefined ? `--liquid-glass-edge-opacity: ${opacityVal};` : "";
+
+const combinedStyle = [edgeStyle, style].filter(Boolean).join(" ");
+---
+
+<Tag
+  class:list={["liquidGlass-wrapper", className]}
+  style={combinedStyle || undefined}
+  {...rest}
+>
+  <div class="liquidGlass-effect" aria-hidden="true"></div>
+  <div class="liquidGlass-tint" aria-hidden="true"></div>
+  <div class="liquidGlass-shine" aria-hidden="true"></div>
+  <slot />
+</Tag>

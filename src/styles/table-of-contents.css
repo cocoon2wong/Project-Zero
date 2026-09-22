@@ -26,10 +26,10 @@
   --toc-theme-bg-color: var(--hover-color, #0085a1);
 
   /* Concentric Radius & Margin Geometry */
-  --toc-radius-glass: var(--second-navbar-radius, 19px);
-  --toc-radius-outer: calc(var(--toc-radius-glass) + 1px);
-  --toc-shape-margin: var(--second-navbar-margin, 3px);
-  --toc-shape-radius: calc(var(--toc-radius-glass) - var(--toc-shape-margin));
+  --toc-radius-glass: var(--liquid-glass-radius-inner);
+  --toc-radius-outer: var(--liquid-glass-radius-outer);
+  --toc-shape-margin: var(--second-navbar-margin);
+  --toc-shape-radius: var(--second-navbar-item-radius);
 }
 
 /* ==========================================================================
@@ -96,69 +96,11 @@
 }
 
 /* ==========================================================================
-   2. Liquid Glass TOC Outer Container & Physical Layers
+   2. Liquid Glass TOC Outer Container & Content Scroll
    ========================================================================== */
 
 .table-of-contents-container {
-  position: relative;
   width: 100%;
-  border: 0;
-  border-radius: var(--toc-radius-outer);
-  overflow: visible;
-  box-sizing: border-box;
-  background: linear-gradient(
-    45deg,
-    var(--toc-theme-bg-color) 0%,
-    var(--toc-bg-color) 100%
-  );
-}
-
-.table-of-contents-container.liquidGlass-wrapper {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.07);
-}
-
-.dark-mode .table-of-contents-container {
-  background: linear-gradient(
-    45deg,
-    var(--toc-theme-bg-color) 0%,
-    var(--toc-bg-color-dark) 100%
-  );
-}
-
-/* Layer 0: Blur filter with 1px margin creating the 1px gradient edge glow */
-.table-of-contents-container .liquidGlass-effect {
-  position: absolute;
-  inset: 0;
-  margin: 1px;
-  border-radius: var(--toc-radius-glass);
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: saturate(180%) blur(3px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.dark-mode .table-of-contents-container .liquidGlass-effect {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-/* Layer 1: Tint */
-.table-of-contents-container .liquidGlass-tint {
-  position: absolute;
-  inset: 0;
-  border-radius: var(--toc-radius-glass);
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Layer 2: Inner shine highlight */
-.table-of-contents-container .liquidGlass-shine {
-  position: absolute;
-  inset: 0;
-  border-radius: var(--toc-radius-glass);
-  pointer-events: none;
-  z-index: 2;
-  box-shadow: inset 1px 1px 0.5px 0 rgba(255, 255, 255, 0.5),
-    inset -0.5px -0.5px 0.5px 0.5px rgba(255, 255, 255, 0.2);
 }
 
 /* Layer 3: Content & Embedded Scroll Container */

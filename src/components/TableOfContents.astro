@@ -3,17 +3,32 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-22 11:08:23
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 16:04:17
+ * @LastEditTime: 2026-09-22 17:22:01
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
+
+import LiquidGlass from "./LiquidGlass.astro";
+
+/**
+ * Props for the Table of Contents sidebar component.
+ */
+interface Props {
+  /** Edge glow opacity. Defaults to undefined (100% full opacity). */
+  edgeOpacity?: number | string;
+  /** Optional custom CSS classes */
+  class?: string;
+}
+
+const { edgeOpacity, class: className } = Astro.props;
 ---
 
-<nav class="table-of-contents-container liquidGlass-wrapper" aria-label="Table of Contents">
-  <div class="liquidGlass-effect"></div>
-  <div class="liquidGlass-tint"></div>
-  <div class="liquidGlass-shine"></div>
-
+<LiquidGlass
+  as="nav"
+  class:list={["table-of-contents-container", className]}
+  aria-label="Table of Contents"
+  edgeOpacity={edgeOpacity}
+>
   <details open id="toc-details-container">
     <summary>
       <a class="toc-title">
@@ -69,4 +84,4 @@
 
     <nav id="TABLE_OF_CONTENTS" class="toc-nav-list"></nav>
   </details>
-</nav>
+</LiquidGlass>

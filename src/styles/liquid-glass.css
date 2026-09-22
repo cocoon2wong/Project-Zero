@@ -1,0 +1,101 @@
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-22 16:17:09
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-22 17:22:59
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+
+:root {
+  --liquid-glass-radius-inner: var(--second-navbar-radius);
+  --liquid-glass-radius-outer: calc(var(--liquid-glass-radius-inner) + 1px);
+  --liquid-glass-theme-bg-color: var(--hover-color, #0085a1);
+  --liquid-glass-bg-color: var(--second-nav-bg-color, #fafafc);
+  --liquid-glass-bg-color-dark: var(--second-nav-bg-color-dark, #3d3d3d);
+  --liquid-glass-edge-opacity: 100%;
+  --liquid-glass-shadow: 0 1.5px 5px rgba(0, 0, 0, 0.05), 0 0 12px rgba(0, 0, 0, 0.035);
+  --second-navbar-item-radius: calc(var(--liquid-glass-radius-inner) - var(--second-navbar-margin));
+}
+
+:root.dark-mode,
+.dark-mode {
+  --liquid-glass-shadow: 0 2px 6px rgba(0, 0, 0, 0.25), 0 0 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================================
+   Universal Liquid Glass Foundation & 3 Physical Layers
+   ========================================================================== */
+
+.liquidGlass-wrapper {
+  position: relative;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: var(--liquid-glass-radius-outer);
+  overflow: visible;
+  background: linear-gradient(45deg,
+      color-mix(in srgb,
+        var(--liquid-glass-theme-bg-color) var(--liquid-glass-edge-opacity, 100%),
+        transparent) 0%,
+      color-mix(in srgb,
+        var(--liquid-glass-bg-color) var(--liquid-glass-edge-opacity, 100%),
+        transparent) 100%);
+  box-shadow: var(--liquid-glass-shadow);
+}
+
+:root.dark-mode .liquidGlass-wrapper,
+.dark-mode .liquidGlass-wrapper {
+  background: linear-gradient(45deg,
+      color-mix(in srgb,
+        var(--liquid-glass-theme-bg-color) var(--liquid-glass-edge-opacity, 100%),
+        transparent) 0%,
+      color-mix(in srgb,
+        var(--liquid-glass-bg-color-dark) var(--liquid-glass-edge-opacity, 100%),
+        transparent) 100%);
+}
+
+/* Layer 0: Blur filter with 1px margin creating the 1px gradient edge glow */
+.liquidGlass-wrapper>.liquidGlass-effect {
+  position: absolute;
+  inset: 0;
+  margin: 1px;
+  border-radius: var(--liquid-glass-radius-inner);
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: saturate(180%) blur(3px);
+  -webkit-backdrop-filter: saturate(180%) blur(3px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+:root.dark-mode .liquidGlass-wrapper>.liquidGlass-effect,
+.dark-mode .liquidGlass-wrapper>.liquidGlass-effect {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Layer 1: Tint */
+.liquidGlass-wrapper>.liquidGlass-tint {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--liquid-glass-radius-inner);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Layer 2: Inner shine highlight */
+.liquidGlass-wrapper>.liquidGlass-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--liquid-glass-radius-inner);
+  pointer-events: none;
+  z-index: 2;
+  box-shadow:
+    inset 1px 1px 0.5px 0 rgba(255, 255, 255, 0.5),
+    inset -0.5px -0.5px 0.5px 0.5px rgba(255, 255, 255, 0.2);
+}
+
+/* Layer 3: Direct content slot elements are elevated above physical layers */
+.liquidGlass-wrapper>*:not(.liquidGlass-effect):not(.liquidGlass-tint):not(.liquidGlass-shine) {
+  position: relative;
+  z-index: 3;
+}

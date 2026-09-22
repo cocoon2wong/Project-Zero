@@ -2,50 +2,80 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:33:48
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 11:52:03
+ * @LastEditTime: 2026-09-22 16:47:00
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
 
+// =============================================================================
+// TypeScript Interfaces for Site Configuration
+// =============================================================================
 
+/**
+ * Navigation item link descriptor for the primary navigation menu.
+ */
 export interface NavLink {
+  /** Display title of the navigation link */
   title: string;
+  /** Destination URL or path */
   url: string;
+  /** Inline SVG icon markup */
   icon?: string;
 }
 
+/**
+ * Global website configuration schema.
+ */
 export interface SiteConfig {
+  // ---------------------------------------------------------------------------
+  // Section 1: Site Metadata & Identity
+  // ---------------------------------------------------------------------------
+  /** Site title shown in header and browser tab */
   title: string;
+  /** Secondary subtitle or tagline */
   subtitle: string;
+  /** Meta description for SEO */
   description: string;
+  /** Site author / creator name */
   author: string;
+  /** Document language code (e.g. 'en', 'zh') */
   language: string;
+  /** URL or relative path to the author avatar image */
   avatar?: string;
+  /** Whether the avatar should be rendered as a circle */
   roundAvatar?: boolean;
-  secondNavbarRadius?: string;
-  secondNavbarMargin?: string;
+
+  // ---------------------------------------------------------------------------
+  // Section 2: Primary Navigation Menu
+  // ---------------------------------------------------------------------------
+  /** Top-level navigation items rendered in the main navbar */
   navLinks: NavLink[];
+
+
+  // ---------------------------------------------------------------------------
+  // Section 3: Color Palette & Theming
+  // ---------------------------------------------------------------------------
   colors: {
-    // Page backgrounds
+    // 4.1 Page Backgrounds (Light & Dark)
     pageBgColor: string;
     pageBgColorGray: string;
     pageBgColorDark: string;
     pageBgColorDarkGray: string;
 
-    // Text colors
+    // 4.2 Text Colors (Light & Dark)
     textColor: string;
     textColorDark: string;
 
-    // Theme & accents
+    // 4.3 Brand & Interactive Accents
     themeColor: string;
     hoverColor: string;
     linkColor: string;
 
-    // Header & hero
+    // 4.4 Header & Hero Banner
     headerBgColor: string;
     headerBgColorDark: string;
 
-    // Navbar
+    // 4.5 Primary Floating Navbar
     navbarBgColor: string;
     navbarBgColorDark: string;
     navbarBorderColor: string;
@@ -54,36 +84,41 @@ export interface SiteConfig {
     navbarIndicatorGrayLight: string;
     navbarIndicatorGrayDark: string;
 
-    // Capsule Buttons (100% faithful to Conghao Wong's original visual values)
+    // 4.6 Secondary Navbar & Liquid Glass Base (TOC, Buttons, Button Groups)
+    secondNavBgColor: string;
+    secondNavBgColorDark: string;
+
+    // 4.7 Capsule Buttons & Segmented Pills
     buttonNormalBg: string;
     buttonNormalBgDark: string;
     buttonNormalText: string;
     buttonNormalTextDark: string;
     buttonThemeBg: string;
     buttonThemeText: string;
-
-    // Pills & Segmented Controls
     pillText: string;
     pillTextDark: string;
     pillActiveText: string;
 
-    // Footer
+    // 4.8 Footer
     footerBgColor: string;
     footerBgColorDark: string;
     footerTextColor: string;
     footerLinkColor: string;
     footerHoverColor: string;
 
-    // Shadows
+    // 4.9 Global Elevation & Shadows
     pageShadowColor: string;
-
-    // Secondary navigation (次要导航栏: Breadcrumb, Table of Contents, etc.)
-    secondNavBgColor: string;
-    secondNavBgColorDark: string;
   };
 }
 
+// =============================================================================
+// Global Site Configuration Instance
+// =============================================================================
+
 export const siteConfig: SiteConfig = {
+  // ---------------------------------------------------------------------------
+  // Section 1: Site Metadata & Identity
+  // ---------------------------------------------------------------------------
   title: "My website",
   subtitle: "This is where I will tell my friends way too much about me",
   description: "A modern website built with Astro",
@@ -91,9 +126,10 @@ export const siteConfig: SiteConfig = {
   language: "en",
   avatar: "/assets/img/avatar-icon.png",
   roundAvatar: true,
-  secondNavbarRadius: "19px",
-  secondNavbarMargin: "4px",
 
+  // ---------------------------------------------------------------------------
+  // Section 2: Primary Navigation Menu
+  // ---------------------------------------------------------------------------
   navLinks: [
     {
       title: "HOME",
@@ -122,30 +158,31 @@ export const siteConfig: SiteConfig = {
     },
   ],
 
-  // =========================================================================
-  // All website colors are centralized here (Fully customizable by user)
-  // =========================================================================
+
+  // ---------------------------------------------------------------------------
+  // Section 3: Color Palette & Theming
+  // ---------------------------------------------------------------------------
   colors: {
-    // Page backgrounds
+    // 4.1 Page Backgrounds (Light & Dark)
     pageBgColor: "#ffffff",
     pageBgColorGray: "#f5f5f7",
     pageBgColorDark: "#1e1e1c",
     pageBgColorDarkGray: "#1d1d1f",
 
-    // Text colors
+    // 4.2 Text Colors (Light & Dark)
     textColor: "#404040",
     textColorDark: "#ffffff",
 
-    // Theme & accents
+    // 4.3 Brand & Interactive Accents
     themeColor: "#0085a1",
     hoverColor: "#0085a1",
     linkColor: "#008aff",
 
-    // Header & hero
+    // 4.4 Header & Hero Banner
     headerBgColor: "#ffffff",
     headerBgColorDark: "#000000",
 
-    // Navbar
+    // 4.5 Primary Floating Navbar
     navbarBgColor: "#EAEAEA80",
     navbarBgColorDark: "#14141460",
     navbarBorderColor: "#b1b1b150",
@@ -154,31 +191,29 @@ export const siteConfig: SiteConfig = {
     navbarIndicatorGrayLight: "#00000015",
     navbarIndicatorGrayDark: "#ffffff22",
 
-    // Capsule Buttons (100% faithful to Conghao Wong's original visual values)
+    // 4.6 Secondary Navbar & Liquid Glass Base (TOC, Buttons, Button Groups)
+    secondNavBgColor: "#fafafc",
+    secondNavBgColorDark: "#3d3d3d",
+
+    // 4.7 Capsule Buttons & Segmented Pills (100% faithful to Conghao Wong's original visual values)
     buttonNormalBg: "#fcfcfe",
     buttonNormalBgDark: "#3c3c3c",
     buttonNormalText: "#3c3c3c",
     buttonNormalTextDark: "#ffffff",
     buttonThemeBg: "#0085a1",
     buttonThemeText: "#ffffff",
-
-    // Pills & Segmented Controls
     pillText: "#3c3c3c",
     pillTextDark: "#ffffff",
     pillActiveText: "#0085a1",
 
-    // Footer
+    // 4.8 Footer
     footerBgColor: "#f7f7f8",
     footerBgColorDark: "#1c1c1e",
     footerTextColor: "#777777",
     footerLinkColor: "#404040",
     footerHoverColor: "#0085a1",
 
-    // Shadows
+    // 4.9 Global Elevation & Shadows
     pageShadowColor: "#00000060",
-
-    // Secondary navigation (次要导航栏: Breadcrumb, Table of Contents, etc.)
-    secondNavBgColor: "#fafafc",
-    secondNavBgColorDark: "#3d3d3d",
   },
 };
