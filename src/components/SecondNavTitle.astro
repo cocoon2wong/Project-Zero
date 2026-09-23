@@ -1,0 +1,23 @@
+---
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-23 12:04:17
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-23 12:16:11
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+interface Props {
+  /** Title text */
+  title?: string;
+  /** Optional custom CSS classes */
+  class?: string;
+}
+
+const { title, class: className } = Astro.props;
+---
+
+<h2 class:list={["second-nav-title", className]}>
+  {title ? title : <slot />}
+</h2>

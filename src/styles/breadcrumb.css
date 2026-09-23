@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 21:23:41
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 17:22:44
+ * @LastEditTime: 2026-09-23 11:11:38
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -173,4 +173,27 @@ body:not(.page-bg-white) .main-page-container {
 .footer-nav .breadcrumb-item svg {
   margin-right: 3px;
   vertical-align: -0.125em;
+}
+
+/* Footer breadcrumb link font color & interactive pill hover (100% faithful to legacy template) */
+.footer-nav .breadcrumb-item>a {
+  margin: 3px;
+  padding: 3px 6px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.1s ease-in-out;
+  color: var(--breadcrumb-color);
+}
+
+.dark-mode .footer-nav .breadcrumb-item>a {
+  color: var(--breadcrumb-color-dark);
+}
+
+.footer-nav .breadcrumb-item>a:hover {
+  color: var(--breadcrumb-hover-color);
+  background-color: var(--breadcrumb-hover-background-color);
+}
+
+.dark-mode .footer-nav .breadcrumb-item+.breadcrumb-item::before {
+  color: var(--breadcrumb-color-dark);
 }

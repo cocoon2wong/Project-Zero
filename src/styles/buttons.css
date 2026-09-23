@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:37:48
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 19:53:20
+ * @LastEditTime: 2026-09-23 13:15:30
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -15,7 +15,6 @@
 .btn {
   display: inline-block;
   font-family: inherit;
-  font-weight: 400;
   line-height: 1.5;
   text-align: center;
   text-decoration: none !important;
@@ -190,7 +189,6 @@
   color: var(--btn-normal-text);
   text-decoration: none !important;
   font-size: 0.9375rem;
-  font-weight: 500;
   cursor: pointer;
   background-color: transparent;
   border: 0;

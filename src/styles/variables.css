@@ -64,4 +64,8 @@
   --second-nav-padding-bottom: 15px;
   --second-nav-bg-color: #ff0000;
   --second-nav-bg-color-dark: #ff0000;
+
+  /* Standard Content Box Tokens */
+  --standard-content-margin: 8px;
+  --standard-content-radius: calc(var(--second-navbar-radius) + var(--standard-content-margin));
 }

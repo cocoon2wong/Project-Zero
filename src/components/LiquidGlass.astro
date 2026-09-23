@@ -16,8 +16,16 @@ interface Props {
   as?: any;
   /** Optional custom CSS classes to append to the wrapper */
   class?: string;
+  /** 开启 hover 放大+增强阴影效果，默认 false */
+  hoverable?: boolean;
   /** Optional DOM element ID */
   id?: string;
+  /**
+   * Theme color for the 1px gradient edge glow.
+   * Can be any valid CSS color string (e.g. "#1573ff", "rgba(0, 133, 161, 0.8)", "red").
+   * When omitted, falls back to --liquid-glass-theme-bg-color (default: var(--hover-color, #0085a1)).
+   */
+  themeColor?: string;
   /**
    * Opacity factor for the 1px gradient edge glow.
    * Can be passed as a float number (e.g. 0.35) or a percentage string (e.g. "35%").
@@ -37,11 +45,18 @@ interface Props {
 const {
   as: Tag = "div",
   class: className,
+  hoverable = false,
+  themeColor,
   edgeOpacity,
   edgeAngle,
   style,
   ...rest
 } = Astro.props;
+
+const themeColorStyle =
+  themeColor !== undefined
+    ? `--liquid-glass-theme-bg-color: ${themeColor};`
+    : "";
 
 const opacityVal =
   typeof edgeOpacity === "number"
@@ -56,11 +71,13 @@ const edgeStyle =
 const angleStyle =
   edgeAngle !== undefined ? `--liquid-glass-edge-angle: ${edgeAngle};` : "";
 
-const combinedStyle = [edgeStyle, angleStyle, style].filter(Boolean).join(" ");
+const combinedStyle = [themeColorStyle, edgeStyle, angleStyle, style]
+  .filter(Boolean)
+  .join(" ");
 ---
 
 <Tag
-  class:list={["liquidGlass-wrapper", className]}
+  class:list={["liquidGlass-wrapper", hoverable && "liquidGlass-hoverable", className]}
   style={combinedStyle || undefined}
   {...rest}
 >

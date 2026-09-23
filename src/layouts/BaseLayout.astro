@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:34:12
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-23 09:15:42
+ * @LastEditTime: 2026-09-23 14:00:54
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -12,10 +12,11 @@ import { siteConfig } from "@site.config";
 import Navbar from "../components/Navbar.astro";
 import SecondNavbar from "../components/SecondNavbar.astro";
 import TableOfContents from "../components/TableOfContents.astro";
-import TocButton from "../components/TocButton.astro";
+import SecondNavTocButton from "../components/SecondNavTocButton.astro";
 import Footer from "../components/Footer.astro";
-import Breadcrumb from "../components/Breadcrumb.astro";
+import SecondNavBreadcrumb from "../components/SecondNavBreadcrumb.astro";
 import NavButtonGroup from "../components/NavButtonGroup.astro";
+import AlertTemplates from "../components/AlertTemplates.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -27,7 +28,8 @@ interface Props {
   pageBackground?: "white" | "gray";
   navMode?: "regular" | "short-permanent";
   showBreadcrumbs?: boolean;
-  tableOfContents?: boolean;
+  showCurrentPage?: boolean;
+  showTableOfContents?: boolean;
   navButtonGroup?: boolean;
   footnotes?: string[];
   customCss?: string[];
@@ -41,7 +43,7 @@ interface Props {
     pageBackground?: "white" | "gray";
     navMode?: "regular" | "short-permanent";
     showBreadcrumbs?: boolean;
-    tableOfContents?: boolean;
+    showTableOfContents?: boolean;
     navButtonGroup?: boolean;
     footnotes?: string[];
     customCss?: string[];
@@ -70,8 +72,11 @@ const isHome = pathname === "/" || pathname === "/index";
 const showBreadcrumbs = Boolean(
   frontmatter?.showBreadcrumbs ?? Astro.props.showBreadcrumbs,
 );
-const tableOfContents = Boolean(
-  frontmatter?.tableOfContents ?? Astro.props.tableOfContents ?? !isHome,
+const showCurrentPage = Astro.props.showCurrentPage ?? true;
+const showTableOfContents = Boolean(
+  frontmatter?.showTableOfContents ??
+  Astro.props.showTableOfContents ??
+  !isHome,
 );
 const navButtonGroup = Boolean(
   frontmatter?.navButtonGroup ?? Astro.props.navButtonGroup,
@@ -100,7 +105,11 @@ const { colors } = siteConfig;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
-    {canonicalUrl && <meta property="og:site_name" content={siteConfig.title} />}
+    {
+      canonicalUrl && (
+        <meta property="og:site_name" content={siteConfig.title} />
+      )
+    }
     {canonicalUrl && <meta property="og:title" content={fullTitle} />}
     {description && <meta name="description" content={description} />}
     <meta name="author" content={siteConfig.author} />
@@ -235,11 +244,11 @@ const { colors } = siteConfig;
         class:list={[
           "container",
           "toc-layout-wrapper",
-          tableOfContents ? "toc-expanded" : "toc-collapsed",
+          showTableOfContents ? "toc-expanded" : "toc-collapsed",
         ]}
       >
         {
-          tableOfContents && (
+          showTableOfContents && (
             <aside id="dynamic-toc-container" class="toc-sidebar">
               <TableOfContents />
             </aside>
@@ -248,10 +257,18 @@ const { colors } = siteConfig;
 
         <div id="dynamic-main-content" class="toc-content markdown-body">
           {
-            (showBreadcrumbs || tableOfContents) && (
+            (showBreadcrumbs ||
+              showTableOfContents ||
+              Astro.slots.has("secondNav")) && (
               <SecondNavbar>
-                {tableOfContents && <TocButton />}
-                {showBreadcrumbs && <Breadcrumb pageTitle={title} />}
+                {showTableOfContents && <SecondNavTocButton />}
+                {showBreadcrumbs && (
+                  <SecondNavBreadcrumb
+                    pageTitle={title}
+                    showCurrentPage={showCurrentPage}
+                  />
+                )}
+                <slot name="secondNav" />
               </SecondNavbar>
             )
           }
@@ -260,10 +277,7 @@ const { colors } = siteConfig;
       </div>
     </main>
 
-    <Footer
-      pageTitle={title}
-      footnotes={footnotes}
-      sourcePath={sourcePath}
-    />
+    <Footer pageTitle={title} footnotes={footnotes} sourcePath={sourcePath} />
+    <AlertTemplates />
   </body>
 </html>

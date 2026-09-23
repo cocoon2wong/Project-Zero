@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 20:59:43
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 15:49:55
+ * @LastEditTime: 2026-09-23 12:16:53
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -20,13 +20,18 @@
   box-shadow: none !important;
 }
 
+/* 当有 Hero 头图时，为整个 main 容器顶部提供统一呼吸间隔 */
+.header-section.has-img+.main-page-container {
+  padding-top: 15px;
+}
+
 .intro-header {
   margin: 5rem 0 1.25rem;
   position: relative;
 }
 
 .intro-header.big-img {
-  margin-top: 3.1875rem;
+  margin-top: 0;
   margin-bottom: 0;
   background: no-repeat center center;
   background-size: cover;
@@ -65,5 +70,15 @@
 
   .intro-header .page-heading h1 {
     font-size: 2.25rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .intro-header.big-img .page-heading {
+    padding: 9.375rem 0;
+  }
+
+  .intro-header.big-img .page-heading h1 {
+    font-size: 5rem;
   }
 }

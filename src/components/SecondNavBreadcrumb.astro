@@ -1,47 +1,45 @@
 ---
 /*
  * @Author: Conghao Wong
- * @Date: 2026-09-21 21:23:52
+ * @Date: 2026-09-23 12:12:58
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 17:21:18
+ * @LastEditTime: 2026-09-23 12:15:10
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
 
-import LiquidGlass from "./LiquidGlass.astro";
+import SecondNavButtonGroup from "./SecondNavButtonGroup.astro";
 
-/**
- * Props for the breadcrumb navigation bar component.
- */
 interface Props {
   /** Optional override for the current page's terminal breadcrumb label */
   pageTitle?: string;
-  /** Edge glow opacity. Defaults to 0.35. */
-  edgeOpacity?: number | string;
+  /** Whether to show the current page in breadcrumbs. Defaults to true. */
+  showCurrentPage?: boolean;
   /** Optional custom CSS classes */
   class?: string;
 }
 
-const { pageTitle, edgeOpacity = 0.35, class: className } = Astro.props;
+const { pageTitle, showCurrentPage = true, class: className } = Astro.props;
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 const isHome = pathname === "/" || pathname === "/index";
 
 const segments = pathname.split("/").filter(Boolean);
-const crumbs = segments.map((seg, idx) => {
+const allCrumbs = segments.map((seg, idx) => {
   const url = "/" + segments.slice(0, idx + 1).join("/") + "/";
   const label = seg.replace(/[-_]/g, " ").replace(/\.html$/, "");
   const capitalized = label.charAt(0).toUpperCase() + label.slice(1);
   return { url, label: capitalized };
 });
+
+const crumbs = showCurrentPage ? allCrumbs : allCrumbs.slice(0, -1);
 ---
 
 {
   !isHome && (
-    <LiquidGlass
+    <SecondNavButtonGroup
       as="nav"
-      class:list={["second-nav-btn-group breadcrumb-container", className]}
-      aria-label="breadcrumb"
-      edgeOpacity={edgeOpacity}
+      class:list={["breadcrumb-container", className]}
+      ariaLabel="breadcrumb"
     >
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -69,8 +67,8 @@ const crumbs = segments.map((seg, idx) => {
         </li>
 
         {crumbs.map((crumb, idx) => {
-          const isLast = idx === crumbs.length - 1;
-          const label = isLast && pageTitle ? pageTitle : crumb.label;
+          const isOriginalLast = idx === allCrumbs.length - 1;
+          const label = isOriginalLast && pageTitle ? pageTitle : crumb.label;
           return (
             <li class="breadcrumb-item">
               <a href={crumb.url}>{label}</a>
@@ -78,6 +76,6 @@ const crumbs = segments.map((seg, idx) => {
           );
         })}
       </ol>
-    </LiquidGlass>
+    </SecondNavButtonGroup>
   )
 }

@@ -20,8 +20,11 @@
    Second Navbar Layout & Universal Buttons / Button Groups
    ========================================================================== */
 
-/* 1. 次要导航栏整体布局容器 */
+/* 1. 次要导航栏整体布局容器：固化边缘透明度与色彩控制 */
 .second-nav-container {
+  --liquid-glass-edge-opacity: 35%;
+  --liquid-glass-bg-color: var(--second-nav-bg-color, #fafafc);
+  --liquid-glass-bg-color-dark: var(--second-nav-bg-color-dark, #3d3d3d);
   position: relative;
   display: flex;
   justify-content: flex-start;
@@ -31,6 +34,12 @@
   height: calc(var(--second-navbar-radius) * 2);
   padding-bottom: var(--second-nav-padding-bottom);
   margin-bottom: 10px;
+}
+
+/* 单按钮与按钮组底层默认锁定 35% 边缘辉光 */
+.second-nav-btn-container,
+.second-nav-btn-group {
+  --liquid-glass-edge-opacity: 35%;
 }
 
 /* 2. 通用单按钮容器 (胶囊毛玻璃外框，尺寸严格由 2 * radius 决定) */
@@ -147,6 +156,35 @@
   text-decoration: none;
 }
 
+/* 按钮组内子项同心 Active 激活态效果：仅字体加粗，不添加背景指示器 */
+.second-nav-btn-group .second-nav-btn-group-item.active,
+.second-nav-btn-group .btn.active,
+.second-nav-btn-group button.active {
+  font-weight: 800;
+  cursor: default;
+  background-color: transparent !important;
+  color: var(--second-nav-color);
+}
+
+.second-nav-btn-group .second-nav-btn-group-item.active:hover,
+.second-nav-btn-group .btn.active:hover,
+.second-nav-btn-group button.active:hover {
+  background-color: transparent !important;
+  color: var(--second-nav-color) !important;
+}
+
+.dark-mode .second-nav-btn-group .second-nav-btn-group-item.active,
+.dark-mode .second-nav-btn-group .btn.active,
+.dark-mode .second-nav-btn-group button.active {
+  color: var(--second-nav-color-dark);
+}
+
+.dark-mode .second-nav-btn-group .second-nav-btn-group-item.active:hover,
+.dark-mode .second-nav-btn-group .btn.active:hover,
+.dark-mode .second-nav-btn-group button.active:hover {
+  color: var(--second-nav-color-dark) !important;
+}
+
 /* ==========================================================================
    5. 按钮组默认 75% 垂直分割线 (居中于 4px 间隙中，Hover 时双侧隐藏)
    ========================================================================== */
@@ -187,4 +225,23 @@
 .second-nav-btn-group a:hover+a::before,
 .second-nav-btn-group button:hover+button::before {
   opacity: 0;
+}
+
+/* ==========================================================================
+   6. 次要导航栏辅助控件 (Spacer & 原生 h2 Title)
+   ========================================================================== */
+
+/* 弹性撑开控件：自动占据剩余空间，将后续按钮推至次导航右侧 */
+.second-nav-spacer {
+  flex: 1;
+}
+
+/* 次导航原生 h2 标题：消除上下外边距，垂直居中对齐 */
+h2.second-nav-title {
+  margin: 0;
+  padding: 0;
+  border-bottom: none;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }

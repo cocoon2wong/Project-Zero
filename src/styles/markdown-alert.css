@@ -14,21 +14,25 @@
    ========================================================================== */
 
 .markdown-alert {
+  /* 标准内容卡片圆角变量驱动 */
+  --liquid-glass-radius-inner: var(--standard-content-radius);
+  --liquid-glass-radius-outer: calc(var(--standard-content-radius) + 1px);
+
   /* 复刻 Jekyll 原版边框渐变旋转角度 */
   --liquid-glass-edge-angle: 135deg;
 
   /* 稍微降低边缘不透明度，提升毛玻璃通透质感 */
   --liquid-glass-edge-opacity: 50%;
 
-  /* 容器外边距直接由 --second-navbar-radius 驱动 */
-  margin-top: var(--second-navbar-radius);
-  margin-bottom: var(--second-navbar-radius);
+  /* 容器外边距由 --standard-content-radius 驱动 */
+  margin-top: var(--standard-content-radius);
+  margin-bottom: var(--standard-content-radius);
 
-  /* 容器内边距直接由 --second-navbar-radius 驱动（引入光学对称补偿） */
-  padding-top: calc(var(--second-navbar-radius) * 0.6) !important;
-  padding-bottom: calc(var(--second-navbar-radius) * 0.45) !important;
-  padding-left: calc(var(--second-navbar-radius) + var(--second-navbar-margin)) !important;
-  padding-right: calc(var(--second-navbar-radius) + var(--second-navbar-margin)) !important;
+  /* 容器内边距直接由 --standard-content-radius 与 --standard-content-margin 驱动（引入光学对称补偿） */
+  padding-top: calc(var(--standard-content-radius) * 0.6) !important;
+  padding-bottom: calc(var(--standard-content-radius) * 0.45) !important;
+  padding-left: calc(var(--standard-content-radius) + var(--standard-content-margin)) !important;
+  padding-right: calc(var(--standard-content-radius) + var(--standard-content-margin)) !important;
   box-sizing: border-box;
 }
 

@@ -1,0 +1,66 @@
+---
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-23 12:04:47
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-23 13:44:23
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+import LiquidGlass from "./LiquidGlass.astro";
+
+interface Props {
+  id?: string;
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  class?: string;
+  btnClass?: string;
+  title?: string;
+  ariaLabel?: string;
+  onclick?: string;
+  [key: string]: any;
+}
+
+const {
+  id,
+  href,
+  type = "button",
+  class: className,
+  btnClass = "",
+  title,
+  ariaLabel,
+  onclick,
+  ...rest
+} = Astro.props;
+---
+
+<LiquidGlass hoverable class:list={["second-nav-btn-container", className]}>
+  {
+    href ? (
+      <a
+        id={id}
+        href={href}
+        class:list={["btn second-nav-btn", btnClass]}
+        title={title}
+        aria-label={ariaLabel || title}
+        onclick={onclick}
+        {...rest}
+      >
+        <slot />
+      </a>
+    ) : (
+      <button
+        id={id}
+        type={type}
+        class:list={["btn second-nav-btn", btnClass]}
+        title={title}
+        aria-label={ariaLabel || title}
+        onclick={onclick}
+        {...rest}
+      >
+        <slot />
+      </button>
+    )
+  }
+</LiquidGlass>
