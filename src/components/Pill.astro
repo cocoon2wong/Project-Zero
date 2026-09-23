@@ -3,11 +3,10 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:38:26
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-21 18:14:38
+ * @LastEditTime: 2026-09-23 17:12:07
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
-
 
 interface PillItem {
   label: string;
@@ -18,38 +17,45 @@ interface PillItem {
 interface Props {
   container?: boolean;
   items?: PillItem[];
+  variant?: "normal" | "theme" | "pure";
   class?: string;
 }
 
-const { container = false, items, class: className = '' } = Astro.props;
+const {
+  container = false,
+  items,
+  variant = "normal",
+  class: className = "",
+} = Astro.props;
+
+const variantClass =
+  variant === "theme" ? "pill-theme" : variant === "pure" ? "pill-pure" : "";
 ---
 
 {
   items && items.length > 0 ? (
-    <div class={`pill pill-container ${className}`.trim()}>
-      {items.map((item) => (
+    <div class={`pill pill-container ${variantClass} ${className}`.trim()}>
+      {items.map((item) =>
         item.href ? (
           <a
             href={item.href}
-            class={`pill-item ${item.active ? 'is-active' : ''}`.trim()}
+            class={`pill-item ${item.active ? "is-active" : ""}`.trim()}
           >
             {item.label}
           </a>
         ) : (
-          <span
-            class={`pill-item ${item.active ? 'is-active' : ''}`.trim()}
-          >
+          <span class={`pill-item ${item.active ? "is-active" : ""}`.trim()}>
             {item.label}
           </span>
-        )
-      ))}
+        ),
+      )}
     </div>
   ) : container ? (
-    <div class={`pill pill-container ${className}`.trim()}>
+    <div class={`pill pill-container ${variantClass} ${className}`.trim()}>
       <slot />
     </div>
   ) : (
-    <span class={`pill pill-single ${className}`.trim()}>
+    <span class={`pill pill-single ${variantClass} ${className}`.trim()}>
       <slot />
     </span>
   )

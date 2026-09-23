@@ -268,3 +268,59 @@
     0 2px 12px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.20);
 }
+
+/* ==========================================================================
+   7. Pill Theme Variant (.pill-theme)
+      Faithful to .btn-theme specifications, universal across light & dark modes
+   ========================================================================== */
+
+.pill-theme,
+.pill-container.pill-theme,
+.pill-single.pill-theme {
+  background-color: var(--btn-theme-bg);
+  color: var(--btn-theme-text);
+}
+
+.pill-theme .pill-item,
+.pill-container.pill-theme .pill-item,
+.pill-single.pill-theme {
+  color: var(--btn-theme-text);
+}
+
+.pill-theme .pill-item:hover,
+.pill-theme .pill-item:focus,
+.pill-container.pill-theme .pill-item:hover,
+.pill-container.pill-theme .pill-item:focus {
+  color: var(--btn-theme-text);
+  opacity: 0.9;
+}
+
+.pill-theme .pill-item+.pill-item::before {
+  background-color: rgba(255, 255, 255, 0.35);
+}
+
+/* Dark Mode Pill Theme */
+.dark-mode .pill-theme,
+.dark-mode .pill-container.pill-theme,
+.dark-mode .pill-single.pill-theme {
+  background-color: var(--btn-theme-bg);
+  color: var(--btn-theme-text);
+}
+
+.dark-mode .pill-theme .pill-item,
+.dark-mode .pill-container.pill-theme .pill-item,
+.dark-mode .pill-single.pill-theme {
+  color: var(--btn-theme-text);
+}
+
+.dark-mode .pill-theme .pill-item:hover,
+.dark-mode .pill-theme .pill-item:focus,
+.dark-mode .pill-container.pill-theme .pill-item:hover,
+.dark-mode .pill-container.pill-theme .pill-item:focus {
+  color: var(--btn-theme-text);
+  opacity: 0.9;
+}
+
+.dark-mode .pill-theme .pill-item+.pill-item::before {
+  background-color: rgba(255, 255, 255, 0.35);
+}
