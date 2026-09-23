@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-22 11:08:38
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 20:03:25
+ * @LastEditTime: 2026-09-23 20:49:24
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -41,9 +41,22 @@
   width: 100%;
 }
 
+.toc-sidebar {
+  margin-top: 24px;
+}
+
 /* Collapsed State: TOC sidebar hidden, content takes normal full container width */
-.toc-layout-wrapper.toc-collapsed .toc-sidebar {
+.toc-layout-wrapper.toc-collapsed .toc-sidebar:not(.toc-collapsing) {
   display: none;
+}
+
+.toc-sidebar.toc-collapsing {
+  display: block !important;
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
 }
 
 .toc-layout-wrapper.toc-collapsed .toc-content {
@@ -101,6 +114,8 @@
 
 .table-of-contents-container {
   width: 100%;
+  transform-origin: top left;
+  will-change: transform, border-radius;
 }
 
 /* Layer 3: Content & Embedded Scroll Container */
@@ -231,20 +246,15 @@
   opacity: 0.8;
 }
 
-.toc-link.toc-level-2:hover,
-.toc-link.toc-level-2.active {
-  color: var(--toc-theme-color);
+.table-of-contents-container .toc-link:hover,
+.table-of-contents-container .toc-link.active,
+.toc-link:hover,
+.toc-link.active {
+  color: var(--toc-theme-color) !important;
   background-color: var(--toc-theme-bg-color);
   border-radius: var(--toc-shape-radius);
-}
-
-.toc-link.toc-level-3:hover,
-.toc-link.toc-level-3.active,
-.toc-link.toc-level-4:hover,
-.toc-link.toc-level-4.active {
-  color: var(--toc-theme-bg-color);
-  background-color: var(--toc-hover-bg-color);
-  border-radius: var(--toc-shape-radius);
+  text-decoration: none !important;
+  opacity: 1;
 }
 
 .toc-link.active {

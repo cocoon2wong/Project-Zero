@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 18:52:27
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 10:03:06
+ * @LastEditTime: 2026-09-23 20:10:42
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -162,7 +162,7 @@ export function initNavbar(): () => void {
     const shadowAlpha = linear(Math.pow(rate, 0.5), 0.336, 0);
     floatContainer.style.boxShadow = `0 ${shadowY}px ${shadowBlur}px rgba(0, 0, 0, ${shadowAlpha})`;
     floatContainer.style.paddingLeft = `${linear(rate, 1, 20)}px`;
-    floatContainer.style.paddingRight = `${linear(rate, 20, 10)}px`;
+    floatContainer.style.paddingRight = `${linear(rate, 1, 1)}px`;
 
     // Liquid glass opacity
     const liquidOpacity = String(linear(Math.pow(rate, 0.8), 1, 0));

@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 20:59:43
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-23 12:16:53
+ * @LastEditTime: 2026-09-23 20:48:14
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -23,6 +23,11 @@
 /* 当有 Hero 头图时，为整个 main 容器顶部提供统一呼吸间隔 */
 .header-section.has-img+.main-page-container {
   padding-top: 15px;
+}
+
+.header-section.has-img+.main-page-container .second-nav-container,
+.header-section.has-img+.main-page-container .toc-sidebar {
+  margin-top: 0;
 }
 
 .intro-header {
