@@ -1,0 +1,37 @@
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-23 17:59:32
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-23 18:33:27
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+
+/* Inline Math Formatting */
+.katex {
+  font-size: 1.05em;
+  text-rendering: auto;
+}
+
+/* Block Math Display & Horizontal Scroll on Mobile */
+.katex-display {
+  display: block;
+  margin: 1.5rem 0;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5rem 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.katex-display>.katex {
+  display: inline-block;
+  text-align: initial;
+  max-width: 100%;
+}
+
+/* Dark Mode Adaptation */
+:root.dark-mode .katex {
+  color: var(--text-color-dark, #ffffff);
+}
