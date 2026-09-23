@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 18:52:38
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 09:58:27
+ * @LastEditTime: 2026-09-23 09:15:25
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -21,7 +21,8 @@ const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
 <nav
-  class={`navbar navbar-expand-xl fixed-top navbar-custom top-nav-container ${mode === "regular" ? "top-nav-regular" : "top-nav-short-permanent"}`}
+  class="navbar navbar-expand-xl fixed-top navbar-custom top-nav-container"
+  data-nav-mode={mode}
 >
   <!-- Layer 1: Distortion filter background -->
   <div class="top-nav-background-container"></div>

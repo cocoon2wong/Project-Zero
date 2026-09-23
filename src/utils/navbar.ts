@@ -118,7 +118,8 @@ export function initNavbar(): () => void {
     toggler.addEventListener('click', toggleHandler);
   }
 
-  const shorten = navContainer.classList.contains('top-nav-regular');
+  const navMode = navContainer.getAttribute('data-nav-mode') || 'regular';
+  const shorten = navMode === 'regular';
 
   function getColors() {
     const isDark = document.documentElement.classList.contains('dark-mode');
@@ -284,8 +285,12 @@ export function initNavbar(): () => void {
   }
 
   function update() {
-    if (window.innerWidth > 1199 && shorten) {
-      setNavBarCss(getScrollRate());
+    if (window.innerWidth > 1199) {
+      if (shorten) {
+        setNavBarCss(getScrollRate());
+      } else {
+        setNavBarCss(0.0, true);
+      }
     } else {
       setNavBarCss(1.0, true);
     }

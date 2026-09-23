@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 20:45:23
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 10:01:20
+ * @LastEditTime: 2026-09-23 10:05:53
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -16,6 +16,77 @@
 
 .dark-mode {
   --footer-border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Footer Footnotes --- */
+
+/* Reduce overall footer top padding when footnotes are present */
+footer:has(.footer-footnotes) {
+  padding-top: 6px !important;
+}
+
+.footer-footnotes {
+  padding-top: 4px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--footer-border-color);
+  margin-bottom: 12px;
+  font-size: 11px;
+  line-height: 1.33337;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--footer-text-active-color);
+  text-align: left;
+}
+
+.dark-mode .footer-footnotes {
+  color: var(--footer-text-active-color-dark);
+  opacity: 0.8;
+}
+
+.footer-footnotes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-footnotes-list li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  font-size: 11px;
+  line-height: 1.33337;
+  color: inherit;
+}
+
+.footer-footnotes-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Flexbox hanging indent for numbered footnotes */
+.footer-footnotes-list .footnote-number {
+  flex-shrink: 0;
+  width: 1.4em;
+  text-align: left;
+  color: inherit;
+}
+
+.footer-footnotes-list .footnote-text {
+  flex: 1;
+}
+
+.footer-footnotes-list a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.footer-footnotes-list a:hover {
+  color: var(--footer-hover-col, #0085A1);
+}
+
+/* When footnotes are present, remove top border + padding from the breadcrumb below */
+.footer-footnotes+.footer-nav.breadcrumb-container {
+  border-top: none !important;
+  padding-top: 0;
 }
 
 /* --- Footer Outer Container Background & Sizing --- */
@@ -55,10 +126,14 @@ footer.site-footer {
 /* --- Footer Directory --- */
 .footer-directory {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 3rem;
   margin: 0 auto;
   padding-bottom: 10px;
+}
+
+.footer-directory.is-single-column {
+  grid-template-columns: 1fr;
 }
 
 .footer-directory .directory-list-title {
@@ -75,6 +150,9 @@ footer.site-footer {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.footer-directory.is-single-column .directory-list {
   column-count: 2;
   column-gap: 4rem;
 }
@@ -99,11 +177,12 @@ footer.site-footer {
 }
 
 @media (max-width: 768px) {
-  .footer-directory {
+  .footer-directory,
+  .footer-directory.is-single-column {
     grid-template-columns: 1fr;
   }
 
-  .directory-list {
+  .footer-directory.is-single-column .directory-list {
     column-count: 1;
   }
 }

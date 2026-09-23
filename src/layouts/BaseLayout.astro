@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:34:12
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 18:45:11
+ * @LastEditTime: 2026-09-23 09:15:42
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -20,6 +20,7 @@ import "../styles/global.css";
 
 interface Props {
   title?: string;
+  subtitle?: string;
   description?: string;
   coverImg?: string;
   hideTitle?: boolean;
@@ -28,8 +29,12 @@ interface Props {
   showBreadcrumbs?: boolean;
   tableOfContents?: boolean;
   navButtonGroup?: boolean;
+  footnotes?: string[];
+  customCss?: string[];
+  sourcePath?: string;
   frontmatter?: {
     title?: string;
+    subtitle?: string;
     description?: string;
     coverImg?: string;
     hideTitle?: boolean;
@@ -38,18 +43,27 @@ interface Props {
     showBreadcrumbs?: boolean;
     tableOfContents?: boolean;
     navButtonGroup?: boolean;
+    footnotes?: string[];
+    customCss?: string[];
+    sourcePath?: string;
   };
 }
 
 const { frontmatter } = Astro.props;
 const title = frontmatter?.title || Astro.props.title || siteConfig.title;
+const subtitle =
+  frontmatter?.subtitle || Astro.props.subtitle || siteConfig.subtitle || "";
 const description =
-  frontmatter?.description || Astro.props.description || siteConfig.description;
+  frontmatter?.description ||
+  Astro.props.description ||
+  siteConfig.description ||
+  "";
 const coverImg = frontmatter?.coverImg || Astro.props.coverImg || "";
 const hideTitle = Boolean(frontmatter?.hideTitle ?? Astro.props.hideTitle);
 const pageBackground =
   frontmatter?.pageBackground || Astro.props.pageBackground || "white";
 const navMode = frontmatter?.navMode || Astro.props.navMode || "regular";
+const sourcePath = frontmatter?.sourcePath || Astro.props.sourcePath;
 
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 const isHome = pathname === "/" || pathname === "/index";
@@ -62,9 +76,20 @@ const tableOfContents = Boolean(
 const navButtonGroup = Boolean(
   frontmatter?.navButtonGroup ?? Astro.props.navButtonGroup,
 );
+const footnotes: string[] | undefined =
+  frontmatter?.footnotes ?? Astro.props.footnotes;
+
+const pageCustomCss: string[] =
+  frontmatter?.customCss || Astro.props.customCss || [];
+const allCustomCss = Array.from(
+  new Set([...(siteConfig.customCss || []), ...pageCustomCss]),
+);
 
 const fullTitle =
   title === siteConfig.title ? title : `${title} | ${siteConfig.title}`;
+const canonicalUrl = siteConfig.url
+  ? new URL(Astro.url.pathname, siteConfig.url).toString()
+  : undefined;
 const { colors } = siteConfig;
 ---
 
@@ -73,10 +98,17 @@ const { colors } = siteConfig;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {canonicalUrl && <meta property="og:site_name" content={siteConfig.title} />}
+    {canonicalUrl && <meta property="og:title" content={fullTitle} />}
+    {description && <meta name="description" content={description} />}
     <meta name="author" content={siteConfig.author} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{fullTitle}</title>
+
+    <!-- Custom stylesheets from site.config.ts and page frontmatter -->
+    {allCustomCss.map((href) => <link rel="stylesheet" href={href} />)}
 
     <!-- Anti-flicker dark mode script -->
     <script is:inline>
@@ -119,6 +151,13 @@ const { colors } = siteConfig;
       import { initCodeblocks } from "../utils/codeblock";
       initCodeblocks();
       document.addEventListener("astro:page-load", initCodeblocks);
+    </script>
+
+    <!-- Client-side anti-scraper email controller -->
+    <script>
+      import { initEmailObfuscation } from "../utils/contact";
+      initEmailObfuscation();
+      document.addEventListener("astro:page-load", initEmailObfuscation);
     </script>
 
     <!-- Directly inject all colors from root site.config.ts into CSS :root -->
@@ -182,6 +221,7 @@ const { colors } = siteConfig;
             <div class="container">
               <div class="page-heading">
                 <h1>{title}</h1>
+                {subtitle && <span class="page-subheading">{subtitle}</span>}
               </div>
             </div>
           </div>
@@ -220,6 +260,10 @@ const { colors } = siteConfig;
       </div>
     </main>
 
-    <Footer pageTitle={title} />
+    <Footer
+      pageTitle={title}
+      footnotes={footnotes}
+      sourcePath={sourcePath}
+    />
   </body>
 </html>

@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 20:45:35
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 09:58:02
+ * @LastEditTime: 2026-09-23 09:12:55
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -12,12 +12,31 @@ import { siteConfig } from "@site.config";
 
 interface Props {
   pageTitle?: string;
+  sourcePath?: string;
+  footnotes?: string[];
 }
 
-const { pageTitle } = Astro.props;
+const { pageTitle, footnotes, sourcePath } = Astro.props;
+
 const currentYear = new Date().getFullYear();
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 const isHome = pathname === "/" || pathname === "/index";
+const hideDetailed = Boolean(siteConfig.hideDetailedFooter);
+const hasRelatedLinks = Boolean(
+  siteConfig.footerRelatedLinks && siteConfig.footerRelatedLinks.length > 0,
+);
+
+const resolvedPath =
+  sourcePath ||
+  (pathname === "/"
+    ? "src/pages/index.astro"
+    : `src/pages/${pathname.replace(/^\//, "")}.astro`);
+const showEditButton = Boolean(
+  siteConfig.editPageButton && siteConfig.repository && siteConfig.pageBranch,
+);
+const editUrl = showEditButton
+  ? `https://github.com/${siteConfig.repository}/edit/${siteConfig.pageBranch}/${resolvedPath}`
+  : "";
 
 // Parse breadcrumb segments
 const segments = pathname.split("/").filter(Boolean);
@@ -31,72 +50,119 @@ const crumbs = segments.map((seg, idx) => {
 
 <footer class="site-footer">
   <div class="container">
-    <!-- Breadcrumb Navigation -->
-    <nav
-      class="footer-nav breadcrumb-container"
-      style="--bs-breadcrumb-divider: '>';"
-      aria-label="breadcrumb"
-    >
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="/">
-            <svg
-              class="bi bi-house"
-              width="16px"
-              height="16px"
-              viewBox="0 0 18 18"
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
-              ></path>
-              <path
-                fill-rule="evenodd"
-                d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
-              ></path>
-            </svg>
-            {siteConfig.title}
-          </a>
-        </li>
+    {
+      !hideDetailed && (
+        <>
+          {/* Footnotes */}
+          {footnotes && footnotes.length > 0 && (
+            <section class="footer-footnotes" aria-label="Footnotes">
+              <ol class="footer-footnotes-list">
+                {footnotes.map((note, idx) => (
+                  <li>
+                    <span class="footnote-number">{idx + 1}.</span>
+                    <span class="footnote-text" set:html={note} />
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
 
-        {
-          !isHome &&
-            crumbs.map((crumb, idx) => {
-              const isLast = idx === crumbs.length - 1;
-              return isLast ? (
-                <li class="breadcrumb-item active" aria-current="page">
-                  {pageTitle || crumb.label}
-                </li>
-              ) : (
-                <li class="breadcrumb-item">
-                  <a href={crumb.url}>{crumb.label}</a>
-                </li>
-              );
-            })
-        }
-      </ol>
-    </nav>
-
-    <!-- Site Directory -->
-    <section
-      class="footer-directory is-single-column"
-      aria-label="Site Directory"
-    >
-      <div class="directory-column">
-        <ul class="directory-list">
-          {
-            siteConfig.navLinks.map((link) => (
-              <li>
-                <a href={link.url}>{link.title}</a>
+          {/* Breadcrumb Navigation */}
+          <nav
+            class="footer-nav breadcrumb-container"
+            style="--bs-breadcrumb-divider: '>';"
+            aria-label="breadcrumb"
+          >
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="/">
+                  <svg
+                    class="bi bi-house"
+                    width="16px"
+                    height="16px"
+                    viewBox="0 0 18 18"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
+                    />
+                  </svg>
+                  {siteConfig.title}
+                </a>
               </li>
-            ))
-          }
-        </ul>
-      </div>
-    </section>
+
+              {!isHome &&
+                crumbs.map((crumb, idx) => {
+                  const isLast = idx === crumbs.length - 1;
+                  return isLast ? (
+                    <li class="breadcrumb-item active" aria-current="page">
+                      {pageTitle || crumb.label}
+                    </li>
+                  ) : (
+                    <li class="breadcrumb-item">
+                      <a href={crumb.url}>{crumb.label}</a>
+                    </li>
+                  );
+                })}
+            </ol>
+          </nav>
+
+          {/* Site Directory */}
+          <section
+            class:list={[
+              "footer-directory",
+              { "is-single-column": !hasRelatedLinks },
+            ]}
+            aria-label="Site Directory"
+          >
+            <div class="directory-column">
+              {hasRelatedLinks && (
+                <div class="directory-list-title">{siteConfig.title}</div>
+              )}
+              <ul class="directory-list">
+                {siteConfig.navLinks.map((link) => {
+                  const label =
+                    link.footerTitle ||
+                    siteConfig.fullNames?.[link.title] ||
+                    link.title;
+                  return (
+                    <li>
+                      <a href={link.url}>{label}</a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            {hasRelatedLinks && (
+              <div class="directory-column">
+                <div class="directory-list-title">Relevant Links</div>
+                <ul class="directory-list">
+                  {siteConfig.footerRelatedLinks!.map((link) => (
+                    <li>
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {link.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </section>
+        </>
+      )
+    }
 
     <!-- Copyright & Action Links -->
     <div class="nav-footer-copyright">
@@ -114,6 +180,18 @@ const crumbs = segments.map((seg, idx) => {
         >
           Toggle Dark Mode
         </a>
+        {
+          showEditButton && (
+            <a
+              title="Edit this page on GitHub"
+              href={editUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Edit page
+            </a>
+          )
+        }
       </div>
     </div>
   </div>

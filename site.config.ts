@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:33:48
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-22 16:47:00
+ * @LastEditTime: 2026-09-23 10:05:38
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -21,6 +21,18 @@ export interface NavLink {
   url: string;
   /** Inline SVG icon markup */
   icon?: string;
+  /** Optional full name for footer display (replaces legacy full_names map) */
+  footerTitle?: string;
+}
+
+/**
+ * Related link item descriptor for the footer directory.
+ */
+export interface FooterRelatedLink {
+  /** Display title of the link */
+  title: string;
+  /** Destination URL or path */
+  url: string;
 }
 
 /**
@@ -33,23 +45,43 @@ export interface SiteConfig {
   /** Site title shown in header and browser tab */
   title: string;
   /** Secondary subtitle or tagline */
-  subtitle: string;
+  subtitle?: string;
   /** Meta description for SEO */
-  description: string;
+  description?: string;
   /** Site author / creator name */
   author: string;
   /** Document language code (e.g. 'en', 'zh') */
   language: string;
-  /** URL or relative path to the author avatar image */
-  avatar?: string;
-  /** Whether the avatar should be rendered as a circle */
-  roundAvatar?: boolean;
+  /** Canonical base URL of the website */
+  url?: string;
+  /** GitHub repository path (e.g. 'username/repo') */
+  repository?: string;
+  /** Git branch for GitHub source resolution and edit link */
+  pageBranch?: string;
+  /** Whether to show 'Edit page' button in footer */
+  editPageButton?: boolean;
 
   // ---------------------------------------------------------------------------
   // Section 2: Primary Navigation Menu
   // ---------------------------------------------------------------------------
   /** Top-level navigation items rendered in the main navbar */
   navLinks: NavLink[];
+
+  // ---------------------------------------------------------------------------
+  // Section 2.5: Custom Stylesheets
+  // ---------------------------------------------------------------------------
+  /** Optional custom CSS stylesheets (local paths or CDN URLs) to inject into <head> */
+  customCss?: string[];
+
+  // ---------------------------------------------------------------------------
+  // Section 2.6: Footer Directory & Related Links
+  // ---------------------------------------------------------------------------
+  /** Whether to hide footnotes, breadcrumb, and directory (legacy: hide-detailed-footer) */
+  hideDetailedFooter?: boolean;
+  /** Related links displayed in the second column of footer directory (legacy: footer_related_links) */
+  footerRelatedLinks?: FooterRelatedLink[];
+  /** Optional dictionary mapping nav link titles to long names for footer display (legacy: full_names) */
+  fullNames?: Record<string, string>;
 
 
   // ---------------------------------------------------------------------------
@@ -124,8 +156,6 @@ export const siteConfig: SiteConfig = {
   description: "A modern website built with Astro",
   author: "Conghao Wong",
   language: "en",
-  avatar: "/assets/img/avatar-icon.png",
-  roundAvatar: true,
 
   // ---------------------------------------------------------------------------
   // Section 2: Primary Navigation Menu
@@ -158,6 +188,17 @@ export const siteConfig: SiteConfig = {
     },
   ],
 
+  // ---------------------------------------------------------------------------
+  // Section 2.5: Custom Stylesheets
+  // ---------------------------------------------------------------------------
+  customCss: [],
+
+  // ---------------------------------------------------------------------------
+  // Section 2.6: Footer Directory & Related Links
+  // ---------------------------------------------------------------------------
+  hideDetailedFooter: false,
+  footerRelatedLinks: [],
+  fullNames: {},
 
   // ---------------------------------------------------------------------------
   // Section 3: Color Palette & Theming

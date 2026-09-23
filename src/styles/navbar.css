@@ -65,8 +65,7 @@
   padding-bottom: 10px;
 }
 
-/* Form 2: Compact / Short permanent state (rate = 1.0) */
-.top-nav-container.top-nav-short-permanent,
+/* Form 2: Compact state (rate = 1.0) */
 .top-nav-container:not(.top-nav-float) {
   padding-top: 0;
   padding-bottom: 0;
@@ -92,14 +91,12 @@
 }
 
 /* Permanent compact mode baseline CSS (SSR and fallback before JS) */
-.top-nav-container.top-nav-short-permanent .top-nav-background-container,
 .top-nav-container:not(.top-nav-float) .top-nav-background-container {
   background-color: var(--navbar-bg-color);
   border-bottom: 1px solid var(--navbar-border-color);
   backdrop-filter: saturate(180%) blur(20px);
 }
 
-.dark-mode .top-nav-container.top-nav-short-permanent .top-nav-background-container,
 .dark-mode .top-nav-container:not(.top-nav-float) .top-nav-background-container {
   background-color: var(--navbar-bg-color-dark);
 }
@@ -126,7 +123,6 @@
 }
 
 /* In compact mode, floating capsule shadow dissolves */
-.top-nav-container.top-nav-short-permanent .top-nav-float-container,
 .top-nav-container:not(.top-nav-float) .top-nav-float-container {
   box-shadow: none;
 }
@@ -169,7 +165,6 @@
 }
 
 /* Fade out in compact mode */
-.top-nav-container.top-nav-short-permanent .top-nav-float-container>div[class^="liquidGlass"],
 .top-nav-container:not(.top-nav-float) .top-nav-float-container>div[class^="liquidGlass"] {
   opacity: 0;
 }
@@ -282,7 +277,6 @@
 }
 
 /* Compact mode indicator baseline (SSR / fallback) */
-.top-nav-container.top-nav-short-permanent .nav-item-active,
 .top-nav-container:not(.top-nav-float) .nav-item-active {
   top: 10px;
   border-radius: 1px;
