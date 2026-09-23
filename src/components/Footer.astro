@@ -9,6 +9,7 @@
  */
 
 import { siteConfig } from "@site.config";
+import { withBase } from "../utils/url";
 
 interface Props {
   pageTitle?: string;
@@ -20,7 +21,8 @@ const { pageTitle, footnotes, sourcePath } = Astro.props;
 
 const currentYear = new Date().getFullYear();
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
-const isHome = pathname === "/" || pathname === "/index";
+const homePath = withBase("/").replace(/\/$/, "") || "/";
+const isHome = pathname === homePath || pathname === withBase("/index");
 const hideDetailed = Boolean(siteConfig.hideDetailedFooter);
 const hasRelatedLinks = Boolean(
   siteConfig.footerRelatedLinks && siteConfig.footerRelatedLinks.length > 0,
@@ -28,7 +30,7 @@ const hasRelatedLinks = Boolean(
 
 const resolvedPath =
   sourcePath ||
-  (pathname === "/"
+  (pathname === homePath
     ? "src/pages/index.astro"
     : `src/pages/${pathname.replace(/^\//, "")}.astro`);
 const showEditButton = Boolean(
@@ -39,9 +41,15 @@ const editUrl = showEditButton
   : "";
 
 // Parse breadcrumb segments
-const segments = pathname.split("/").filter(Boolean);
+const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, "");
+const relativePathname =
+  basePrefix && pathname.startsWith(basePrefix)
+    ? pathname.slice(basePrefix.length)
+    : pathname;
+
+const segments = relativePathname.split("/").filter(Boolean);
 const crumbs = segments.map((seg, idx) => {
-  const url = "/" + segments.slice(0, idx + 1).join("/") + "/";
+  const url = withBase("/" + segments.slice(0, idx + 1).join("/") + "/");
   const label = seg.replace(/[-_]/g, " ").replace(/\.html$/, "");
   const capitalized = label.charAt(0).toUpperCase() + label.slice(1);
   return { url, label: capitalized };
@@ -75,7 +83,7 @@ const crumbs = segments.map((seg, idx) => {
           >
             <ol class="breadcrumb">
               <li class="breadcrumb-item">
-                <a href="/">
+                <a href={withBase("/")}>
                   <svg
                     class="bi bi-house"
                     width="16px"
@@ -134,7 +142,7 @@ const crumbs = segments.map((seg, idx) => {
                     link.title;
                   return (
                     <li>
-                      <a href={link.url}>{label}</a>
+                      <a href={withBase(link.url)}>{label}</a>
                     </li>
                   );
                 })}
@@ -148,7 +156,7 @@ const crumbs = segments.map((seg, idx) => {
                   {siteConfig.footerRelatedLinks!.map((link) => (
                     <li>
                       <a
-                        href={link.url}
+                        href={withBase(link.url)}
                         target="_blank"
                         rel="noopener noreferrer"
                       >

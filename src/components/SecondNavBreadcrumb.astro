@@ -9,6 +9,7 @@
  */
 
 import SecondNavButtonGroup from "./SecondNavButtonGroup.astro";
+import { withBase } from "../utils/url";
 
 interface Props {
   /** Optional override for the current page's terminal breadcrumb label */
@@ -21,11 +22,19 @@ interface Props {
 
 const { pageTitle, showCurrentPage = true, class: className } = Astro.props;
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
-const isHome = pathname === "/" || pathname === "/index";
+const homePath = withBase("/").replace(/\/$/, "") || "/";
+const isHome = pathname === homePath || pathname === withBase("/index");
 
-const segments = pathname.split("/").filter(Boolean);
+// 如果配置了 base，从 pathname 中过滤掉 base 前缀后再拆分 segments
+const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, "");
+const relativePathname =
+  basePrefix && pathname.startsWith(basePrefix)
+    ? pathname.slice(basePrefix.length)
+    : pathname;
+
+const segments = relativePathname.split("/").filter(Boolean);
 const allCrumbs = segments.map((seg, idx) => {
-  const url = "/" + segments.slice(0, idx + 1).join("/") + "/";
+  const url = withBase("/" + segments.slice(0, idx + 1).join("/") + "/");
   const label = seg.replace(/[-_]/g, " ").replace(/\.html$/, "");
   const capitalized = label.charAt(0).toUpperCase() + label.slice(1);
   return { url, label: capitalized };
@@ -43,7 +52,7 @@ const crumbs = showCurrentPage ? allCrumbs : allCrumbs.slice(0, -1);
     >
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="/">
+          <a href={withBase("/")}>
             <svg
               class="bi bi-house"
               width="1em"

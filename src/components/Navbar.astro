@@ -9,6 +9,7 @@
  */
 
 import { siteConfig } from "@site.config";
+import { withBase } from "../utils/url";
 
 interface Props {
   mode?: "regular" | "short-permanent";
@@ -30,7 +31,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
   <!-- Site brand: text title (left side) -->
   <a
     class="navbar-brand"
-    href="/"
+    href={withBase("/")}
     data-site-title={siteConfig.title}
     data-page-title={pageTitle || siteConfig.title}
   >
@@ -64,14 +65,16 @@ const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
       <ul class="navbar-nav">
         {
           navLinks.map((link) => {
-            const linkHref = link.url.replace(/\/$/, "") || "/";
+            const resolvedUrl = withBase(link.url);
+            const linkHref = resolvedUrl.replace(/\/$/, "") || "/";
+            const homeHref = withBase("/").replace(/\/$/, "") || "/";
             const isActive =
-              linkHref === "/"
-                ? pathname === "/" || pathname === "/index"
+              linkHref === homeHref
+                ? pathname === homeHref || pathname === withBase("/index")
                 : pathname === linkHref || pathname.startsWith(linkHref + "/");
             return (
               <li class:list={["nav-item", { "top-nav-active": isActive }]}>
-                <a class="nav-link" href={link.url}>
+                <a class="nav-link" href={resolvedUrl}>
                   {link.icon && (
                     <div class="top-nav-float-icon" set:html={link.icon} />
                   )}

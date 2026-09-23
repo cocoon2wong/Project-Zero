@@ -13,6 +13,7 @@ import ButtonGroup from "../components/ButtonGroup.astro";
 import Button from "../components/Button.astro";
 import SecondNavButtonGroup from "../components/SecondNavButtonGroup.astro";
 import SecondNavSpacer from "../components/SecondNavSpacer.astro";
+import { withBase } from "../utils/url";
 
 interface Props {
   frontmatter?: Record<string, any>;
@@ -116,7 +117,11 @@ const platforms = [
   >
     <div
       class:list={["intro-header", { "big-img": Boolean(coverImg) }]}
-      style={coverImg ? `background-image: url('${coverImg}');` : undefined}
+      style={
+        coverImg
+          ? `background-image: url('${withBase(coverImg)}');`
+          : undefined
+      }
     >
       <div class="container">
         <div class="page-heading">
@@ -132,7 +137,7 @@ const platforms = [
       tags.length > 0 && (
         <SecondNavButtonGroup>
           {tags.map((tag: string) => (
-            <a href={`/tags#${tag}`} class="second-nav-btn-group-item">
+            <a href={withBase(`/tags#${tag}`)} class="second-nav-btn-group-item">
               {tag}
             </a>
           ))}
@@ -181,12 +186,12 @@ const platforms = [
       <div style="margin-top: 2rem; margin-bottom: 2rem;">
         <ButtonGroup>
           {prevPost && (
-            <Button href={prevPost.url} variant="normal" title={prevPost.title}>
+            <Button href={withBase(prevPost.url)} variant="normal" title={prevPost.title}>
               &larr; Previous Post
             </Button>
           )}
           {nextPost && (
-            <Button href={nextPost.url} variant="normal" title={nextPost.title}>
+            <Button href={withBase(nextPost.url)} variant="normal" title={nextPost.title}>
               Next Post &rarr;
             </Button>
           )}

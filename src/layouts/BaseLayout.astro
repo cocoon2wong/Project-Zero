@@ -17,6 +17,7 @@ import Footer from "../components/Footer.astro";
 import SecondNavBreadcrumb from "../components/SecondNavBreadcrumb.astro";
 import NavButtonGroup from "../components/NavButtonGroup.astro";
 import AlertTemplates from "../components/AlertTemplates.astro";
+import { withBase } from "../utils/url";
 import "../styles/global.css";
 
 interface Props {
@@ -113,11 +114,11 @@ const { colors } = siteConfig;
     {canonicalUrl && <meta property="og:title" content={fullTitle} />}
     {description && <meta name="description" content={description} />}
     <meta name="author" content={siteConfig.author} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
     <title>{fullTitle}</title>
 
     <!-- Custom stylesheets from site.config.ts and page frontmatter -->
-    {allCustomCss.map((href) => <link rel="stylesheet" href={href} />)}
+    {allCustomCss.map((href) => <link rel="stylesheet" href={withBase(href)} />)}
 
     <!-- Anti-flicker dark mode script -->
     <script is:inline>
@@ -227,7 +228,9 @@ const { colors } = siteConfig;
             <div
               class:list={["intro-header", { "big-img": Boolean(coverImg) }]}
               style={
-                coverImg ? `background-image: url('${coverImg}');` : undefined
+                coverImg
+                  ? `background-image: url('${withBase(coverImg)}');`
+                  : undefined
               }
             >
               <div class="container">
