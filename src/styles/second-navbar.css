@@ -33,7 +33,6 @@
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
-  margin-top: 24px;
 
   /* 核心修复：公用 overflow: visible，确保毛玻璃扩散阴影（14px）在所有容器中完整舒展不被截断 */
   overflow: visible;
@@ -45,6 +44,7 @@
   flex-direction: row;
   height: calc(var(--second-navbar-radius) * 2);
   box-sizing: content-box;
+  margin-top: 24px;
   padding-top: var(--second-nav-padding-top);
   margin-bottom: 10px;
 }
@@ -55,8 +55,9 @@
   top: 76px;
   z-index: 90;
   flex-direction: column;
-  height: 50vh;
-  margin-bottom: -50vh;
+  height: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 
   /* 纯变量驱动宽度与可见性：空间充足展开为 2 倍半径，空间不足数学归零 */
   width: min(calc(var(--second-navbar-radius) * 2),
