@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-23 16:23:52
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-23 17:12:41
+ * @LastEditTime: 2026-09-24 16:19:02
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -103,6 +103,7 @@ const platforms = [
 
 <BaseLayout
   {...restProps}
+  file={filePath}
   frontmatter={frontmatter}
   title={title}
   subtitle={subtitle}
@@ -117,11 +118,9 @@ const platforms = [
   >
     <div
       class:list={["intro-header", { "big-img": Boolean(coverImg) }]}
-      style={
-        coverImg
-          ? `background-image: url('${withBase(coverImg)}');`
-          : undefined
-      }
+      style={coverImg
+        ? `background-image: url('${withBase(coverImg)}');`
+        : undefined}
     >
       <div class="container">
         <div class="page-heading">
@@ -137,7 +136,10 @@ const platforms = [
       tags.length > 0 && (
         <SecondNavButtonGroup>
           {tags.map((tag: string) => (
-            <a href={withBase(`/tags#${tag}`)} class="second-nav-btn-group-item">
+            <a
+              href={withBase(`/tags#${tag}`)}
+              class="second-nav-btn-group-item"
+            >
               {tag}
             </a>
           ))}
@@ -186,12 +188,20 @@ const platforms = [
       <div style="margin-top: 2rem; margin-bottom: 2rem;">
         <ButtonGroup>
           {prevPost && (
-            <Button href={withBase(prevPost.url)} variant="normal" title={prevPost.title}>
+            <Button
+              href={withBase(prevPost.url)}
+              variant="normal"
+              title={prevPost.title}
+            >
               &larr; Previous Post
             </Button>
           )}
           {nextPost && (
-            <Button href={withBase(nextPost.url)} variant="normal" title={nextPost.title}>
+            <Button
+              href={withBase(nextPost.url)}
+              variant="normal"
+              title={nextPost.title}
+            >
               Next Post &rarr;
             </Button>
           )}

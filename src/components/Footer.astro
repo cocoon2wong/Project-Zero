@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 20:45:35
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-23 14:06:12
+ * @LastEditTime: 2026-09-24 16:18:13
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -14,10 +14,11 @@ import { withBase } from "../utils/url";
 interface Props {
   pageTitle?: string;
   sourcePath?: string;
+  file?: string;
   footnotes?: string[];
 }
 
-const { pageTitle, footnotes, sourcePath } = Astro.props;
+const { pageTitle, footnotes, sourcePath, file } = Astro.props;
 
 const currentYear = new Date().getFullYear();
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
@@ -28,24 +29,87 @@ const hasRelatedLinks = Boolean(
   siteConfig.footerRelatedLinks && siteConfig.footerRelatedLinks.length > 0,
 );
 
-const resolvedPath =
-  sourcePath ||
-  (pathname === homePath
-    ? "src/pages/index.astro"
-    : `src/pages/${pathname.replace(/^\//, "")}.astro`);
-const showEditButton = Boolean(
-  siteConfig.editPageButton && siteConfig.repository && siteConfig.pageBranch,
-);
-const editUrl = showEditButton
-  ? `https://github.com/${siteConfig.repository}/edit/${siteConfig.pageBranch}/${resolvedPath}`
-  : "";
-
-// Parse breadcrumb segments
+// Parse breadcrumb segments & normalized relative pathname
 const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, "");
 const relativePathname =
   basePrefix && pathname.startsWith(basePrefix)
     ? pathname.slice(basePrefix.length)
     : pathname;
+const cleanPath = relativePathname.replace(/^\/|\/$/g, "");
+
+// 编译期自适应获取所有合法页面源文件列表（支持 .astro, .md, .mdx）
+const pageModules = import.meta.glob([
+  "/src/pages/**/*.astro",
+  "/src/pages/**/*.md",
+  "/src/pages/**/*.mdx",
+]);
+const pageKeys = Object.keys(pageModules);
+
+// 自适应匹配物理源文件路径
+let matchedSrc = sourcePath || "";
+
+if (!matchedSrc && file) {
+  const match = file.match(/\/src\/pages\/(.+)$/);
+  if (match) {
+    matchedSrc = match[1];
+  }
+}
+
+if (!matchedSrc) {
+  const candidates =
+    cleanPath === ""
+      ? ["index.astro", "index.mdx", "index.md"]
+      : [
+          `${cleanPath}/index.astro`,
+          `${cleanPath}/index.mdx`,
+          `${cleanPath}/index.md`,
+          `${cleanPath}.astro`,
+          `${cleanPath}.mdx`,
+          `${cleanPath}.md`,
+        ];
+
+  for (const cand of candidates) {
+    if (pageKeys.includes(`/src/pages/${cand}`)) {
+      matchedSrc = cand;
+      break;
+    }
+  }
+}
+
+// 统一目录映射规则：
+// 1. URL 或源文件包含 posts：适配到 __posts 目录（若为列表 index 则在 __pages）
+// 2. 其他所有常规页面：适配到 __pages 目录
+let resolvedPath = "";
+if (matchedSrc) {
+  if (cleanPath.includes("posts") || matchedSrc.startsWith("posts/")) {
+    const postFile = matchedSrc.replace(/^posts\//, "");
+    resolvedPath = postFile.startsWith("index.")
+      ? `__pages/${matchedSrc}`
+      : `__posts/${postFile}`;
+  } else {
+    resolvedPath = `__pages/${matchedSrc}`;
+  }
+} else {
+  if (cleanPath.includes("posts")) {
+    const slug = cleanPath.split("/").pop();
+    resolvedPath =
+      slug && slug !== "posts"
+        ? `__posts/${slug}.md`
+        : "__pages/posts/index.astro";
+  } else if (!cleanPath) {
+    resolvedPath = "__pages/index.astro";
+  } else {
+    resolvedPath = `__pages/${cleanPath}.astro`;
+  }
+}
+
+const showEditButton = Boolean(
+  siteConfig.editPageButton && siteConfig.repository && siteConfig.pageBranch,
+);
+const editUrl =
+  showEditButton && resolvedPath
+    ? `https://github.com/${siteConfig.repository}/edit/${siteConfig.pageBranch}/${resolvedPath}`
+    : "";
 
 const segments = relativePathname.split("/").filter(Boolean);
 const crumbs = segments.map((seg, idx) => {
@@ -175,7 +239,8 @@ const crumbs = segments.map((seg, idx) => {
     <!-- Copyright & Action Links -->
     <div class="nav-footer-copyright">
       <div class="copyright-text">
-        Copyright &copy; {currentYear} {siteConfig.author}. All rights reserved.
+        Copyright &copy; {currentYear}
+        {siteConfig.author}. All rights reserved.
       </div>
 
       <div class="copyright-links">

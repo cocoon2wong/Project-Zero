@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 20:45:23
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-23 19:51:56
+ * @LastEditTime: 2026-09-24 16:06:41
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -111,15 +111,6 @@ footer.site-footer {
 
 .dark-mode.page-bg-gray footer.site-footer {
   background-color: var(--page-bg-color-dark-gray);
-}
-
-.site-footer .container {
-  width: 100%;
-  max-width: var(--page-max-width);
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: clamp(1.25rem, 4vw, 3rem);
-  padding-right: clamp(1.25rem, 4vw, 3rem);
 }
 
 /* --- Footer Directory --- */

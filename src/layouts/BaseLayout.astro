@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:34:12
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-23 17:12:29
+ * @LastEditTime: 2026-09-24 16:18:54
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -36,6 +36,7 @@ interface Props {
   footnotes?: string[];
   customCss?: string[];
   sourcePath?: string;
+  file?: string;
   frontmatter?: {
     title?: string;
     subtitle?: string;
@@ -68,6 +69,7 @@ const pageBackground =
   frontmatter?.pageBackground || Astro.props.pageBackground || "white";
 const navMode = frontmatter?.navMode || Astro.props.navMode || "regular";
 const sourcePath = frontmatter?.sourcePath || Astro.props.sourcePath;
+const file = Astro.props.file || (Astro.props as any).file;
 
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 const isHome = pathname === "/" || pathname === "/index";
@@ -119,7 +121,11 @@ const { colors } = siteConfig;
     <title>{fullTitle}</title>
 
     <!-- Custom stylesheets from site.config.ts and page frontmatter -->
-    {allCustomCss.map((href) => <link rel="stylesheet" href={withBase(href)} />)}
+    {
+      allCustomCss.map((href) => (
+        <link rel="stylesheet" href={withBase(href)} />
+      ))
+    }
 
     <!-- Anti-flicker dark mode script -->
     <script is:inline>
@@ -261,7 +267,12 @@ const { colors } = siteConfig;
     }
 
     <main class="main-page-container">
-      <nav id="side-navbar" class="side-nav-container" aria-label="Side Navigation"></nav>
+      <nav
+        id="side-navbar"
+        class="side-nav-container"
+        aria-label="Side Navigation"
+      >
+      </nav>
 
       <div
         id="main-layout-container"
@@ -301,7 +312,12 @@ const { colors } = siteConfig;
       </div>
     </main>
 
-    <Footer pageTitle={title} footnotes={footnotes} sourcePath={sourcePath} />
+    <Footer
+      pageTitle={title}
+      footnotes={footnotes}
+      sourcePath={sourcePath}
+      file={file}
+    />
     <AlertTemplates />
   </body>
 </html>
