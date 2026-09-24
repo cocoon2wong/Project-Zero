@@ -171,6 +171,20 @@ const { colors } = siteConfig;
       document.addEventListener("astro:page-load", initEmailObfuscation);
     </script>
 
+    <!-- Client-side Details/Summary Accordion controller -->
+    <script>
+      import { initDetailsAnimation } from "../utils/details";
+      initDetailsAnimation();
+      document.addEventListener("astro:page-load", initDetailsAnimation);
+    </script>
+
+    <!-- Client-side Side Navbar Docking controller -->
+    <script>
+      import { initSideNavbarDocking } from "../utils/side-nav";
+      initSideNavbarDocking();
+      document.addEventListener("astro:page-load", initSideNavbarDocking);
+    </script>
+
     <!-- Directly inject all colors from root site.config.ts into CSS :root -->
     <style
       is:inline
@@ -247,6 +261,8 @@ const { colors } = siteConfig;
     }
 
     <main class="main-page-container">
+      <nav id="side-navbar" class="side-nav-container" aria-label="Side Navigation"></nav>
+
       <div
         id="main-layout-container"
         class:list={[

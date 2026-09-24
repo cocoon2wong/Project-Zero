@@ -98,6 +98,7 @@ pre.astro-code {
   transition: background-color 0.2s ease-in-out;
   border-radius: 20px;
   padding: 0 18px;
+  margin: 10px 0;
 }
 
 .markdown-body details summary {
@@ -114,7 +115,6 @@ pre.astro-code {
 }
 
 .markdown-body details[open] {
-  margin-top: 10px;
   background-color: var(--details-background-col);
 }
 
@@ -132,5 +132,6 @@ pre.astro-code {
 }
 
 .markdown-body details[open]>*:last-child {
+  margin-bottom: 0;
   padding-bottom: 10px;
 }

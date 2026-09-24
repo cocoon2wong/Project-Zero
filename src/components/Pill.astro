@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:38:26
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-23 17:12:07
+ * @LastEditTime: 2026-09-24 09:56:32
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -19,6 +19,7 @@ interface Props {
   items?: PillItem[];
   variant?: "normal" | "theme" | "pure";
   class?: string;
+  hoverable?: boolean;
 }
 
 const {
@@ -26,15 +27,19 @@ const {
   items,
   variant = "normal",
   class: className = "",
+  hoverable = false,
 } = Astro.props;
 
 const variantClass =
   variant === "theme" ? "pill-theme" : variant === "pure" ? "pill-pure" : "";
+const hoverableClass = hoverable ? "pill-hoverable" : "";
 ---
 
 {
   items && items.length > 0 ? (
-    <div class={`pill pill-container ${variantClass} ${className}`.trim()}>
+    <div
+      class={`pill pill-container ${variantClass} ${hoverableClass} ${className}`.trim()}
+    >
       {items.map((item) =>
         item.href ? (
           <a
@@ -51,7 +56,9 @@ const variantClass =
       )}
     </div>
   ) : container ? (
-    <div class={`pill pill-container ${variantClass} ${className}`.trim()}>
+    <div
+      class={`pill pill-container ${variantClass} ${hoverableClass} ${className}`.trim()}
+    >
       <slot />
     </div>
   ) : (

@@ -326,9 +326,15 @@
 
 @media (max-width: 1199px) {
   .top-nav-container {
-    justify-content: flex-end;
+    justify-content: space-between;
     padding-top: 10px !important;
     padding-bottom: 10px !important;
+  }
+
+  .navbar-brand {
+    max-width: calc(100% - 60px);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .navbar-toggler {
@@ -344,6 +350,8 @@
     left: 0;
     right: 0;
     background-color: var(--navbar-bg-color);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
     border-top: 1px solid var(--navbar-border-color);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 0.5rem 1rem;

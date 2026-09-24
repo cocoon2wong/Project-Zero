@@ -20,7 +20,7 @@ function slugify(text: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-export function openTOC(isInitial = false) {
+export function openTOC(isInitial = false, triggerEvent?: MouseEvent) {
   const layoutContainer = document.getElementById("main-layout-container");
   const tocContainer = document.getElementById("dynamic-toc-container");
   const contentArea = document.getElementById("dynamic-main-content");
@@ -54,7 +54,7 @@ export function openTOC(isInitial = false) {
     restoreBtnContainer.style.opacity = "";
   }
 
-  // 3. 正文区域协同平滑滑动
+  // 3. 正文区域协同平滑滑动 (时长对齐为 380ms)
   if (firstLeft !== null && contentArea && !prefersReducedMotion) {
     const lastLeft = contentArea.getBoundingClientRect().left;
     const deltaX = firstLeft - lastLeft;
@@ -64,39 +64,65 @@ export function openTOC(isInitial = false) {
           { transform: `translateX(${deltaX}px)` },
           { transform: "translateX(0)" },
         ],
-        { duration: 400, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }
+        { duration: 380, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }
       );
     }
   }
 
-  // 4. TOC 面板自身：从圆形展开按钮均匀展开到最终位置（一步到位至 1.01x Hover 终态）
+  // 4. TOC 面板自身：基于液态玻璃物理参数（尺寸、平移、圆角）形变展开
   if (btnRect && panel && btnRect.width > 0 && !prefersReducedMotion) {
     const targetRect = panel.getBoundingClientRect();
     const deltaX = btnRect.left - targetRect.left;
     const deltaY = btnRect.top - targetRect.top;
-    const scaleX = btnRect.width / targetRect.width;
-    const scaleY = btnRect.height / targetRect.height;
+    const btnWidth = btnRect.width;
+    const btnHeight = btnRect.height;
+    const btnRadius = btnHeight / 2;
 
-    // 展开时鼠标处于面板上方，直接以 1.01x 终态完成展开，与 CSS :hover 无缝吻合，消除动画结束后的二次顿挫
-    const endScale = 1.01;
+    // 方案 A 动态 Hit-Test：判定鼠标点击坐标是否落在展开后的 TOC 面板物理边界内
+    const mouseX = triggerEvent ? triggerEvent.clientX : btnRect.left + btnRect.width / 2;
+    const mouseY = triggerEvent ? triggerEvent.clientY : btnRect.top + btnRect.height / 2;
+    const isMouseInsidePanel =
+      mouseX >= targetRect.left &&
+      mouseX <= targetRect.right &&
+      mouseY >= targetRect.top &&
+      mouseY <= targetRect.bottom;
 
+    const targetTransform = isMouseInsidePanel
+      ? "translate(0, 0) scale(1.01)"
+      : "translate(0, 0) scale(1)";
+
+    panel.style.overflow = "hidden";
     panel.style.transformOrigin = "top left";
-    panel.animate(
+
+    const anim = panel.animate(
       [
         {
-          transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
-          borderRadius: "50%",
+          width: `${btnWidth}px`,
+          height: `${btnHeight}px`,
+          transform: `translate(${deltaX}px, ${deltaY}px)`,
+          borderRadius: `${btnRadius}px`,
         },
         {
-          transform: `translate(0, 0) scale(${endScale}, ${endScale})`,
+          width: `${targetRect.width}px`,
+          height: `${targetRect.height}px`,
+          transform: targetTransform,
           borderRadius: "var(--toc-radius-outer, 20px)",
         },
       ],
       {
-        duration: 400,
+        duration: 380,
         easing: "cubic-bezier(0.16, 1, 0.3, 1)",
       }
     );
+
+    anim.onfinish = () => {
+      panel.style.overflow = "";
+      panel.style.transformOrigin = "";
+      panel.style.width = "";
+      panel.style.height = "";
+      panel.style.transform = "";
+      panel.style.borderRadius = "";
+    };
 
     // 面板内部内容平滑淡入
     const details = panel.querySelector("details");
@@ -107,7 +133,7 @@ export function openTOC(isInitial = false) {
           { opacity: 0, offset: 0.35 },
           { opacity: 1 },
         ],
-        { duration: 400, easing: "ease-out" }
+        { duration: 380, easing: "ease-out" }
       );
     }
   }
@@ -152,16 +178,21 @@ export function closeTOC(isInitial = false) {
     restoreBtnContainer.style.opacity = "0";
   }
 
-  // 3. 将 TOC 面板提升为 fixed 定位，完全脱离文档流但保持当前视觉像素坐标完全不变
+  // 3. 动态感知面板当前是否处于 hover 状态，若处于 hover 则从 scale(1.01) 开始收缩，彻底消除闪跳
+  const isHovered = panel.matches(":hover");
+  const startTransform = isHovered
+    ? "translate(0, 0) scale(1.01)"
+    : "translate(0, 0) scale(1)";
+
+  // 将 TOC 面板提升为 fixed 定位，完全脱离文档流但保持当前视觉像素坐标完全不变
   panel.style.position = "fixed";
   panel.style.top = `${currentPanelRect.top}px`;
   panel.style.left = `${currentPanelRect.left}px`;
-  panel.style.width = `${currentPanelRect.width}px`;
-  panel.style.height = `${currentPanelRect.height}px`;
   panel.style.margin = "0";
   panel.style.zIndex = "1000";
   panel.style.pointerEvents = "none";
   panel.style.transformOrigin = "top left";
+  panel.style.overflow = "hidden";
 
   // 让 aside 容器保持渲染树可见但脱离文档流，不推挤正文
   tocContainer.classList.add("toc-collapsing");
@@ -176,13 +207,12 @@ export function closeTOC(isInitial = false) {
   const targetBtnY = targetRect && targetRect.height > 0 ? targetRect.top : currentPanelRect.top;
   const targetBtnW = targetRect && targetRect.width > 0 ? targetRect.width : 38;
   const targetBtnH = targetRect && targetRect.height > 0 ? targetRect.height : 38;
+  const btnRadius = targetBtnH / 2;
 
   const deltaX = targetBtnX - currentPanelRect.left;
   const deltaY = targetBtnY - currentPanelRect.top;
-  const scaleX = targetBtnW / currentPanelRect.width;
-  const scaleY = targetBtnH / currentPanelRect.height;
 
-  // 6. 正文区域协同 FLIP 平滑向左舒展
+  // 6. 正文区域协同 FLIP 平滑向左舒展 (对齐为 380ms)
   if (firstLeft !== null && contentArea) {
     const lastLeft = contentArea.getBoundingClientRect().left;
     const diffX = firstLeft - lastLeft;
@@ -192,7 +222,7 @@ export function closeTOC(isInitial = false) {
           { transform: `translateX(${diffX}px)` },
           { transform: "translateX(0)" },
         ],
-        { duration: 350, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }
+        { duration: 380, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }
       );
     }
   }
@@ -209,7 +239,7 @@ export function closeTOC(isInitial = false) {
     );
   }
 
-  // 8. 还原按钮在收缩后半程（70%~100%）优雅淡入接管
+  // 8. 还原按钮在收缩后半程（70%~100%）优雅淡入接管 (对齐为 380ms)
   if (restoreBtnContainer) {
     restoreBtnContainer.animate(
       [
@@ -217,26 +247,29 @@ export function closeTOC(isInitial = false) {
         { opacity: 0, offset: 0.7 },
         { opacity: 1 },
       ],
-      { duration: 350, easing: "ease-out" }
+      { duration: 380, easing: "ease-out" }
     );
   }
 
-  // 9. 面板本身：从矩形面板平滑形变收缩到目标圆形按钮
+  // 9. 面板本身：属性、时长与缓动与展开动画完全镜像对称收缩
   const anim = panel.animate(
     [
       {
-        transform: "translate(0, 0) scale(1, 1)",
+        width: `${currentPanelRect.width}px`,
+        height: `${currentPanelRect.height}px`,
+        transform: startTransform,
         borderRadius: "var(--toc-radius-outer, 20px)",
         opacity: 1,
       },
       {
-        transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
-        borderRadius: "50%",
+        width: `${targetBtnW}px`,
+        height: `${targetBtnH}px`,
+        transform: `translate(${deltaX}px, ${deltaY}px)`,
+        borderRadius: `${btnRadius}px`,
         opacity: 0,
-        offset: 1,
       },
     ],
-    { duration: 350, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }
+    { duration: 380, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }
   );
 
   anim.onfinish = () => {
@@ -252,6 +285,7 @@ export function closeTOC(isInitial = false) {
     panel.style.pointerEvents = "";
     panel.style.transform = "";
     panel.style.transformOrigin = "";
+    panel.style.overflow = "";
     if (restoreBtnContainer) {
       restoreBtnContainer.style.opacity = "";
     }
@@ -341,7 +375,7 @@ export function initTOC() {
   if (restoreBtn) {
     restoreBtn.onclick = (e) => {
       e.preventDefault();
-      openTOC();
+      openTOC(false, e);
     };
   }
   if (closeBtn) {

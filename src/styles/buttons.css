@@ -168,7 +168,7 @@
   overflow: hidden;
   box-sizing: border-box;
   user-select: none;
-  transition: background-color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out, transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .dark-mode .pill-container,
@@ -177,6 +177,27 @@
   color: var(--btn-normal-text-dark);
   box-shadow:
     0 2px 12px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20);
+}
+
+/* Opt-in hover effect: 固化 GPU 硬件加速渲染，消除动画结束时的文字重绘吸附下沉 */
+.pill-container.pill-hoverable {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.pill-container.pill-hoverable:hover {
+  transform: scale(1.01) translateZ(0);
+  box-shadow:
+    0 3.3px 13.3px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.dark-mode .pill-container.pill-hoverable:hover {
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.81),
     inset 0 1px 0 rgba(255, 255, 255, 0.20);
 }
 

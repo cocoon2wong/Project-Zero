@@ -115,7 +115,7 @@
 .table-of-contents-container {
   width: 100%;
   transform-origin: top left;
-  will-change: transform, border-radius;
+  will-change: width, height, transform, border-radius;
 }
 
 /* Layer 3: Content & Embedded Scroll Container */
