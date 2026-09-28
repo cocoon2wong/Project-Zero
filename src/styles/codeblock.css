@@ -81,6 +81,7 @@ pre.astro-code {
 }
 
 .dark-mode :not(pre)>code {
+  color: #ff7b72;
   background-color: rgba(255, 255, 255, 0.12);
 }
 

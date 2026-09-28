@@ -276,7 +276,7 @@ const crumbs = segments.map((seg, idx) => {
   --footer-border-color: #00000035;
 }
 
-.dark-mode {
+:global(.dark-mode) {
   --footer-border-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -300,7 +300,7 @@ footer:has(.footer-footnotes) {
   text-align: left;
 }
 
-.dark-mode .footer-footnotes {
+:global(.dark-mode) .footer-footnotes {
   color: var(--footer-text-active-color-dark);
   opacity: 0.8;
 }
@@ -361,7 +361,7 @@ footer.site-footer {
   border-top: none;
 }
 
-.dark-mode footer.site-footer {
+:global(.dark-mode) footer.site-footer {
   background-color: var(--footer-bg-color-dark);
   color: var(--footer-text-active-color-dark);
 }
@@ -371,7 +371,7 @@ footer.site-footer {
   background-color: var(--page-bg-color-gray);
 }
 
-.dark-mode .page-bg-gray footer.site-footer {
+:global(.dark-mode) .page-bg-gray footer.site-footer {
   background-color: var(--page-bg-color-dark-gray);
 }
 
@@ -419,7 +419,7 @@ footer.site-footer {
   color: var(--footer-text-active-color);
 }
 
-.dark-mode .directory-list a {
+:global(.dark-mode) .directory-list a {
   color: var(--footer-text-active-color-dark);
 }
 
@@ -452,8 +452,8 @@ footer.site-footer {
   color: var(--footer-text-active-color);
 }
 
-.dark-mode .nav-footer-copyright,
-.dark-mode .copyright-links a {
+:global(.dark-mode) .nav-footer-copyright,
+:global(.dark-mode) .copyright-links a {
   color: var(--footer-text-active-color-dark);
 }
 
@@ -575,7 +575,7 @@ body:not(.page-bg-white) .main-page-container {
   padding-right: 4px;
 }
 
-.dark-mode .footer-nav .breadcrumb-item.active {
+:global(.dark-mode) .footer-nav .breadcrumb-item.active {
   color: var(--breadcrumb-active-color-dark);
 }
 
@@ -587,7 +587,7 @@ body:not(.page-bg-white) .main-page-container {
   content: var(--bs-breadcrumb-divider, ">");
 }
 
-.dark-mode .footer-nav .breadcrumb-item+.breadcrumb-item::before {
+:global(.dark-mode) .footer-nav .breadcrumb-item+.breadcrumb-item::before {
   color: var(--breadcrumb-color-dark);
 }
 
@@ -605,7 +605,7 @@ body:not(.page-bg-white) .main-page-container {
   color: var(--breadcrumb-color);
 }
 
-.dark-mode .footer-nav .breadcrumb-item>a {
+:global(.dark-mode) .footer-nav .breadcrumb-item>a {
   color: var(--breadcrumb-color-dark);
 }
 

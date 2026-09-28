@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:38:26
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-24 09:56:32
+ * @LastEditTime: 2026-09-28 17:23:38
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -102,8 +102,8 @@ const hoverableClass = hoverable ? "pill-hoverable" : "";
   transition: background-color 0.15s ease-in-out, transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-.dark-mode .pill-container,
-.dark-mode .pill {
+:global(.dark-mode) .pill-container,
+:global(.dark-mode) .pill {
   background-color: var(--btn-normal-bg-dark);
   color: var(--btn-normal-text-dark);
   box-shadow:
@@ -126,7 +126,7 @@ const hoverableClass = hoverable ? "pill-hoverable" : "";
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
-.dark-mode .pill-container.pill-hoverable:hover {
+:global(.dark-mode) .pill-container.pill-hoverable:hover {
   box-shadow:
     0 4px 16px rgba(0, 0, 0, 0.81),
     inset 0 1px 0 rgba(255, 255, 255, 0.20);
@@ -158,7 +158,7 @@ const hoverableClass = hoverable ? "pill-hoverable" : "";
   padding-right: 18px;
 }
 
-.dark-mode .pill-item {
+:global(.dark-mode) .pill-item {
   color: var(--btn-normal-text-dark);
 }
 
@@ -173,7 +173,7 @@ const hoverableClass = hoverable ? "pill-hoverable" : "";
   pointer-events: none;
 }
 
-.dark-mode .pill-item+.pill-item::before {
+:global(.dark-mode) .pill-item+.pill-item::before {
   background-color: rgba(255, 255, 255, 0.25);
 }
 
@@ -183,8 +183,8 @@ const hoverableClass = hoverable ? "pill-hoverable" : "";
   text-decoration: none !important;
 }
 
-.dark-mode .pill-item:hover,
-.dark-mode .pill-item:focus {
+:global(.dark-mode) .pill-item:hover,
+:global(.dark-mode) .pill-item:focus {
   color: var(--hover-color);
 }
 
@@ -194,8 +194,8 @@ const hoverableClass = hoverable ? "pill-hoverable" : "";
   font-weight: 700;
 }
 
-.dark-mode .pill-item.pill-active,
-.dark-mode .pill-item.pill-active:hover {
+:global(.dark-mode) .pill-item.pill-active,
+:global(.dark-mode) .pill-item.pill-active:hover {
   color: var(--theme-color);
 }
 
@@ -213,7 +213,7 @@ const hoverableClass = hoverable ? "pill-hoverable" : "";
   font-size: 0.875rem;
 }
 
-.dark-mode .pill-single {
+:global(.dark-mode) .pill-single {
   background-color: var(--btn-normal-bg-dark);
   color: var(--btn-normal-text-dark);
   box-shadow:
@@ -252,28 +252,28 @@ const hoverableClass = hoverable ? "pill-hoverable" : "";
 }
 
 /* Dark Mode Pill Theme */
-.dark-mode .pill-theme,
-.dark-mode .pill-container.pill-theme,
-.dark-mode .pill-single.pill-theme {
+:global(.dark-mode) .pill-theme,
+:global(.dark-mode) .pill-container.pill-theme,
+:global(.dark-mode) .pill-single.pill-theme {
   background-color: var(--btn-theme-bg);
-  color: var(--btn-theme-text);
+  color: var(--btn-theme-text-dark);
 }
 
-.dark-mode .pill-theme .pill-item,
-.dark-mode .pill-container.pill-theme .pill-item,
-.dark-mode .pill-single.pill-theme {
-  color: var(--btn-theme-text);
+:global(.dark-mode) .pill-theme .pill-item,
+:global(.dark-mode) .pill-container.pill-theme .pill-item,
+:global(.dark-mode) .pill-single.pill-theme {
+  color: var(--btn-theme-text-dark);
 }
 
-.dark-mode .pill-theme .pill-item:hover,
-.dark-mode .pill-theme .pill-item:focus,
-.dark-mode .pill-container.pill-theme .pill-item:hover,
-.dark-mode .pill-container.pill-theme .pill-item:focus {
-  color: var(--btn-theme-text);
+:global(.dark-mode) .pill-theme .pill-item:hover,
+:global(.dark-mode) .pill-theme .pill-item:focus,
+:global(.dark-mode) .pill-container.pill-theme .pill-item:hover,
+:global(.dark-mode) .pill-container.pill-theme .pill-item:focus {
+  color: var(--btn-theme-text-dark);
   opacity: 0.9;
 }
 
-.dark-mode .pill-theme .pill-item+.pill-item::before {
+:global(.dark-mode) .pill-theme .pill-item+.pill-item::before {
   background-color: rgba(255, 255, 255, 0.35);
 }
 </style>

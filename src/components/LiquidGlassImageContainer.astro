@@ -145,6 +145,10 @@ const imageList = rawList.map((item, index) => {
     color: var(--text-color, inherit);
   }
 
+  :global(.dark-mode) .caption-content {
+    color: var(--text-color-dark);
+  }
+
   .caption-content :global(p) {
     margin: 0;
   }

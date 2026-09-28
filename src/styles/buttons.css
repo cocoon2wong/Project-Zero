@@ -121,7 +121,7 @@
 .dark-mode .btn-theme,
 .dark-mode .btn-theme:hover,
 .dark-mode .btn-theme:focus {
-  color: var(--btn-theme-text);
+  color: var(--btn-theme-text-dark);
   background-color: var(--btn-theme-bg);
   border: 0;
 }

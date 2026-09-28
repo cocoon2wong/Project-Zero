@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 18:52:38
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-28 16:34:10
+ * @LastEditTime: 2026-09-28 17:24:01
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -125,7 +125,7 @@ const activeIndex = getActiveNavLinkIndex(pathname, resolvedUrls);
   text-decoration: none !important;
 }
 
-.dark-mode .navbar-brand {
+:global(.dark-mode) .navbar-brand {
   color: var(--text-color-dark);
 }
 
@@ -189,7 +189,7 @@ const activeIndex = getActiveNavLinkIndex(pathname, resolvedUrls);
   backdrop-filter: saturate(180%) blur(20px);
 }
 
-.dark-mode .top-nav-container:not(.top-nav-float) .top-nav-background-container {
+:global(.dark-mode) .top-nav-container:not(.top-nav-float) .top-nav-background-container {
   background-color: var(--navbar-bg-color-dark);
 }
 
@@ -246,7 +246,7 @@ const activeIndex = getActiveNavLinkIndex(pathname, resolvedUrls);
   border-radius: 35px;
 }
 
-.dark-mode .liquidGlass-tint {
+:global(.dark-mode) .liquidGlass-tint {
   background: rgba(23, 23, 23, 0.35);
 }
 
@@ -321,11 +321,11 @@ const activeIndex = getActiveNavLinkIndex(pathname, resolvedUrls);
   text-decoration: none !important;
 }
 
-.dark-mode .navbar-nav .nav-link {
+:global(.dark-mode) .navbar-nav .nav-link {
   color: var(--text-color-dark);
 }
 
-.dark-mode .navbar-nav .nav-link:hover {
+:global(.dark-mode) .navbar-nav .nav-link:hover {
   color: var(--hover-color);
 }
 
@@ -416,7 +416,7 @@ const activeIndex = getActiveNavLinkIndex(pathname, resolvedUrls);
   color: var(--navbar-text-color);
 }
 
-.dark-mode .navbar-toggler {
+:global(.dark-mode) .navbar-toggler {
   border-color: rgba(255, 255, 255, 0.2);
   color: var(--text-color-dark);
 }
@@ -454,7 +454,7 @@ const activeIndex = getActiveNavLinkIndex(pathname, resolvedUrls);
     padding: 0.5rem 1rem;
   }
 
-  .dark-mode .navbar-collapse {
+  :global(.dark-mode) .navbar-collapse {
     background-color: var(--page-bg-color-dark);
   }
 

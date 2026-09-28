@@ -123,10 +123,11 @@ export interface SiteConfig {
     // 4.7 Capsule Buttons & Segmented Pills
     buttonNormalBg: string;
     buttonNormalBgDark: string;
-    buttonNormalText: string;
-    buttonNormalTextDark: string;
+    buttonNormalText?: string;
+    buttonNormalTextDark?: string;
     buttonThemeBg: string;
-    buttonThemeText: string;
+    buttonThemeText?: string;
+    buttonThemeTextDark?: string;
     pillText: string;
     pillTextDark: string;
     pillActiveText: string;
@@ -243,6 +244,7 @@ export const siteConfig: SiteConfig = {
     buttonNormalTextDark: "#ffffff",
     buttonThemeBg: "#0085a1",
     buttonThemeText: "#ffffff",
+    buttonThemeTextDark: "#ffffff",
     pillText: "#3c3c3c",
     pillTextDark: "#ffffff",
     pillActiveText: "#0085a1",

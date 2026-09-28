@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-23 12:12:58
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-28 16:47:33
+ * @LastEditTime: 2026-09-28 17:24:28
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -142,7 +142,7 @@ const crumbs = showBreadcrumbsCurrentPage ? allCrumbs : allCrumbs.slice(0, -1);
   padding-right: 4px;
 }
 
-.dark-mode .second-nav-container .breadcrumb-item.active {
+:global(.dark-mode) .second-nav-container .breadcrumb-item.active {
   color: var(--second-nav-color-dark);
 }
 
@@ -161,7 +161,7 @@ const crumbs = showBreadcrumbsCurrentPage ? allCrumbs : allCrumbs.slice(0, -1);
   transition: opacity 0.15s ease-in-out;
 }
 
-.dark-mode .second-nav-container .breadcrumb-item+.breadcrumb-item>a::before {
+:global(.dark-mode) .second-nav-container .breadcrumb-item+.breadcrumb-item>a::before {
   background: var(--second-nav-divider-color-dark);
 }
 
