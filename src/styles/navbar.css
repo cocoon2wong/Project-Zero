@@ -111,10 +111,14 @@
   align-items: center;
   overflow: hidden;
   box-shadow: 0 3px 20px rgba(0, 0, 0, 0.336);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2), transform 0.35s ease;
   border-radius: 35px;
   margin-left: auto;
   box-sizing: border-box;
+}
+
+.top-nav-container.top-nav-float .top-nav-float-container:hover {
+  transform: scale(1.01);
 }
 
 .top-nav-float-container,
@@ -125,6 +129,7 @@
 /* In compact mode, floating capsule shadow dissolves */
 .top-nav-container:not(.top-nav-float) .top-nav-float-container {
   box-shadow: none;
+  transform: none;
 }
 
 /* ==========================================================================

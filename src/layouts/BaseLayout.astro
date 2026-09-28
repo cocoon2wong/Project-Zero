@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:34:12
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-24 16:18:54
+ * @LastEditTime: 2026-09-28 10:06:58
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -30,7 +30,7 @@ interface Props {
   pageBackground?: "white" | "gray";
   navMode?: "regular" | "short-permanent";
   showBreadcrumbs?: boolean;
-  showCurrentPage?: boolean;
+  showBreadcrumbsCurrentPage?: boolean;
   showTableOfContents?: boolean;
   navButtonGroup?: boolean;
   footnotes?: string[];
@@ -76,7 +76,7 @@ const isHome = pathname === "/" || pathname === "/index";
 const showBreadcrumbs = Boolean(
   frontmatter?.showBreadcrumbs ?? Astro.props.showBreadcrumbs,
 );
-const showCurrentPage = Astro.props.showCurrentPage ?? true;
+const showBreadcrumbsCurrentPage = Astro.props.showBreadcrumbsCurrentPage ?? false;
 const showTableOfContents = Boolean(
   frontmatter?.showTableOfContents ??
   Astro.props.showTableOfContents ??
@@ -300,7 +300,7 @@ const { colors } = siteConfig;
                 {showBreadcrumbs && (
                   <SecondNavBreadcrumb
                     pageTitle={title}
-                    showCurrentPage={showCurrentPage}
+                    showBreadcrumbsCurrentPage={showBreadcrumbsCurrentPage}
                   />
                 )}
                 <slot name="secondNav" />
