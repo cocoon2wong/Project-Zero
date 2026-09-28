@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 20:45:35
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-28 16:47:04
+ * @LastEditTime: 2026-09-28 18:21:07
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -271,13 +271,21 @@ const crumbs = segments.map((seg, idx) => {
 
 <style>
 :root {
-  --footer-text-active-color: #616A72;
-  --footer-text-active-color-dark: #FFFFFF;
-  --footer-border-color: #00000035;
+  --footer-bg-color: var(--level3-bg-color);
+  --footer-bg-color-dark: var(--level3-bg-color-dark);
+  --footer-text-color: var(--level3-text-color);
+  --footer-link-color: var(--level3-text-color);
+
+  --footer-text-active-color: var(--level3-text-color);
+  --footer-text-active-color-dark: var(--level3-text-color-dark);
+  --footer-footnote-color: var(--level4-text-color);
+  --footer-footnote-color-dark: var(--level4-text-color-dark);
+  --footer-border-color: var(--level4-bg-color);
+  --footer-border-color-dark: var(--level4-bg-color-dark);
 }
 
 :global(.dark-mode) {
-  --footer-border-color: rgba(255, 255, 255, 0.2);
+  --footer-border-color: var(--footer-border-color-dark);
 }
 
 /* --- Footer Footnotes --- */
@@ -296,12 +304,12 @@ footer:has(.footer-footnotes) {
   line-height: 1.33337;
   font-weight: 400;
   letter-spacing: -0.01em;
-  color: var(--footer-text-active-color);
+  color: var(--footer-footnote-color);
   text-align: left;
 }
 
 :global(.dark-mode) .footer-footnotes {
-  color: var(--footer-text-active-color-dark);
+  color: var(--footer-footnote-color-dark);
   opacity: 0.8;
 }
 
@@ -342,7 +350,7 @@ footer:has(.footer-footnotes) {
 }
 
 .footer-footnotes-list a:hover {
-  color: var(--footer-hover-col);
+  color: var(--theme-color);
 }
 
 /* When footnotes are present, remove top border + padding from the breadcrumb below */
@@ -424,7 +432,7 @@ footer.site-footer {
 }
 
 .directory-list a:hover {
-  color: var(--hover-color);
+  color: var(--theme-color);
   text-decoration: underline;
 }
 
@@ -478,7 +486,7 @@ footer.site-footer {
 }
 
 .copyright-links a:hover {
-  color: var(--hover-color);
+  color: var(--theme-color);
   text-decoration: underline;
 }
 
@@ -507,14 +515,15 @@ footer.site-footer {
    ========================================================================== */
 
 :root {
-  --breadcrumb-color: #616A72;
-  --breadcrumb-color-dark: #FFFFFF;
-  --breadcrumb-hover-color: #FFFFFF;
-  --breadcrumb-active-color: #616A72;
-  --breadcrumb-active-color-dark: #FFFFFF;
+  --breadcrumb-color: var(--level3-text-color);
+  --breadcrumb-color-dark: var(--level3-text-color-dark);
+  
+  --breadcrumb-hover-color: var(--level1-text-color-dark);
+  
+  --breadcrumb-active-color: var(--level3-text-color);
+  --breadcrumb-active-color-dark: var(--level3-text-color-dark);
 
   --breadcrumb-background-color: var(--second-nav-bg-color);
-  --breadcrumb-hover-background-color: var(--hover-color);
   --breadcrumb-background-color-dark: var(--second-nav-bg-color-dark);
 }
 
@@ -611,6 +620,6 @@ body:not(.page-bg-white) .main-page-container {
 
 .footer-nav .breadcrumb-item>a:hover {
   color: var(--breadcrumb-hover-color);
-  background-color: var(--breadcrumb-hover-background-color);
+  background-color: var(--theme-color);
 }
 </style>

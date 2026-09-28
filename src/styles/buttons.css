@@ -6,6 +6,16 @@
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
+:root {
+  --btn-normal-text: var(--level2-text-color);
+  --btn-normal-text-dark: var(--level2-text-color-dark);
+  --btn-theme-text: var(--level1-text-color-dark);
+  --btn-theme-text-dark: var(--level1-text-color-dark);
+
+  --btn-normal-bg: var(--level2-bg-color);
+  --btn-normal-bg-dark: var(--level2-bg-color-dark);
+  --btn-theme-bg: var(--theme-color);
+}
 
 /* ==========================================================================
    1. Base Button (.btn, .btn-lg, .btn-sm)
@@ -52,19 +62,33 @@
   border: 0;
   border-radius: 999px;
   box-shadow:
-    0 2px 10px rgba(0, 0, 0, 0.16),
+    0 1.5px 6px var(--level1-shadow-color),
+    0 0 14px var(--level2-shadow-color),
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
 .btn-normal:hover,
 .btn-theme:hover {
   border: 0;
+  box-shadow:
+    0 2.5px 8px var(--level3-shadow-color),
+    0 0px 17px var(--level4-shadow-color),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
 .dark-mode .btn-normal,
 .dark-mode .btn-theme {
   box-shadow:
-    0 2px 12px rgba(0, 0, 0, 0.45),
+    0 2px 6px var(--level1-shadow-color-dark),
+    0 0 12px var(--level2-shadow-color-dark),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20);
+}
+
+.dark-mode .btn-normal:hover,
+.dark-mode .btn-theme:hover {
+  box-shadow:
+    0 4px 8px var(--level3-shadow-color-dark),
+    0 0px 15px var(--level4-shadow-color-dark),
     inset 0 1px 0 rgba(255, 255, 255, 0.20);
 }
 

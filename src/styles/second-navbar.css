@@ -8,12 +8,13 @@
  */
 
 :root {
-  --second-nav-color: #616A72;
-  --second-nav-color-dark: #FFFFFF;
-  --second-nav-hover-color: #FFFFFF;
-  --second-nav-hover-bg-color: var(--hover-color, #0085A1);
-  --second-nav-divider-color: rgba(0, 0, 0, 0.1);
-  --second-nav-divider-color-dark: rgba(255, 255, 255, 0.25);
+  --second-nav-color: var(--level3-text-color);
+  --second-nav-color-dark: var(--level3-text-color-dark);
+  --second-nav-hover-color: var(--level1-text-color-dark);
+  --second-nav-bg-color: var(--level2-bg-color);
+  --second-nav-bg-color-dark: var(--level2-bg-color-dark);
+  --second-nav-divider-color: var(--level4-bg-color);
+  --second-nav-divider-color-dark: var(--level4-bg-color-dark);
 }
 
 /* ==========================================================================
@@ -25,8 +26,8 @@
 .side-nav-container {
   /* 毛玻璃统一环境参数：固化 35% 边缘辉光与主题底色 */
   --liquid-glass-edge-opacity: 35%;
-  --liquid-glass-bg-color: var(--second-nav-bg-color, #fafafc);
-  --liquid-glass-bg-color-dark: var(--second-nav-bg-color-dark, #3d3d3d);
+  --liquid-glass-bg-color: var(--level2-bg-color);
+  --liquid-glass-bg-color-dark: var(--level2-bg-color-dark);
 
   /* 公用排版对齐与间距 */
   display: flex;
@@ -199,7 +200,7 @@
 .second-nav-btn-group a:hover,
 .second-nav-btn-group button:hover {
   color: var(--second-nav-hover-color) !important;
-  background-color: var(--second-nav-hover-bg-color) !important;
+  background-color: var(--theme-color) !important;
   border-radius: var(--second-navbar-item-radius);
   text-decoration: none;
 }

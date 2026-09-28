@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-22 19:10:42
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-23 12:16:47
+ * @LastEditTime: 2026-09-28 20:17:01
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -11,6 +11,13 @@
 /* ==========================================================================
    Codeblock - 原生渲染架构（仅保留圆角、Margin 与原生黑白主题）
    ========================================================================== */
+
+:root {
+  --code-block-bg: var(--level3-bg-color);
+  --code-block-bg-dark: var(--level3-bg-color-dark);
+  --code-inline-bg: var(--level3-bg-color);
+  --code-inline-bg-dark: var(--level3-bg-color-dark);
+}
 
 /* 1. 外层包装容器（仅维持外边距与相对定位） */
 .codebox-wrapper {
@@ -25,15 +32,24 @@ pre.astro-code {
   padding: calc(var(--second-navbar-radius) * 0.6) calc(var(--second-navbar-radius) + var(--second-navbar-margin));
   border-radius: var(--second-navbar-radius);
   overflow-x: auto;
-  background-color: rgba(0, 0, 0, 0.03) !important;
+  background-color: var(--code-block-bg) !important;
   font-size: 0.875rem;
 }
 
 /* 3. 原生暗黑模式主题对接（Astro / Shiki Dual Themes） */
+.dark-mode .codebox-wrapper>pre,
+.dark-mode pre.astro-code,
+.dark-mode .astro-code {
+  background-color: var(--code-block-bg-dark) !important;
+}
+
 .dark-mode .astro-code,
 .dark-mode .astro-code span {
   color: var(--shiki-dark) !important;
-  background-color: var(--shiki-dark-bg) !important;
+}
+
+.dark-mode .astro-code span {
+  background-color: transparent !important;
 }
 
 /* 4. 右上角悬浮复制按钮（严格同心高度与定位） */
@@ -77,12 +93,12 @@ pre.astro-code {
   font-size: 0.8em;
   border-radius: 6px;
   color: #c7254e;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--code-inline-bg);
 }
 
 .dark-mode :not(pre)>code {
   color: #ff7b72;
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: var(--code-inline-bg-dark);
 }
 
 /* ==========================================================================
@@ -90,14 +106,15 @@ pre.astro-code {
    ========================================================================== */
 
 :root {
-  --details-open-border-col: #b1b1b150;
-  --details-background-col: rgba(0, 0, 0, 0.03);
-  --details-background-col-dark: var(--shiki-dark-bg, #24292e);
+  --details-open-border-col: var(--level4-bg-color);
+  --details-open-border-col-dark: var(--level4-bg-color-dark);
+  --details-background-col: var(--level3-bg-color);
+  --details-background-col-dark: var(--level3-bg-color-dark);
 }
 
 .markdown-body details {
   transition: background-color 0.2s ease-in-out;
-  border-radius: 20px;
+  border-radius: var(--second-navbar-radius);
   padding: 0 18px;
   margin: 10px 0;
 }
@@ -126,6 +143,10 @@ pre.astro-code {
 .markdown-body details[open] summary {
   padding: 8px 0;
   border-bottom: 1px solid var(--details-open-border-col);
+}
+
+.dark-mode .markdown-body details[open] summary {
+  border-bottom-color: var(--details-open-border-col-dark);
 }
 
 .markdown-body details[open]>*:nth-child(2) {

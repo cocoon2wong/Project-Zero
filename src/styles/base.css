@@ -7,6 +7,18 @@
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
 
+:root {
+  /* Backward-compatible document-level aliases */
+  --page-bg-color: var(--level1-bg-color);
+  --page-bg-color-dark: var(--level1-bg-color-dark);
+  --page-bg-color-gray: var(--level3-bg-color);
+  --page-bg-color-dark-gray: var(--level3-bg-color-dark);
+  --text-color: var(--level1-text-color);
+  --text-color-dark: var(--level1-text-color-dark);
+  --hover-color: var(--theme-color);
+  --link-color: var(--theme-color);
+}
+
 *,
 *::before,
 *::after {
@@ -22,8 +34,8 @@ html {
 body {
   font-family: var(--body-font);
   font-size: 1.125rem;
-  color: var(--text-color);
-  background-color: var(--page-bg-color);
+  color: var(--level1-text-color);
+  background-color: var(--level1-bg-color);
   overflow-wrap: break-word;
   min-height: 100vh;
   display: flex;
@@ -35,11 +47,11 @@ body {
 
 /* Page Background Variations */
 body.page-bg-white {
-  background-color: var(--page-bg-color);
+  background-color: var(--level1-bg-color);
 }
 
 body.page-bg-gray {
-  background-color: var(--page-bg-color-gray);
+  background-color: var(--level3-bg-color);
 }
 
 /* Typography */
@@ -69,11 +81,11 @@ h2 {
 
 .page-bg-white h2 {
   padding-bottom: 8px;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid var(--level4-bg-color);
 }
 
 .dark-mode .page-bg-white h2 {
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid var(--level4-bg-color-dark);
 }
 
 h3 {
@@ -91,7 +103,7 @@ p {
 }
 
 a {
-  color: var(--link-color);
+  color: var(--theme-color);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -99,11 +111,11 @@ a {
 a:hover,
 a:focus {
   text-decoration: underline;
-  color: var(--hover-color);
+  color: var(--theme-color);
 }
 
 blockquote {
-  color: #808080;
+  color: var(--level4-text-color);
   font-style: italic;
   border-left: 4px solid var(--theme-color);
   margin: 1.5rem 0;
@@ -123,13 +135,13 @@ img {
 /* User Selection Highlighting */
 ::selection {
   color: var(--page-bg-color);
-  background-color: var(--hover-color);
+  background-color: var(--theme-color);
   text-shadow: none;
 }
 
 ::-moz-selection {
   color: var(--page-bg-color);
-  background-color: var(--hover-color);
+  background-color: var(--theme-color);
   text-shadow: none;
 }
 
@@ -157,23 +169,27 @@ img {
 
 /* Dark Mode Overrides */
 .dark-mode {
-  background-color: var(--page-bg-color-dark);
-  color: var(--text-color-dark);
+  background-color: var(--level1-bg-color-dark);
+  color: var(--level1-text-color-dark);
 }
 
 .dark-mode body {
-  background-color: var(--page-bg-color-dark);
-  color: var(--text-color-dark);
+  background-color: var(--level1-bg-color-dark);
+  color: var(--level1-text-color-dark);
+}
+
+.dark-mode blockquote {
+  color: var(--level4-text-color-dark);
 }
 
 .dark-mode body.page-bg-white {
-  background-color: var(--page-bg-color-dark);
+  background-color: var(--level1-bg-color-dark);
 }
 
 .dark-mode body.page-bg-gray {
-  background-color: var(--page-bg-color-dark-gray);
+  background-color: var(--level3-bg-color-dark);
 }
 
 .dark-mode a {
-  color: var(--hover-color);
+  color: var(--theme-color);
 }

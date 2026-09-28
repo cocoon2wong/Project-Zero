@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 18:52:27
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-23 20:10:42
+ * @LastEditTime: 2026-09-28 20:19:31
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -124,7 +124,7 @@ export function initNavbar(): () => void {
     const isDark = document.documentElement.classList.contains('dark-mode');
     const navCol = isDark ? siteConfig.colors.navbarBgColorDark : siteConfig.colors.navbarBgColor;
     const borderCol = siteConfig.colors.navbarBorderColor;
-    const hoverCol = siteConfig.colors.hoverColor;
+    const hoverCol = siteConfig.colors.themeColor;
     return { navCol, borderCol, hoverCol };
   }
 
@@ -132,6 +132,9 @@ export function initNavbar(): () => void {
     if (!navContainer || !bgContainer || !floatContainer) return;
 
     const { navCol, borderCol, hoverCol } = getColors();
+
+    const isAtTop = rate === 0;
+    navContainer.classList.toggle('top-nav-at-top', isAtTop);
 
     if (rate < 1) {
       navContainer.classList.add('top-nav-float');
@@ -156,10 +159,24 @@ export function initNavbar(): () => void {
     bgContainer.style.borderBottom = `1px solid ${linear_color(Math.pow(rate, 2), [br, bg, bb, 0], [br, bg, bb, ba])}`;
 
     // Layer 2 float container shadow and padding
-    const shadowY = linear(Math.pow(rate, 0.5), 3, 0);
-    const shadowBlur = linear(Math.pow(rate, 0.5), 20, 0);
-    const shadowAlpha = linear(Math.pow(rate, 0.5), 0.336, 0);
-    floatContainer.style.boxShadow = `0 ${shadowY}px ${shadowBlur}px rgba(0, 0, 0, ${shadowAlpha})`;
+    if (isAtTop) {
+      // Clear inline boxShadow so pure CSS rules (.top-nav-float-container & .top-nav-at-top:hover) take full control
+      floatContainer.style.boxShadow = '';
+    } else if (rate >= 1) {
+      floatContainer.style.boxShadow = 'none';
+    } else {
+      // 0 < rate < 1: dynamic scroll interpolation from Level 3+4 down to 0
+      const isDark = document.documentElement.classList.contains('dark-mode');
+      const a3 = isDark ? 0.45 : 0.12;
+      const a4 = isDark ? 0.28 : 0.08;
+      const shadowY1 = linear(Math.pow(rate, 0.5), 3, 0);
+      const shadowBlur1 = linear(Math.pow(rate, 0.5), 20, 0);
+      const shadowAlpha1 = linear(Math.pow(rate, 0.5), a3, 0);
+      const shadowY2 = linear(Math.pow(rate, 0.5), 4, 0);
+      const shadowBlur2 = linear(Math.pow(rate, 0.5), 12, 0);
+      const shadowAlpha2 = linear(Math.pow(rate, 0.5), a4, 0);
+      floatContainer.style.boxShadow = `0 ${shadowY1}px ${shadowBlur1}px rgba(0, 0, 0, ${shadowAlpha1}), 0 ${shadowY2}px ${shadowBlur2}px rgba(0, 0, 0, ${shadowAlpha2})`;
+    }
     floatContainer.style.paddingLeft = `${linear(rate, 1, 20)}px`;
     floatContainer.style.paddingRight = `${linear(rate, 1, 1)}px`;
 
@@ -199,11 +216,11 @@ export function initNavbar(): () => void {
       // With img: strictly keep the original white gradient to transparent
       activeBgCol = linear_color(Math.pow(rate, 0.15), [255, 255, 255, 160], [255, 255, 255, 0]);
     } else {
-      // Without img: fade from light/dark gray at rate=0 to completely transparent at rate=1
+      // Without img: fade from Level 4 background at rate=0 to completely transparent at rate=1
       const isDark = document.documentElement.classList.contains('dark-mode');
-      const grayLight = siteConfig.colors.navbarIndicatorGrayLight || 'rgba(0, 0, 0, 0.12)';
-      const grayDark = siteConfig.colors.navbarIndicatorGrayDark || 'rgba(255, 255, 255, 0.16)';
-      const targetGray = isDark ? grayDark : grayLight;
+      const targetGray = getComputedStyle(document.documentElement)
+        .getPropertyValue(isDark ? '--level4-bg-color-dark' : '--level4-bg-color')
+        .trim();
       const [gr, gg, gb, ga] = parseColor(targetGray);
       activeBgCol = linear_color(Math.pow(rate, 0.15), [gr, gg, gb, ga], [gr, gg, gb, 0]);
     }

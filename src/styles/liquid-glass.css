@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-22 16:17:09
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-24 16:15:20
+ * @LastEditTime: 2026-09-28 18:08:23
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -11,17 +11,17 @@
 :root {
   --liquid-glass-radius-inner: var(--second-navbar-radius);
   --liquid-glass-radius-outer: calc(var(--liquid-glass-radius-inner) + 1px);
-  --liquid-glass-theme-bg-color: var(--hover-color, #0085a1);
-  --liquid-glass-bg-color: var(--second-nav-bg-color, #fafafc);
-  --liquid-glass-bg-color-dark: var(--second-nav-bg-color-dark, #3d3d3d);
+  --liquid-glass-theme-bg-color: var(--theme-color);
+  --liquid-glass-bg-color: var(--level2-bg-color);
+  --liquid-glass-bg-color-dark: var(--level2-bg-color-dark);
   --liquid-glass-edge-opacity: 100%;
   --liquid-glass-edge-angle: 45deg;
-  --liquid-glass-shadow: 0 1.5px 6px rgba(0, 0, 0, 0.08), 0 0 14px rgba(0, 0, 0, 0.06);
+  --liquid-glass-shadow: 0 1.5px 6px var(--level1-shadow-color), 0 0 14px var(--level2-shadow-color);
   --second-navbar-item-radius: calc(var(--liquid-glass-radius-inner) - var(--second-navbar-margin));
 }
 
 .dark-mode {
-  --liquid-glass-shadow: 0 2px 6px rgba(0, 0, 0, 0.25), 0 0 12px rgba(0, 0, 0, 0.15);
+  --liquid-glass-shadow: 0 2px 6px var(--level1-shadow-color-dark), 0 0 12px var(--level2-shadow-color-dark);
 }
 
 /* ==========================================================================
@@ -60,7 +60,7 @@
   inset: 0;
   margin: 1px;
   border-radius: var(--liquid-glass-radius-inner);
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: var(--level1-glass-bg-color);
   backdrop-filter: saturate(180%) blur(3px);
   -webkit-backdrop-filter: saturate(180%) blur(3px);
   pointer-events: none;
@@ -68,7 +68,7 @@
 }
 
 .dark-mode .liquidGlass-wrapper>.liquidGlass-effect {
-  background-color: #383838c0;
+  background-color: var(--level1-glass-bg-color-dark);
 }
 
 /* Layer 1: Tint */
@@ -105,9 +105,9 @@
 
 .liquidGlass-hoverable:hover {
   transform: scale(1.01);
-  box-shadow: 0 2.5px 8px rgba(0, 0, 0, 0.12), 0 0px 17px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2.5px 8px var(--level3-shadow-color), 0 0px 17px var(--level4-shadow-color);
 }
 
 .dark-mode .liquidGlass-hoverable:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.45), 0 0px 15px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 4px 8px var(--level3-shadow-color-dark), 0 0px 15px var(--level4-shadow-color-dark);
 }
