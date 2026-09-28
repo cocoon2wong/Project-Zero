@@ -9,6 +9,7 @@
  */
 
 import BaseLayout from "./BaseLayout.astro";
+import Hero from "../components/Hero.astro";
 import ButtonGroup from "../components/ButtonGroup.astro";
 import Button from "../components/Button.astro";
 import SecondNavButtonGroup from "../components/SecondNavButtonGroup.astro";
@@ -112,24 +113,13 @@ const platforms = [
   showTableOfContents={true}
   showBreadcrumbs={false}
 >
-  <header
+  <Hero
     slot="header"
-    class:list={["header-section", { "has-img": Boolean(coverImg) }]}
-  >
-    <div
-      class:list={["intro-header", { "big-img": Boolean(coverImg) }]}
-      style={coverImg
-        ? `background-image: url('${withBase(coverImg)}');`
-        : undefined}
-    >
-      <div class="container">
-        <div class="page-heading">
-          <h1>{title}</h1>
-          {subtitle && <h2 class="page-subheading">{subtitle}</h2>}
-        </div>
-      </div>
-    </div>
-  </header>
+    title={title}
+    subtitle={subtitle}
+    subtitleTag="h2"
+    coverImg={coverImg}
+  />
 
   <Fragment slot="secondNav">
     {

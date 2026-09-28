@@ -3,13 +3,14 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 17:34:12
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-28 10:06:58
+ * @LastEditTime: 2026-09-28 16:29:51
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
 
 import { siteConfig } from "@site.config";
 import Navbar from "../components/Navbar.astro";
+import Hero from "../components/Hero.astro";
 import SecondNavbar from "../components/SecondNavbar.astro";
 import TableOfContents from "../components/TableOfContents.astro";
 import SecondNavTocButton from "../components/SecondNavTocButton.astro";
@@ -76,7 +77,8 @@ const isHome = pathname === "/" || pathname === "/index";
 const showBreadcrumbs = Boolean(
   frontmatter?.showBreadcrumbs ?? Astro.props.showBreadcrumbs,
 );
-const showBreadcrumbsCurrentPage = Astro.props.showBreadcrumbsCurrentPage ?? false;
+const showBreadcrumbsCurrentPage =
+  Astro.props.showBreadcrumbsCurrentPage ?? false;
 const showTableOfContents = Boolean(
   frontmatter?.showTableOfContents ??
   Astro.props.showTableOfContents ??
@@ -243,25 +245,7 @@ const { colors } = siteConfig;
         <slot name="header" />
       ) : (
         !hideTitle && (
-          <header
-            class:list={["header-section", { "has-img": Boolean(coverImg) }]}
-          >
-            <div
-              class:list={["intro-header", { "big-img": Boolean(coverImg) }]}
-              style={
-                coverImg
-                  ? `background-image: url('${withBase(coverImg)}');`
-                  : undefined
-              }
-            >
-              <div class="container">
-                <div class="page-heading">
-                  <h1>{title}</h1>
-                  {subtitle && <span class="page-subheading">{subtitle}</span>}
-                </div>
-              </div>
-            </div>
-          </header>
+          <Hero title={title} subtitle={subtitle} coverImg={coverImg} />
         )
       )
     }

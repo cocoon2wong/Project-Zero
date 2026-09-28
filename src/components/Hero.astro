@@ -1,0 +1,154 @@
+---
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-28 16:24:29
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-28 16:29:21
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+import { withBase } from "../utils/url";
+
+interface Props {
+  /** Page or article title */
+  title?: string;
+  /** Subtitle or description text */
+  subtitle?: string;
+  /** Subtitle HTML tag ('h2' | 'span'). Defaults to 'span' */
+  subtitleTag?: "h2" | "span";
+  /** Header background cover image path (prefixed with withBase) */
+  coverImg?: string;
+  /** Optional custom CSS classes */
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  title = "",
+  subtitle = "",
+  subtitleTag: SubtitleTag = "span",
+  coverImg,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const hasImg = Boolean(coverImg);
+const bgUrl = coverImg
+  ? /^(https?:)?\/\//.test(coverImg)
+    ? coverImg
+    : withBase(coverImg)
+  : undefined;
+---
+
+<header
+  class:list={["header-section", { "has-img": hasImg }, className]}
+  {...rest}
+>
+  <div
+    class:list={["intro-header", { "big-img": hasImg }]}
+    style={bgUrl ? `background-image: url('${bgUrl}');` : undefined}
+  >
+    <div class="container">
+      <div class="page-heading">
+        {title && <h1>{title}</h1>}
+        {
+          subtitle && (
+            <SubtitleTag class="page-subheading">{subtitle}</SubtitleTag>
+          )
+        }
+        <slot />
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header-section {
+    position: relative;
+    background-color: transparent;
+    border-bottom: none;
+    box-shadow: none;
+  }
+
+  .header-section:not(.has-img) {
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Unified breathing room for main container when hero image is present */
+  :global(.header-section.has-img + .main-page-container) {
+    padding-top: 15px;
+  }
+
+  :global(.header-section.has-img + .main-page-container .second-nav-container),
+  :global(.header-section.has-img + .main-page-container .toc-sidebar) {
+    margin-top: 0;
+  }
+
+  .intro-header {
+    margin: 5rem 0 1.25rem;
+    position: relative;
+  }
+
+  .intro-header.big-img {
+    margin-top: 0;
+    margin-bottom: 0;
+    background: no-repeat center center;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+  }
+
+  .intro-header .page-heading {
+    text-align: left;
+    padding: 1.25rem 0 1.75rem;
+  }
+
+  .intro-header.big-img .page-heading {
+    text-align: center;
+    padding: 6.25rem 0;
+    color: #fff;
+    text-shadow: 1px 1px 3px #000;
+  }
+
+  .intro-header .page-heading h1 {
+    margin-top: 0;
+    margin-bottom: 0.35rem;
+    font-size: clamp(2.75rem, 5vw, 3.85rem);
+    line-height: 1.15;
+  }
+
+  .intro-header .page-heading h2,
+  .intro-header .page-heading .page-subheading {
+    margin-top: 0;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+  }
+
+  .intro-header.big-img .page-heading h1 {
+    font-size: 3.125rem;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 768px) {
+    .intro-header.big-img .page-heading {
+      padding: 4rem 0;
+    }
+
+    .intro-header .page-heading h1 {
+      font-size: 2.25rem;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .intro-header.big-img .page-heading {
+      padding: 9.375rem 0;
+    }
+
+    .intro-header.big-img .page-heading h1 {
+      font-size: 5rem;
+    }
+  }
+</style>

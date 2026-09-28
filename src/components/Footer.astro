@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-21 20:45:35
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-28 10:20:17
+ * @LastEditTime: 2026-09-28 16:47:04
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -28,6 +28,7 @@ const hideDetailed = Boolean(siteConfig.hideDetailedFooter);
 const hasRelatedLinks = Boolean(
   siteConfig.footerRelatedLinks && siteConfig.footerRelatedLinks.length > 0,
 );
+const homeLabel = hasRelatedLinks ? "Home" : siteConfig.title;
 
 // Parse breadcrumb segments & normalized relative pathname
 const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -166,7 +167,7 @@ const crumbs = segments.map((seg, idx) => {
                       d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
                     />
                   </svg>
-                  {siteConfig.title}
+                  {homeLabel}
                 </a>
               </li>
 
@@ -267,3 +268,349 @@ const crumbs = segments.map((seg, idx) => {
     </div>
   </div>
 </footer>
+
+<style>
+:root {
+  --footer-text-active-color: #616A72;
+  --footer-text-active-color-dark: #FFFFFF;
+  --footer-border-color: #00000035;
+}
+
+.dark-mode {
+  --footer-border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Footer Footnotes --- */
+
+/* Reduce overall footer top padding when footnotes are present */
+footer:has(.footer-footnotes) {
+  padding-top: 6px !important;
+}
+
+.footer-footnotes {
+  padding-top: 4px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--footer-border-color);
+  margin-bottom: 12px;
+  font-size: 11px;
+  line-height: 1.33337;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--footer-text-active-color);
+  text-align: left;
+}
+
+.dark-mode .footer-footnotes {
+  color: var(--footer-text-active-color-dark);
+  opacity: 0.8;
+}
+
+.footer-footnotes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-footnotes-list li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  font-size: 11px;
+  line-height: 1.33337;
+  color: inherit;
+}
+
+.footer-footnotes-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Flexbox hanging indent for numbered footnotes */
+.footer-footnotes-list .footnote-number {
+  flex-shrink: 0;
+  width: 1.4em;
+  text-align: left;
+  color: inherit;
+}
+
+.footer-footnotes-list .footnote-text {
+  flex: 1;
+}
+
+.footer-footnotes-list a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.footer-footnotes-list a:hover {
+  color: var(--footer-hover-col);
+}
+
+/* When footnotes are present, remove top border + padding from the breadcrumb below */
+.footer-footnotes+.footer-nav.breadcrumb-container {
+  border-top: none !important;
+  padding-top: 0;
+}
+
+/* --- Footer Outer Container Background & Sizing --- */
+footer.site-footer {
+  width: 100%;
+  padding-top: 5px;
+  font-size: 0.875rem;
+  background-color: var(--footer-bg-color);
+  color: var(--footer-text-active-color);
+  border-top: none;
+}
+
+.dark-mode footer.site-footer {
+  background-color: var(--footer-bg-color-dark);
+  color: var(--footer-text-active-color-dark);
+}
+
+/* Gray background page support */
+.page-bg-gray footer.site-footer {
+  background-color: var(--page-bg-color-gray);
+}
+
+.dark-mode .page-bg-gray footer.site-footer {
+  background-color: var(--page-bg-color-dark-gray);
+}
+
+/* --- Footer Directory --- */
+.footer-directory {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+  margin: 0 auto;
+  padding-bottom: 10px;
+}
+
+.footer-directory.is-single-column {
+  grid-template-columns: 1fr;
+}
+
+.footer-directory .directory-list-title {
+  font-weight: bold;
+  margin-bottom: 0.7rem;
+}
+
+.directory-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.directory-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-directory.is-single-column .directory-list {
+  column-count: 2;
+  column-gap: 4rem;
+}
+
+.directory-list li {
+  margin-bottom: 0.5rem;
+}
+
+.directory-list a {
+  font-size: 12px;
+  text-decoration: none;
+  color: var(--footer-text-active-color);
+}
+
+.dark-mode .directory-list a {
+  color: var(--footer-text-active-color-dark);
+}
+
+.directory-list a:hover {
+  color: var(--hover-color);
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .footer-directory,
+  .footer-directory.is-single-column {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-directory.is-single-column .directory-list {
+    column-count: 1;
+  }
+}
+
+/* --- Nav Footer Copyright --- */
+.nav-footer-copyright {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  padding-bottom: 12px;
+  border-top: 1px solid var(--footer-border-color);
+  font-size: 14px;
+  color: var(--footer-text-active-color);
+}
+
+.dark-mode .nav-footer-copyright,
+.dark-mode .copyright-links a {
+  color: var(--footer-text-active-color-dark);
+}
+
+.copyright-text {
+  margin-right: 2rem;
+  white-space: nowrap;
+}
+
+.copyright-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.copyright-links a {
+  text-decoration: none;
+  padding: 0 10px;
+  border-right: 1px solid var(--footer-border-color);
+  line-height: 1;
+  color: var(--footer-text-active-color);
+  cursor: pointer;
+}
+
+.copyright-links a:hover {
+  color: var(--hover-color);
+  text-decoration: underline;
+}
+
+.copyright-links a:first-child {
+  padding-left: 0;
+}
+
+.copyright-links a:last-child {
+  padding-right: 0;
+  border-right: none;
+}
+
+@media (max-width: 768px) {
+  .nav-footer-copyright {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .copyright-links {
+    row-gap: 8px;
+  }
+}
+/* ==========================================================================
+   Footer Breadcrumb Foundation & Specifics (Scoped strictly to Footer)
+   ========================================================================== */
+
+:root {
+  --breadcrumb-color: #616A72;
+  --breadcrumb-color-dark: #FFFFFF;
+  --breadcrumb-hover-color: #FFFFFF;
+  --breadcrumb-active-color: #616A72;
+  --breadcrumb-active-color-dark: #FFFFFF;
+
+  --breadcrumb-background-color: var(--second-nav-bg-color);
+  --breadcrumb-hover-background-color: var(--hover-color);
+  --breadcrumb-background-color-dark: var(--second-nav-bg-color-dark);
+}
+
+.footer-nav.breadcrumb-container {
+  background: transparent;
+  box-shadow: none;
+  font-size: 14px;
+  padding-left: 0;
+  padding-right: 12px;
+  margin-bottom: 10px;
+  height: auto;
+}
+
+body:not(.page-bg-white) .footer-nav.breadcrumb-container {
+  border-top: 1px solid var(--footer-border-color);
+  padding-top: 10px;
+}
+
+body:not(.page-bg-white) .main-page-container {
+  padding-bottom: 15px;
+}
+
+.footer-nav.breadcrumb-container::before {
+  background: transparent;
+}
+
+.footer-nav .breadcrumb {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-nav .breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+}
+
+.footer-nav .breadcrumb-item+.breadcrumb-item {
+  padding-left: 0.5rem;
+}
+
+.footer-nav .breadcrumb-item svg {
+  vertical-align: middle;
+  margin-right: 3px;
+}
+
+.footer-nav .breadcrumb .breadcrumb-item:first-child a {
+  margin-left: 0;
+}
+
+.footer-nav .breadcrumb-item.active {
+  color: var(--breadcrumb-active-color);
+  padding-right: 4px;
+}
+
+.dark-mode .footer-nav .breadcrumb-item.active {
+  color: var(--breadcrumb-active-color-dark);
+}
+
+/* 基础分隔符 (默认 > 分隔符，完全保留给 Footer) */
+.footer-nav .breadcrumb-item+.breadcrumb-item::before {
+  float: left;
+  padding-right: 0.5rem;
+  color: var(--breadcrumb-color);
+  content: var(--bs-breadcrumb-divider, ">");
+}
+
+.dark-mode .footer-nav .breadcrumb-item+.breadcrumb-item::before {
+  color: var(--breadcrumb-color-dark);
+}
+
+.footer-nav .breadcrumb-item.active::before {
+  padding-right: 16px;
+}
+
+/* Footer breadcrumb link font color & interactive pill hover */
+.footer-nav .breadcrumb-item>a {
+  margin: 3px;
+  padding: 3px 6px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.1s ease-in-out;
+  color: var(--breadcrumb-color);
+}
+
+.dark-mode .footer-nav .breadcrumb-item>a {
+  color: var(--breadcrumb-color-dark);
+}
+
+.footer-nav .breadcrumb-item>a:hover {
+  color: var(--breadcrumb-hover-color);
+  background-color: var(--breadcrumb-hover-background-color);
+}
+</style>

@@ -3,7 +3,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-09-23 12:12:58
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-09-28 10:23:36
+ * @LastEditTime: 2026-09-28 16:47:33
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
  */
@@ -88,3 +88,89 @@ const crumbs = showBreadcrumbsCurrentPage ? allCrumbs : allCrumbs.slice(0, -1);
     </SecondNavButtonGroup>
   )
 }
+
+<style is:global>
+/* ==========================================================================
+   Secondary Navbar Breadcrumb (Fully Self-contained & Isolated from Footer)
+   ========================================================================== */
+
+.second-nav-container .breadcrumb-container {
+  padding-right: 0;
+}
+
+.second-nav-container .breadcrumb {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.second-nav-container .breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+
+.second-nav-container .breadcrumb-item+.breadcrumb-item {
+  padding-left: 0;
+}
+
+/* Disable default '>' separator in secondary navbar (replaced by 75% vertical line on a::before) */
+.second-nav-container .breadcrumb-item+.breadcrumb-item::before {
+  display: none;
+}
+
+.second-nav-container .breadcrumb-item>a svg {
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.second-nav-container .breadcrumb-item>a {
+  margin-right: 0;
+}
+
+.second-nav-container .breadcrumb-item:last-child>a {
+  margin-right: var(--second-navbar-margin);
+}
+
+.second-nav-container .breadcrumb-item.active {
+  color: var(--second-nav-color);
+  padding-right: 4px;
+}
+
+.dark-mode .second-nav-container .breadcrumb-item.active {
+  color: var(--second-nav-color-dark);
+}
+
+/* Secondary Navbar vertical divider line (75% button height) */
+.second-nav-container .breadcrumb-item+.breadcrumb-item>a::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--second-navbar-margin) * -0.5);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 1px;
+  height: 75%;
+  background: var(--second-nav-divider-color);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.dark-mode .second-nav-container .breadcrumb-item+.breadcrumb-item>a::before {
+  background: var(--second-nav-divider-color-dark);
+}
+
+/* Hide adjacent divider lines on hover */
+.second-nav-container .breadcrumb-item>a:hover::before {
+  opacity: 0;
+}
+
+.second-nav-container .breadcrumb-item:has(> a:hover)+.breadcrumb-item>a::before {
+  opacity: 0;
+}
+</style>
