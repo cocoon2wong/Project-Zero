@@ -39,3 +39,46 @@ export function withBase(path?: string): string {
 
   return `${base}${cleanPath}`;
 }
+
+/**
+ * Calculates the active navigation item index given the current pathname and all link hrefs.
+ * Ensures single-item activation: exact matches take precedence, followed by longest prefix matches.
+ * The home/root URL only activates on exact match or its index alias.
+ *
+ * @param pathname Current page pathname
+ * @param hrefs Array of link href strings (already resolved with base)
+ * @returns Index of the active link, or -1 if none match
+ */
+export function getActiveNavLinkIndex(pathname: string, hrefs: string[]): number {
+  const normPath = pathname.replace(/\/$/, '') || '/';
+  const homeHref = withBase('/').replace(/\/$/, '') || '/';
+  const homeIndexHref = withBase('/index').replace(/\/$/, '') || '/index';
+
+  // 1. Exact match pass
+  for (let i = 0; i < hrefs.length; i++) {
+    const normHref = hrefs[i].replace(/\/$/, '') || '/';
+    if (normHref === homeHref) {
+      if (normPath === homeHref || normPath === homeIndexHref) {
+        return i;
+      }
+    } else if (normPath === normHref) {
+      return i;
+    }
+  }
+
+  // 2. Longest prefix match pass (ignoring root/home link to prevent it from matching everything)
+  let bestIndex = -1;
+  let maxPrefixLength = 0;
+
+  for (let i = 0; i < hrefs.length; i++) {
+    const normHref = hrefs[i].replace(/\/$/, '') || '/';
+    if (normHref !== homeHref && normPath.startsWith(normHref + '/')) {
+      if (normHref.length > maxPrefixLength) {
+        maxPrefixLength = normHref.length;
+        bestIndex = i;
+      }
+    }
+  }
+
+  return bestIndex;
+}

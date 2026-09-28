@@ -9,7 +9,7 @@
  */
 
 import { siteConfig } from "@site.config";
-import { withBase } from "../utils/url";
+import { withBase, getActiveNavLinkIndex } from "../utils/url";
 
 interface Props {
   mode?: "regular" | "short-permanent";
@@ -19,6 +19,8 @@ interface Props {
 const { mode = "regular", pageTitle = "" } = Astro.props;
 const navLinks = siteConfig.navLinks || [];
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+const resolvedUrls = navLinks.map((link) => withBase(link.url));
+const activeIndex = getActiveNavLinkIndex(pathname, resolvedUrls);
 ---
 
 <nav
@@ -64,14 +66,9 @@ const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
       <div class="liquidGlass-shine"></div>
       <ul class="navbar-nav">
         {
-          navLinks.map((link) => {
-            const resolvedUrl = withBase(link.url);
-            const linkHref = resolvedUrl.replace(/\/$/, "") || "/";
-            const homeHref = withBase("/").replace(/\/$/, "") || "/";
-            const isActive =
-              linkHref === homeHref
-                ? pathname === homeHref || pathname === withBase("/index")
-                : pathname === linkHref || pathname.startsWith(linkHref + "/");
+          navLinks.map((link, idx) => {
+            const resolvedUrl = resolvedUrls[idx];
+            const isActive = idx === activeIndex;
             return (
               <li class:list={["nav-item", { "top-nav-active": isActive }]}>
                 <a class="nav-link" href={resolvedUrl}>

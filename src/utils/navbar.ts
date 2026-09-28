@@ -9,6 +9,7 @@
 
 
 import { siteConfig } from '@site.config';
+import { getActiveNavLinkIndex } from './url';
 
 function linear(rate: number, start: number, end: number): number {
   return rate * (end - start) + start;
@@ -82,28 +83,26 @@ export function initNavbar(): () => void {
 
   // Sync active nav item based on window.location
   const pathname = window.location.pathname.replace(/\/$/, '') || '/';
-  document.querySelectorAll<HTMLLIElement>('.navbar-nav li').forEach((li) => {
+  const navItems = Array.from(document.querySelectorAll<HTMLLIElement>('.navbar-nav li'));
+  const navHrefs = navItems.map((li) => {
     const anchor = li.querySelector<HTMLAnchorElement>('a');
-    if (anchor) {
-      const rawHref = anchor.getAttribute('href') || '';
-      const href = rawHref.replace(/\/$/, '') || '/';
-      const isActive =
-        href === '/'
-          ? pathname === '/' || pathname === '/index'
-          : pathname === href || pathname.startsWith(href + '/');
+    return anchor ? (anchor.getAttribute('href') || '') : '';
+  });
+  const activeIndex = getActiveNavLinkIndex(pathname, navHrefs);
 
-      li.classList.toggle('top-nav-active', isActive);
-      let indicator = li.querySelector<HTMLElement>('.top-nav-active-background-container');
-      if (isActive) {
-        if (!indicator) {
-          indicator = document.createElement('nav');
-          indicator.className = 'top-nav-active-background-container nav-item-active';
-          li.appendChild(indicator);
-        }
-      } else {
-        if (indicator) {
-          indicator.remove();
-        }
+  navItems.forEach((li, idx) => {
+    const isActive = idx === activeIndex;
+    li.classList.toggle('top-nav-active', isActive);
+    let indicator = li.querySelector<HTMLElement>('.top-nav-active-background-container');
+    if (isActive) {
+      if (!indicator) {
+        indicator = document.createElement('nav');
+        indicator.className = 'top-nav-active-background-container nav-item-active';
+        li.appendChild(indicator);
+      }
+    } else {
+      if (indicator) {
+        indicator.remove();
       }
     }
   });
