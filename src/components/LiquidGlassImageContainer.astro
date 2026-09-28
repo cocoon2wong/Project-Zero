@@ -1,0 +1,151 @@
+---
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-28 15:54:39
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-28 16:13:10
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+import LiquidGlass from "./LiquidGlass.astro";
+import { withBase } from "../utils/url";
+
+export interface ImageItem {
+  /** Image source URL or path (automatically prefixed with base path via withBase) */
+  src: string;
+  /** Image alt text. Defaults to "Illustration" */
+  alt?: string;
+  /** Optional width for this specific image (e.g. "60%", 300) */
+  width?: string | number;
+  /** Optional max height for this specific image (e.g. "400px", "100%") */
+  maxHeight?: string | number;
+  /** Optional inline CSS style string for this image */
+  style?: string;
+}
+
+interface Props {
+  /** Shorthand for single image source URL or path */
+  src?: string;
+  /** Image alt text for single image. Defaults to "Illustration" */
+  alt?: string;
+  /** List of images to display in sequence */
+  images?: (string | ImageItem)[];
+  /** Default width for all images if not specified per item (e.g. "60%", "auto") */
+  width?: string | number;
+  /** Maximum image height limit, supporting numbers or CSS units. Defaults to "100%" */
+  maxHeight?: string | number;
+  /** Optional caption text (can also be passed via the default slot for rich text/markdown) */
+  caption?: string;
+  /** Whether to enable hover scaling and shadow enhancement on LiquidGlass. Defaults to true */
+  hoverable?: boolean;
+  /** Optional custom CSS classes */
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  src,
+  alt = "Illustration",
+  images,
+  width,
+  maxHeight = "100%",
+  caption,
+  hoverable = true,
+  class: className,
+  style,
+  ...rest
+} = Astro.props;
+
+const rawList: (string | ImageItem)[] =
+  images && images.length > 0
+    ? images
+    : src
+      ? [{ src, alt, width, maxHeight }]
+      : [];
+
+const imageList = rawList.map((item, index) => {
+  const obj: ImageItem = typeof item === "string" ? { src: item } : item;
+  const processedSrc = /^(https?:)?\/\//.test(obj.src)
+    ? obj.src
+    : withBase(obj.src);
+  const itemAlt = obj.alt ?? alt ?? `Illustration ${index + 1}`;
+  const itemWidth = obj.width ?? width;
+  const formattedWidth =
+    typeof itemWidth === "number" ? `${itemWidth}px` : itemWidth;
+  const itemMaxHeight = obj.maxHeight ?? maxHeight;
+  const formattedMaxHeight =
+    typeof itemMaxHeight === "number" ? `${itemMaxHeight}px` : itemMaxHeight;
+
+  const itemStyle = [
+    formattedWidth ? `width: ${formattedWidth};` : undefined,
+    formattedMaxHeight ? `max-height: ${formattedMaxHeight};` : undefined,
+    obj.style,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return {
+    src: processedSrc,
+    alt: itemAlt,
+    style: itemStyle || undefined,
+  };
+});
+---
+
+<LiquidGlass
+  hoverable={hoverable}
+  class:list={["liquid-glass-image-container", className]}
+  style={style}
+  {...rest}
+>
+  {
+    imageList.map((img) => (
+      <img
+        src={img.src}
+        alt={img.alt}
+        class="container-image"
+        style={img.style}
+      />
+    ))
+  }
+  {
+    caption ? (
+      <div class="caption-content">
+        <p>{caption}</p>
+      </div>
+    ) : (
+      <div class="caption-content">
+        <slot />
+      </div>
+    )
+  }
+</LiquidGlass>
+
+<style>
+  .liquid-glass-image-container {
+    --liquid-glass-radius-inner: var(--standard-content-radius);
+    --liquid-glass-radius-outer: calc(var(--standard-content-radius) + 1px);
+    padding: var(--second-navbar-radius);
+  }
+
+  .container-image {
+    display: block;
+    margin: 0 auto var(--second-navbar-radius);
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .caption-content {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    font-style: italic;
+    color: var(--text-color, inherit);
+  }
+
+  .caption-content :global(p) {
+    margin: 0;
+  }
+</style>
