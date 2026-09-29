@@ -11,6 +11,7 @@
   --second-nav-color: var(--level3-text-color);
   --second-nav-color-dark: var(--level3-text-color-dark);
   --second-nav-hover-color: var(--level1-text-color-dark);
+  --second-nav-hover-bg-color: var(--theme-color);
   --second-nav-bg-color: var(--level2-bg-color);
   --second-nav-bg-color-dark: var(--level2-bg-color-dark);
   --second-nav-divider-color: var(--level4-bg-color);
